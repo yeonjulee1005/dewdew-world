@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// @apply 사용해서 테일윈드 쓸 수 있음
+
+body {
+  font-family: 'Pretendard Variable', Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  position: relative;
+  @apply bg-stone-900/95;
+  // -webkit-touch-callout: none;
+  scroll-behavior: smooth;
+  // user-select: none;
+  // -webkit-user-select: none;
+  // -moz-user-select: none;
+  // -ms-use-select: none;
+}
