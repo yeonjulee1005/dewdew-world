@@ -28,5 +28,9 @@ const { title, description = 'This is Dewdew World' } = Astro.props
           monospace;
       }
     </style>
+    <script>
+      import { inject } from '@vercel/analytics'
+      inject()
+    </script>
   </body>
 </html>
