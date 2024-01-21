@@ -4,10 +4,31 @@ import Card from '@components/Card.astro'
 ---
 
 <Layout title='Dewdew World!'>
-  <Card text={'듀임'} />
-  <h1>Hello World!</h1>
+  <div class="relative flex flex-col justify-between items-center mt-8 py-2 px-4 gap-2 w-screen lg:w-[1000px] lg:px-0">
+    <img
+      class="cursor-pointer rounded-full bg-zinc-100 mb-6 border-4 border-red-400 hover:border-rose-600 hover:transition-opacity hover:opacity-90 duration-200"
+      src="/images/dewdew_world.png"
+      width="300"
+      height="300"
+    />
+    <div class="text-lg text-zinc-700 w-screen lg:w-[600px]">
+      <p class="mb-2">
+        Hi there, I'm Yeonju <b class="text-red-400">!</b><br/>
+        I'm in <a class="text-sky-400 hover:text-sky-200 hover:transition-opacity duration-200" href="https://en.wikipedia.org/wiki/Seoul">Seoul</a>, Republic of Korea. and I'm a Front-end Developer<b class="text-red-400">.</b><br/>
+        Now, current working at <a class="text-sky-400 hover:text-sky-200 hover:transition-opacity duration-200" href="https://www.gadget.network">Gadget Korea</a>.<br/>
+      </p>
+      <p>
+        If you want to check out my work and progress in development<b class="text-red-400">,</b><br/> you can find it below!
+      </p>
+      <ul class="list-disc pl-8">
+        <li>
+          <span>1</span>
+        </li>
+        <li>
+          <span>1</span>
+        </li>
+      </ul>
+    </div>
+    <Card text={'듀임'} />
+  </div>
 </Layout>
-
-<style lang='scss'>
-
-</style>
