@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config'
 import { markReadingTime } from './src/utils/readingTime.mjs'
 
 import tailwind from '@astrojs/tailwind'
+import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import vercel from '@astrojs/vercel/serverless'
 
@@ -11,13 +12,24 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false
     }),
-    sitemap()
+    sitemap(),
+    mdx()
   ],
   site: 'https://www.dewdew.world',
   output: 'hybrid',
   adapter: vercel({
     edgeMiddleware: true
   }),
+  i18n: {
+    defaultLocale: "ko",
+    locales: ["ko", "en"],
+    fallback: {
+      'en': 'ko'
+    },
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
   markdown: {
     shikiConfig: {
       // Choose from Shiki's built-in themes (or add your own)

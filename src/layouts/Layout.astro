@@ -1,5 +1,6 @@
 ---
 import Head from '@components/Head.astro'
+import Header from '@components/Header.astro'
 
 interface Props {
   title: string
@@ -14,6 +15,7 @@ const { title, description = 'This is Dewdew World' } = Astro.props
     <Head title={title} description={description} />
   </head>
   <body>
+    <Header />
     <slot />
     <style is:global>
       code {
