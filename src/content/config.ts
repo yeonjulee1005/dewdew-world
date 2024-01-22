@@ -15,7 +15,9 @@ const techCollection = defineCollection({
     tags: z.array(z.string()),
     authorContact: z.string().email(),
     canonicalURL: z.string().url(),
-    cover: z.string().optional(),
+    avatar: z.string(),
+    avatarAlt: z.string(),
+    cover: z.string(),
     coverAlt: z.string(),
   })
 })

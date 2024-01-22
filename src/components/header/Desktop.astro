@@ -1,52 +1,57 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n'
+import { Image } from 'astro:assets'
+import Link from '@components/Link.astro'
 
 const aboutURL = getRelativeLocaleUrl('ko', 'about')
 ---
 
-<div
-  class='relative hidden w-screen items-center justify-between border-b border-zinc-700 px-4 py-5 lg:flex lg:w-[1000px] lg:px-0'
->
-  <a class='flex items-center gap-1' href='/'>
-    <span
-      class='cursor-pointer text-3xl font-bold text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
-    >
+<div class='relative hidden w-screen items-center justify-between border-b border-zinc-700 px-4 py-5 lg:flex lg:w-[1000px] lg:px-0'>
+  <Link link="/" customClass="flex items-center gap-1" target="_self" label='dewdew'>
+    <span slot="link" class='cursor-pointer text-3xl font-bold text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'>
       Dewdew
     </span>
-    <img
+    <Image
+      slot="link"
       class='cursor-pointer rounded-full border border-zinc-700 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
       src='/images/dewdew_world.png'
-      width='30'
-      height='30'
+      width={30}
+      height={30}
+      alt="dewdew world"
     />
-  </a>
-  <div class='flex-auto'></div>
+  </Link>
+  <div class='flex-auto' />
   <div class='flex items-center gap-3'>
-    <a
-      class='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
-      href={getRelativeLocaleUrl('ko', 'about')}
-      target='_self'
-      aria-label='about'
-    >
-      About
-    </a>
-    <div class='h-4 border-r border-zinc-700'></div>
-    <a
-      class='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
-      href={getRelativeLocaleUrl('ko', 'tech')}
-      target='_self'
-      aria-label='tech'
-    >
-      Tech
-    </a>
-    <div class='h-4 border-r border-zinc-700'></div>
-    <a
-      class='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
-      href='https://www.dewdew.dev'
-      target='_blank'
-      aria-label='dewdew'
-    >
-      Dewdew Dev
-    </a>
+    <Link
+      text="Uses"
+      link={getRelativeLocaleUrl('ko', 'uses')}
+      customClass="cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity"
+      target="_self"
+      label='uses'
+    />
+    <div class='h-4 border-r border-zinc-700' />
+    <Link
+      text="Tech"
+      link={getRelativeLocaleUrl('ko', 'tech')}
+      customClass="cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity"
+      target="_self"
+      label='tech'
+    />
+    <div class='h-4 border-r border-zinc-700' />
+    <Link
+      text="Guestbook"
+      link={getRelativeLocaleUrl('ko', 'guestbook')}
+      customClass="cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity"
+      target="_self"
+      label='guestbook'
+    />
+    <div class='h-4 border-r border-zinc-700' />
+    <Link
+      text="Dewdew Dev"
+      link='https://www.dewdew.dev'
+      customClass="cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity"
+      target="_blank"
+      label='dewdew'
+    />
   </div>
 </div>

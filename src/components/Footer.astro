@@ -1,35 +1,26 @@
 ---
 import { Icon } from 'astro-icon/components'
+import Link from '@components/Link.astro'
 ---
 
-<div
-  class='relative flex w-screen items-center justify-between border-t border-zinc-700 px-4 py-5 lg:w-[1000px] lg:px-0'
->
+<div class='relative flex w-screen items-center justify-between border-t border-zinc-700 px-4 py-5 lg:w-[1000px] lg:px-0'>
   <a class='flex items-center gap-1' href='/'>
-    <span
-      class='cursor-pointer text-base font-bold text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
-    >
-      © 2024 Dewdew.
+    <span class='cursor-pointer text-base text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'>
+      Dewdew of the Internet © 2024
     </span>
-    <img
-      class='cursor-pointer rounded-full border border-zinc-700 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
-      src='/images/dewdew_world.png'
-      width='30'
-      height='30'
-    />
   </a>
   <div class='flex-auto'></div>
   <div class='flex items-center gap-3'>
+    <Link link="https://github.com/yeonjulee1005" customClass="cursor-pointer text-xl" target="_blank" label='dewdew'>
+      <Icon slot='link' name='devicon:github' />
+    </Link>
     <div class='h-4 border-r border-zinc-700'></div>
-
+    <Link link="https://www.linkedin.com/in/dewdew" customClass="cursor-pointer text-xl" target="_blank" label='linkedIn'>
+      <Icon slot='link' name='devicon:linkedin' />
+    </Link>
     <div class='h-4 border-r border-zinc-700'></div>
-    <a
-      class='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
-      href='https://www.dewdew.dev'
-      target='_blank'
-      aria-label='dewdew'
-    >
-      <Icon name='devicon:linkedin' />
-    </a>
+    <Link link="/rss.xml" customClass="cursor-pointer text-xl text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity" target="_blank" label='rss'>
+      <Icon slot='link' name='lucide:rss' />
+    </Link>
   </div>
 </div>
