@@ -10,9 +10,9 @@ body {
   align-items: center;
   @apply bg-zinc-100/70;
   scroll-behavior: smooth;
-  // -webkit-touch-callout: none;
-  // user-select: none;
-  // -webkit-user-select: none;
-  // -moz-user-select: none;
-  // -ms-use-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-use-select: none;
 }

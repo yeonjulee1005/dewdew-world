@@ -1,49 +1,81 @@
 ---
-import Layout from '@layouts/Layout.astro'
-// import BlogCard from '@components/BlogCard.astro'
+import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 import { Debug } from 'astro:components'
 
+import Layout from '@layouts/Layout.astro'
+import Bold from '@components/Bold.astro'
+import Card from '@components/tech/Card.astro'
+
 const techPosts = await getCollection('tech')
-  .then((posts) =>
-    posts.sort(
+  .then((techs) =>
+    techs.sort(
       (a, b) =>
         new Date(b.data.publishedDate).valueOf() - new Date(a.data.publishedDate).valueOf(),
     ),
   )
-  .then((posts) => posts.filter((post) => post.data.isDraft))
+  .then((techs) => techs.filter((tech) => tech.data.isDraft))
 
-const getReadingTime = async (post: CollectionEntry<'tech'>) => {
-  const { remarkPluginFrontmatter } = await post.render()
+const getReadingTime = async (tech: CollectionEntry<'tech'>) => {
+  const { remarkPluginFrontmatter } = await tech.render()
   return remarkPluginFrontmatter.readMinutes
 }
 
+const techPostsWithReadTime = await Promise.all(
+  techPosts.map(async (tech) => ({
+    ...tech,
+    readTime: await getReadingTime(tech)
+  }))
+)
+
 ---
 
-<Layout title='Paul Valladares | Blog' description='Blog of Paul Valladares'>
-  <main class='flex flex-col items-center'>
-    <div class='w-screen lg:w-[1000px]'>
-      <div class='text-white'>
-        <h1>Posts</h1>
-        <p class='mt-4 text-left'>
-          I'm gonna use this space to write about my journey as a developer,
-          tech projects and my thoughts on the tech industry. I hope you enjoy
-          it!
+<Layout title='Dewdew | Tech' description='Tech of Dewdew'>
+  <div class='relative mt-6 flex w-screen flex-col gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
+    <div class="flex items-center gap-3 border-b pb-3 border-zinc-700">
+      <Image
+        class='cursor-pointer rounded-full border-4 border-yellow-400 bg-zinc-600 duration-200 hover:border-orange-600 hover:opacity-90 hover:transition-opacity'
+        src='/images/dewdew_world.png'
+        alt='Dewdew world'
+        width={100}
+        height={100}
+      />
+      <div>
+        <p class="text-3xl font-bold">
+          Dewdew
         </p>
-      </div>
-      <div class='my-10 text-white'>
-        {
-          techPosts.map((post) => (
-            <div>
-              <p>{post.data.title}</p>
-              <p>{post.data.description}</p>
-              <p>{post.data.author}</p>
-              <p>{getReadingTime(post)}</p>
-            </div>
-          ))
-        }
+        <p>
+          Dewdew shares tech knowledge. I experienced and learned. It will also occasionally share other content!
+        </p>
+        <div class="flex items-center gap-4 mt-2">
+          <span>
+            KR
+          </span>
+          <div class="w-1 h-1 bg-zinc-600 rounded-full" />
+          <span>
+            <Bold customClass='text-red-400' text={techPosts.length.toString()} />
+            Posts
+          </span>
+        </div>
       </div>
     </div>
-  </main>
+    <div class='flex flex-wrap my-10'>
+      {
+        techPostsWithReadTime.map((tech) => (
+          <Card
+            title={tech.data.title}
+            description={tech.data.description}
+            author={tech.data.author}
+            publishedDate={tech.data.publishedDate}
+            readTime={tech.readTime}
+            avatar={tech.data.avatar}
+            avatarAlt={tech.data.avatarAlt}
+            cover={tech.data.cover}
+            coverAlt={tech.data.coverAlt}
+          />
+        ))
+      }
+    </div>
+  </div>
 </Layout>

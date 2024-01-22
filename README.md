@@ -4,8 +4,18 @@
 
 [![Built with Astro](https://astro.badg.es/v2/built-with-astro/medium.svg)](https://astro.build)
 
-#### Current Version: 0.5.0
+#### Current Version: 0.6.0
 
 ---
 
-## 페이지 소개
+### Main
+> Introduce my self
+
+### Uses
+> Currently using my desktop setup
+
+### Tech
+>
+
+### Dewdew Dev
+>

@@ -1,0 +1,63 @@
+---
+import { Image } from 'astro:assets'
+
+interface Props {
+  title: string
+  description: string
+  author: string
+  publishedDate: Date
+  readTime: {
+    minutesRead: string
+  }
+  avatar: string
+  avatarAlt: string
+  cover: string
+  coverAlt: string
+}
+
+const { title, description, author, publishedDate, readTime, avatar, avatarAlt, cover, coverAlt } = Astro.props
+---
+
+<div class="cursor-pointer flex flex-col basis w-screen p-8 hover:transition-all sm:basis-1/2 hover:text-orange-500 duration-200">
+  <Image
+    class="w-auto h-[200px] object-cover"
+    src={cover}
+    width={400}
+    height={200}
+    alt={coverAlt}
+  />
+  <p class="text-xl font-bold mt-2">
+    {title}
+  </p>
+  <p class="text-base text-zinc-500 pb-2 border-b border-zinc-700 border-dashed">
+    {description}
+  </p>
+  <div class="flex items-center gap-2 mt-3">
+    <Image 
+      class="w-10 h-10 rounded-full border-2 border-yellow-400"
+      src={avatar}
+      width={30}
+      height={30}
+      alt={avatarAlt}
+    />
+    <div class="flex flex-col gap-1">
+      <p class="text-sm">
+        {author}
+      </p>
+      <div class="flex items-center gap-2">
+        <p class="text-sm">
+          {new Date(publishedDate).toLocaleDateString('en', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          })}
+        </p>
+        <div class="w-0.5 h-0.5 bg-zinc-600 rounded-full" />
+        <p class="text-sm">
+          {readTime}
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>

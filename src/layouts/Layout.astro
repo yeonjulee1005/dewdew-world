@@ -1,6 +1,8 @@
 ---
 import Head from '@components/Head.astro'
-import Header from '@components/Header.astro'
+import Desktop from '@components/header/Desktop.astro'
+import Mobile from '@components/header/Mobile.astro'
+import Footer from '@components/Footer.astro'
 
 interface Props {
   title: string
@@ -15,8 +17,10 @@ const { title, description = 'This is Dewdew World' } = Astro.props
     <Head title={title} description={description} />
   </head>
   <body>
-    <Header />
+    <Desktop />
+    <Mobile />
     <slot />
+    <Footer />
     <style is:global>
       code {
         font-family:
