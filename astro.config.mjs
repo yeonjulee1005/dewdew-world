@@ -1,8 +1,9 @@
 import { defineConfig } from 'astro/config'
 import { markReadingTime } from './src/utils/readingTime.mjs'
 
+import robotsTxt from 'astro-robots-txt'
 import tailwind from '@astrojs/tailwind'
-import icon from "astro-icon";
+import icon from "astro-icon"
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import vercel from '@astrojs/vercel/serverless'
@@ -15,6 +16,7 @@ export default defineConfig({
     }),
     icon(),
     sitemap(),
+    robotsTxt(),
     mdx()
   ],
   site: 'https://www.dewdew.world',
