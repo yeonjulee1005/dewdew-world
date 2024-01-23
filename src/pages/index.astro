@@ -6,7 +6,9 @@ import Bold from '@components/Bold.astro'
 ---
 
 <Layout title='Dewdew World!'>
-  <div class='relative mt-8 flex w-screen flex-col items-center justify-between gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
+  <div
+    class='relative mt-8 flex w-screen flex-col items-center justify-between gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'
+  >
     <Image
       class='mb-6 cursor-pointer rounded-full border-4 border-red-400 bg-zinc-100 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
       src='/images/dewdew_world.png'
@@ -19,7 +21,13 @@ import Bold from '@components/Bold.astro'
         Hi there, I'm Yeonju
         <Bold customClass='text-red-400' text='!' /><br />
         I'm in
-        <Link text="Seoul" link="https://en.wikipedia.org/wiki/Seoul" customClass="text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity" target="_blank" label='seoul' />
+        <Link
+          text='Seoul'
+          link='https://en.wikipedia.org/wiki/Seoul'
+          customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+          target='_blank'
+          label='seoul'
+        />
         <Bold customClass='text-red-400' text=',' />
         Republic of Korea
         <Bold customClass='text-red-400' text='.' />
@@ -27,8 +35,14 @@ import Bold from '@components/Bold.astro'
         <Bold customClass='text-red-400' text='.' /><br />
         Now
         <Bold customClass='text-red-400' text=',' />
-        current working at 
-        <Link text="Gadget Korea" link="https://www.gadget.network" customClass="text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity" target="_blank" label='gadget' />
+        current working at
+        <Link
+          text='Gadget Korea'
+          link='https://www.gadget.network'
+          customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+          target='_blank'
+          label='gadget'
+        />
         <Bold customClass='text-red-400' text='.' /><br />
       </p>
       <p class='mb-3'>
@@ -38,14 +52,32 @@ import Bold from '@components/Bold.astro'
         <Bold customClass='text-red-400' text='!' />
       </p>
       <ul class='list-disc pl-8'>
-        <li class="pb-1">
-          <Link text="Github Profile" link="https://github.com/yeonjulee1005/" customClass="text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity" target="_blank" label="github" />
+        <li class='pb-1'>
+          <Link
+            text='Github Profile'
+            link='https://github.com/yeonjulee1005/'
+            customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+            target='_blank'
+            label='github'
+          />
         </li>
-        <li class="pb-1">
-          <Link text="Dewdew Dev" link="https://www.dewdew.dev" customClass="text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity" target="_blank" label="dewdew" />
+        <li class='pb-1'>
+          <Link
+            text='Dewdew Dev'
+            link='https://www.dewdew.dev'
+            customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+            target='_blank'
+            label='dewdew'
+          />
         </li>
-        <li class="pb-1">
-          <Link text="Dooramgi" link="https://www.dooramgi.kr" customClass="text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity" target="_blank" label="dooramgi" />
+        <li class='pb-1'>
+          <Link
+            text='Dooramgi'
+            link='https://www.dooramgi.kr'
+            customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+            target='_blank'
+            label='dooramgi'
+          />
         </li>
       </ul>
       <p class='mb-3'>

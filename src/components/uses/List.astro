@@ -11,16 +11,18 @@ interface Props {
 const { lists } = Astro.props
 ---
 
-<ul class="flex flex-col py-4">
-  {lists.map((list) => (
-    <li class="pb-1">
-      <Link
-        text={list.name}
-        link={list.link}
-        customClass="duration-200 border-b-4 border-yellow-300 hover:text-yellow-500 hover:border-yellow-500 hover:transition-opacity"
-        target="_blank"
-        label={list.name}
-      />
-    </li>
-  ))}
+<ul class='flex flex-col py-4'>
+  {
+    lists.map((list) => (
+      <li class='pb-1'>
+        <Link
+          text={list.name}
+          link={list.link}
+          customClass='duration-200 border-b-4 border-yellow-300 hover:text-yellow-500 hover:border-yellow-500 hover:transition-opacity'
+          target='_blank'
+          label={list.name}
+        />
+      </li>
+    ))
+  }
 </ul>

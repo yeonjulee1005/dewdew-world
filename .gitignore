@@ -3,6 +3,8 @@ dist/
 
 # generated types
 .astro/
+.vercel/
+bun.lockb
 
 # dependencies
 node_modules/
