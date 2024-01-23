@@ -1,0 +1,211 @@
+---
+title:
+  'Creation Static Website using Astro'
+description:
+  'Shall we easily and conveniently create a static website using Astro?'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-01-23
+tags: ['Astro', 'typescript', 'Static Website', 'Tailwind']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240123.png
+'
+coverAlt: 'cover Image'
+---
+
+# Why Astro?
+
+[Astro](https://astro.build/) is a new concept framework that helps generate static sites,
+taking the advantages of traditional SSR (Server Side Rendering) and CSR (Client Side Rendering) while compensating for their disadvantages.
+`Astro generates static HTML` at build time and dynamically renders the built HTML in the browser.
+
+This allows you to achieve `fast loading speeds and SEO optimization` at the same time.
+In other words, it's good to use Astro when creating sites with static content like blogs or portfolios.
+
+Astro Island allows you to use familiar frameworks like Vue or React.
+We create interactive components using familiar frameworks through Astro Island.
+
+However, since the ultimate goal of Astro is to create static websites, using Vue or React can sometimes be inefficient I guess.
+
+---
+
+## Let's install Astro.
+
+Astro can be easily installed and run through various package managers such as npm, yarn, etc.
+However, since I quite like [Bun](https://bun.sh/), I will proceed with the installation and execution through `Bun`.
+
+```zsh
+// initialize Astro project
+bunx create-astro@latest your-project-name
+
+// add libraries and modules
+bun add {library-name}
+bun add -D {module-name}
+
+// install dependencies
+bun install
+
+// run Astro project
+bun dev
+```
+
+## Astro project structure
+
+When you create an Astro project, basic structure created and looks like this.
+
+```zsh
+/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   └── Card.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
+
+`/public` folder contains static asset files.
+(For example, `favicon.svg`, `browserconfig.xml`, `robots.txt`, `site.webmanifest`, logo and favicon images, etc.)
+
+`/src` folder contains core files of Astro project. This folder includes following subfolders:
+
+- `/components`: folder for reusable components.
+- `/layouts`: folder for common layouts of pages.
+- `/pages`: folder for pages themselves.
+
+In addition to basic folders mentioned above, you can also add and use following folders according to your preferences:
+
+- `/content`: folder for markdown contents created with MD or MDX.
+- `/utils`: folder for utility functions.
+- `/styles`: folder for global styles.
+
+Furthermore, Astro project settings are configured in following file:
+- `astro.config.mjs`: configuration file for Astro project.
+
+
+## How to Write `.astro` Files
+
+let's learn how to markup using Astro.
+Basically, `.astro` files separate the script area and the markup area with `---` symbols like this.
+
+And you can assign variable names or components within `{}` to express them.
+
+```typescript
+---
+import Header from '@components/Header.astro'
+
+const headerTitle = 'This is Title!'
+const something = 'something'
+
+const displayPrice = (name: string) => {
+  switch (name) {
+    case 'apple':
+      return 1000
+    case 'banana':
+      return 2000
+  }
+}
+
+---
+<div class="display-dom">
+  <Header title={headerTitle} />
+  <h1>
+    {something}
+  </h1>
+  <p>
+    {displayPrice('apple')}
+  </p>
+</div>
+
+<style>
+.display-dom {
+  color: red;
+}
+</style>
+
+```
+
+
+Also, Astro support pass data to sub-components like this.
+
+```typescript
+// ./src/pages/index.astro
+
+---
+import Card from '@components/Card.astro'
+
+const dewdew = {
+  name: 'dewdew',
+  age: '3X',
+  job: 'FE developer'
+}
+
+const motorcycle = 'harley davidson'
+---
+
+<div>
+  <Card
+    dewdewObj={dewdew}
+    motor={motorcycle}
+  />
+</div>
+
+```
+
+```typescript
+// .src/components/Card.astro
+
+---
+interface Props {
+  dewdewObj: {
+    name: string
+    age: string
+    job: string
+  }
+  motor: string
+}
+
+const {
+  dewdew,
+  motor
+} = Astro.props
+---
+
+<div>
+  <h1>
+    {dewdew.name}
+  </h1>
+  <h2>
+    {dewdew.age}
+  </h2>
+  <h3>
+    {dewdew.job}
+  </h3>
+  <p>
+    {motor}
+  </p>
+</div>
+
+```
+
+---
+
+### Let's build the project now!
+
+We've just taken a look at very basic Astro project.
+Since content is quite basic, for more detailed information, you can refer to Astro official docs.
+(Still, I will try to cover various good features and contents for you!!)
+
+See you next!
+
+
+### References
+
+- [Astro Docs](https://docs.astro.build/)
