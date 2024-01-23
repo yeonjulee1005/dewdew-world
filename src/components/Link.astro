@@ -12,6 +12,5 @@ const { text, link, customClass, target, label } = Astro.props
 
 <a href={link} class={customClass} target={target} aria-label={label}>
   {text}
-  <slot name="link" />
+  <slot name='link' />
 </a>
-
