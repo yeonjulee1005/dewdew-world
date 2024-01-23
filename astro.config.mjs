@@ -17,7 +17,7 @@ export default defineConfig({
     sitemap(),
     mdx()
   ],
-  site: 'https://www.dewdew.world/',
+  site: 'https://www.dewdew.world',
   output: 'hybrid',
   adapter: vercel({
     edgeMiddleware: true
