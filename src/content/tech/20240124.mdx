@@ -1,129 +1,54 @@
 ---
 title:
-  'Add a comment feature to Astro!'
+  'Now, Using Arc browser on Windows!'
 description:
-  'Add a comment feature through Giscus!'
+  'Although it still in open beta, let us try Arc browser on Windows. this is very pretty and has excellent features based on Chromium!'
 isDraft: true
 author: 'Dewdew'
 language: 'en'
 publishedDate: 2024-01-24
-tags: ['astro', 'giscus', 'github', 'github discussions', 'comment']
+tags: ['arc', 'cromium', 'arc browser', 'arc windows']
 authorContact: 'yeonju.lee1005@kakao.com'
 canonicalURL: 'https://www.dewdew.world'
 avatar: '/images/dewdew_world.webp'
 avatarAlt: 'dewdew'
-cover: '/tech/cover/20240123.png'
+cover: '/tech/cover/20240124.png'
 coverAlt: 'cover Image'
 ---
 
-> ## Every blog needs comment feature!
+# What is `Arc` ?
 
-All blogs, including post you are currently writing this, need `comment feature`.
-Because comment feature allows you to receive feedback and serves as a means for further discussion and information exchange through comments.
+[Arc Browser](https://arc.net/) is well-crafted browser `based on Chromium`.
+It supports all the basic features of Chrome (such as `Chrome extensions`, Chrome bookmarks, etc.), and goes further to offer unique features of `Arc`.
 
-However, it's a bit challenging to provide comment feature `on static site like Astro`.
-(Of course, it's not impossible if you mix `Astro Island` and `tiptap`, etc.)
+Key additional features include screen splitting, `workspace management`, account-based workspace saving and sharing, visible management of Chrome extensions, `boost mode`, and full-screen view, etc.
 
-Because Astro being a static site, requires server to store comments.
-But! We have the discussion feature of the `git repository`!
+For more details, please refer to [Arc Browser](https://arc.net/).
 
-With this, we can add comment feature to posts using Astro.
-In this post, we will look at how to add comment feature to Astro using `Giscus`.
-It's really simple!
+![Arc Browser](/tech/images/20240124-1.png)
 
 ---
 
-# What is `Giscus` ?
+## Was it not available on Windows?
 
-[Giscus](https://giscus.app/) is service that allows visitors to leave comments and reactions on all posts using their Github accounts.
-It's comment feature that uses `GitHub Discussions`.
-This service is free to use and does not require any authentication system.
-Since all our comments and discussions are stored in the GitHub repository, we can keep them safe and have control over them.
-Now, let's configure comment feature to `Astro` using `Giscus`.
+Unfortunately, until now, the Arc browser has only supported `MacOS` and `Linux`.
+This meant that Windows users were unable to use Arc browser.
 
----
+But today, we have exciting news: the beta version of Arc browser for Windows is now available.
 
-## Configuration Giscus for our website
+> [Beta tester registration link for Arc Brower](https://browserco.typeform.com/to/mCUIbqPQ?typeform-source=www.isarconwindowsyet.com)
 
-First, you need to enable discussions feature in your `GitHub repository`.
-Before enabling, your website project's GitHub repository must be **public**.
+By following link above, you can easily register as beta tester step by step.
 
-You need to create new category for discussions about comments.
-Make sure the category is set to open discussions.
+![Registration Arc](/tech/images/20240124-2.png)
 
-![Enable Discussions](/tech/images/20240124-1.png)
+![Registration Arc](/tech/images/20240124-3.png)
 
-![Add new category to Discussions](/tech/images/20240124-2.png)
-
-![Category settings](/tech/images/20240124-3.png)
-
-Now, you need to go to [Giscus](https://giscus.app/) and `activate Giscus bot`.
-Once the Giscus bot is activated, it will automatically generate a token after you authenticate with Github and leave comments or reactions.
-
-This bot will generate script that add to your website to enable it!
-
-Make sure to select `Discussion title contains page URL` option for mapping the embedding page and the embedded discussion.
-
-![Enable Giscus Bot](/tech/images/20240124-4.png)
-
-Select Discussion category, and choose features and theme.
-And enable options to configure `shape and lazy loading option`.
-
-For loading approach, choose Lazy to load the comments only when the user scrolls to the comments section.
-
-![Enable Giscus Bot](/tech/images/20240124-5.png)
-
-By selecting these options, you will obtain script code displayed in `Enable giscus` section!
-
----
-
-## Add Giscus to Astro
-
-Now that all set!!
-You can add script obtained from Giscus to Astro project as follows by creating `Comment.astro` component like this.
-
-```typescript
-// ./src/compoents/Comment.astro
-
-<section class='giscus mx-auto mt-10 w-full'>
-</section>
-
-<script
-  src='https://giscus.app/client.js'
-  data-repo='repo'
-  data-repo-id='repo_id'
-  data-category='Blog Comment'
-  data-category-id='category_id'
-  data-mapping='url'
-  data-strict='0'
-  data-reactions-enabled='1'
-  data-emit-metadata='0'
-  data-input-position='bottom'
-  data-theme='light_protanopia'
-  data-lang='en'
-  data-loading='lazy'
-  crossorigin='anonymous'
-  async>
-</script>
-```
-
-```typescript
-// .src/pages/[...slug].astro
----
-import Layout from '@layouts/Layout.astro'
-import Comment from '@components/Comment.astro'
----
-
-<Layout>
-  <Comment />
-</Layout>
-```
-
----
+![Registration Arc](/tech/images/20240124-4.png)
 
 ## That's all!
 
-Now, you can see comment feature on your website!
-It's really simple, right?
+It's really simple??
+Now, you can use Arc browser on Windows!
 
 See you next!

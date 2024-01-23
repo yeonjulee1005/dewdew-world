@@ -1,13 +1,13 @@
 ---
 title:
-  'How to add custom theme for codeblock highlighting within Astro and Shiki'
+  'Add a comment feature to Astro!'
 description:
-  'Lets learn how to change the highlighting theme of a code block.'
+  'Add a comment feature through Giscus!'
 isDraft: true
 author: 'Dewdew'
 language: 'en'
 publishedDate: 2024-01-23
-tags: ['astro', 'shiki', 'tailwind']
+tags: ['astro', 'giscus', 'github', 'github discussions', 'comment']
 authorContact: 'yeonju.lee1005@kakao.com'
 canonicalURL: 'https://www.dewdew.world'
 avatar: '/images/dewdew_world.webp'
@@ -16,50 +16,114 @@ cover: '/tech/cover/20240123.png'
 coverAlt: 'cover Image'
 ---
 
-# Let's do highlight code blocks!
+> ## Every blog needs comment feature!
 
-Basically, [Astro](https://astro.build/) provides syntax highlighting for markdown code blocks.
-To utilize this, we can generally work with either Shiki or Prism, but [Astro Docs](https://docs.astro.build/) provides examples using Shiki.
+All blogs, including post you are currently writing this, need `comment feature`.
+Because comment feature allows you to receive feedback and serves as a means for further discussion and information exchange through comments.
 
-Since Shiki allows use of themes from VSCode, I recommend it more convenient to use Shiki.
-Let's learn how to highlight code blocks!
+However, it's a bit challenging to provide comment feature `on static site like Astro`.
+(Of course, it's not impossible if you mix `Astro Island` and `tiptap`, etc.)
+
+Because Astro being a static site, requires server to store comments.
+But! We have the discussion feature of the `git repository`!
+
+With this, we can add comment feature to posts using Astro.
+In this post, we will look at how to add comment feature to Astro using `Giscus`.
+It's really simple!
 
 ---
 
-## Find Highlight Theme
+# What is `Giscus` ?
 
-First, find and copy name of theme you want to use from [here](https://github.com/shikijs/shiki/blob/main/docs/themes.md).
-(I use `min-light`.)
+[Giscus](https://giscus.app/) is service that allows visitors to leave comments and reactions on all posts using their Github accounts.
+It's comment feature that uses `GitHub Discussions`.
+This service is free to use and does not require any authentication system.
+Since all our comments and discussions are stored in the GitHub repository, we can keep them safe and have control over them.
+Now, let's configure comment feature to `Astro` using `Giscus`.
 
-## Editing `astro.config.mjs` file
+---
 
-Next, you need to add following content to your `astro.config.mjs` file.
+## Configuration Giscus for our website
+
+First, you need to enable discussions feature in your `GitHub repository`.
+Before enabling, your website project's GitHub repository must be **public**.
+
+You need to create new category for discussions about comments.
+Make sure the category is set to open discussions.
+
+![Enable Discussions](/tech/images/20240123-1.png)
+
+![Add new category to Discussions](/tech/images/20240123-2.png)
+
+![Category settings](/tech/images/20240123-3.png)
+
+Now, you need to go to [Giscus](https://giscus.app/) and `activate Giscus bot`.
+Once the Giscus bot is activated, it will automatically generate a token after you authenticate with Github and leave comments or reactions.
+
+This bot will generate script that add to your website to enable it!
+
+Make sure to select `Discussion title contains page URL` option for mapping the embedding page and the embedded discussion.
+
+![Enable Giscus Bot](/tech/images/20240123-4.png)
+
+Select Discussion category, and choose features and theme.
+And enable options to configure `shape and lazy loading option`.
+
+For loading approach, choose Lazy to load the comments only when the user scrolls to the comments section.
+
+![Enable Giscus Bot](/tech/images/20240123-5.png)
+
+By selecting these options, you will obtain script code displayed in `Enable giscus` section!
+
+---
+
+## Add Giscus to Astro
+
+Now that all set!!
+You can add script obtained from Giscus to Astro project as follows by creating `Comment.astro` component like this.
 
 ```typescript
-//...
-import tailwind from '@astrojs/tailwind';
+// ./src/compoents/Comment.astro
 
-export default defineConfig({
-  //...
-  integrations: [
-    tailwind()
-  ],
-  markdown: {
-    shikiConfig: {
-      theme: 'min-light', // 이곳이 중요합니다!
-      langs: [],
-      wrap: true
-    }
-  }
-})
+<section class='giscus mx-auto mt-10 w-full'>
+</section>
+
+<script
+  src='https://giscus.app/client.js'
+  data-repo='repo'
+  data-repo-id='repo_id'
+  data-category='Blog Comment'
+  data-category-id='category_id'
+  data-mapping='url'
+  data-strict='0'
+  data-reactions-enabled='1'
+  data-emit-metadata='0'
+  data-input-position='bottom'
+  data-theme='light_protanopia'
+  data-lang='en'
+  data-loading='lazy'
+  crossorigin='anonymous'
+  async>
+</script>
 ```
+
+```typescript
+// .src/pages/[...slug].astro
+---
+import Layout from '@layouts/Layout.astro'
+import Comment from '@components/Comment.astro'
+---
+
+<Layout>
+  <Comment />
+</Layout>
+```
+
+---
 
 ## That's all!
 
-With the above settings, you can see such wonderful code block highlighting!
+Now, you can see comment feature on your website!
+It's really simple, right?
 
-![Codeblock preview](/tech/images/20240123.png)
-
-So far, we've looked at how to highlight code blocks in [Astro](https://astro.build/).
 See you next!
-
