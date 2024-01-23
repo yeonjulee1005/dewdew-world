@@ -3,17 +3,13 @@ import { Icon } from 'astro-icon/components'
 import Link from '@components/Link.astro'
 ---
 
-<div
-  class='relative flex w-screen items-center justify-between border-t border-zinc-700 px-4 py-5 lg:w-[1000px] lg:px-0'
->
+<div class='relative flex w-screen items-center justify-between border-t border-zinc-700 px-4 py-5 lg:w-[1000px] lg:px-0'>
   <a class='flex items-center gap-1' href='/'>
-    <span
-      class='cursor-pointer text-base text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
-    >
+    <span class='cursor-pointer text-base text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'>
       Dewdew of the Internet © 2024
     </span>
   </a>
-  <div class='flex-auto'></div>
+  <div class='flex-auto' />
   <div class='flex items-center gap-3'>
     <Link
       link='https://github.com/yeonjulee1005'
@@ -23,7 +19,7 @@ import Link from '@components/Link.astro'
     >
       <Icon slot='link' name='devicon:github' />
     </Link>
-    <div class='h-4 border-r border-zinc-700'></div>
+    <div class='h-4 border-r border-zinc-700' />
     <Link
       link='https://www.linkedin.com/in/dewdew'
       customClass='cursor-pointer text-xl'
@@ -32,7 +28,7 @@ import Link from '@components/Link.astro'
     >
       <Icon slot='link' name='devicon:linkedin' />
     </Link>
-    <div class='h-4 border-r border-zinc-700'></div>
+    <div class='h-4 border-r border-zinc-700' />
     <Link
       link='/rss.xml'
       customClass='cursor-pointer text-xl text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
