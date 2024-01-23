@@ -1,26 +1,5 @@
 ---
-import Head from '@components/Head.astro'
-
-const title = 'Dewdew | 404'
-const description = 'Dewdew World 🌏'
+import ErrorLayout from '@layouts/ErrorLayout.astro'
 ---
 
-<html lang='en'>
-  <head>
-    <Head title={title} description={description} />
-  </head>
-  <body>
-    <div
-      class='flex min-h-screen flex-col items-center justify-center text-zinc-50'
-    >
-      <h1 class='text-9xl font-bold text-zinc-50'>404</h1>
-      <p class='mb-8 mt-4 text-2xl'>페이지를 찾을 수 없어요! 😢</p>
-      <a
-        class='text-md flex h-12 items-center justify-center rounded-lg bg-stone-700 px-8 font-medium text-zinc-50 shadow transition-colors duration-200 hover:bg-stone-600'
-        href='/'
-      >
-        홈으로 가기
-      </a>
-    </div>
-  </body>
-</html>
+<ErrorLayout />
