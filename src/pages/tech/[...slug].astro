@@ -3,6 +3,8 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 
 import TechLayout from '@layouts/TechLayout.astro'
 
+import '@styles/tech.scss'
+
 export async function getStaticPaths() {
   const techEntries = await getCollection('tech').then((teches) =>
     teches.filter((tech) => tech.data.isDraft),
@@ -23,5 +25,7 @@ const { Content, remarkPluginFrontmatter} = await entry.render()
 ---
 
 <TechLayout frontmatter={entry.data} minutes={remarkPluginFrontmatter}>
-  <Content />
+  <div class="tech">
+    <Content />
+  </div>
 </TechLayout>

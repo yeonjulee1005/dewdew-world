@@ -1,0 +1,57 @@
+/**
+* ! Tech styles !
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tech {
+  h1 {
+    @apply text-5xl font-bold my-8;
+  }
+  h2 {
+    @apply text-3xl font-bold my-8;
+  }
+  h3 {
+    @apply text-2xl font-bold my-8;
+  }
+  h4 {
+    @apply text-lg font-bold;
+  }
+  h5 {
+    @apply text-base font-bold;
+  }
+  h6 {
+    @apply text-xs font-bold;
+  }
+  p {
+    @apply text-lg my-5;
+    code {
+      @apply bg-orange-100 rounded-lg py-1 px-2;
+    }
+  }
+  a {
+    @apply text-lg text-rose-400 duration-200 border-b-4 border-rose-400 hover:text-rose-600 hover:border-rose-600 hover:transition-opacity;
+  }
+  blockquote {
+    @apply border-l-4 border-rose-300 pl-4 my-4 text-lg;
+  }
+  pre {
+    @apply p-5 rounded-2xl my-10 border-2 border-zinc-700 shadow-md shadow-zinc-400;
+  }
+  ul {
+    @apply pl-6 py-2 list-image-[url(/images/checkMark.svg)];
+  }
+  ol {
+    @apply pl-6 py-2 list-decimal;
+  }
+  li {
+    @apply my-3;
+    code {
+      @apply bg-orange-100 rounded-lg py-1 px-2;
+    }
+  }
+  hr {
+    @apply border-b-2 border-rose-300 my-10;
+  }
+}

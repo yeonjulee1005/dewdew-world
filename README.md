@@ -1,4 +1,4 @@
-![Dewdew](./.github/assets/dewdew_world.png)
+![Dewdew](./.github/assets/dewdew_world.webp)
 
 # Welcome to Dewdew World!
 
