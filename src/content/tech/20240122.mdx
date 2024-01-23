@@ -1,0 +1,65 @@
+---
+title:
+  'How to add custom theme for codeblock highlighting within Astro and Shiki'
+description:
+  'Lets learn how to change the highlighting theme of a code block.'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-01-22
+tags: ['astro', 'shiki', 'tailwind']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240122.png'
+coverAlt: 'cover Image'
+---
+
+# Let's do highlight code blocks!
+
+Basically, [Astro](https://astro.build/) provides syntax highlighting for markdown code blocks.
+To utilize this, we can generally work with either Shiki or Prism, but [Astro Docs](https://docs.astro.build/) provides examples using Shiki.
+
+Since Shiki allows use of themes from VSCode, I recommend it more convenient to use Shiki.
+Let's learn how to highlight code blocks!
+
+---
+
+## Find Highlight Theme
+
+First, find and copy name of theme you want to use from [here](https://github.com/shikijs/shiki/blob/main/docs/themes.md).
+(I use `min-light`.)
+
+## Editing `astro.config.mjs` file
+
+Next, you need to add following content to your `astro.config.mjs` file.
+
+```typescript
+//...
+import tailwind from '@astrojs/tailwind';
+
+export default defineConfig({
+  //...
+  integrations: [
+    tailwind()
+  ],
+  markdown: {
+    shikiConfig: {
+      theme: 'min-light', // 이곳이 중요합니다!
+      langs: [],
+      wrap: true
+    }
+  }
+})
+```
+
+## That's all!
+
+With the above settings, you can see such wonderful code block highlighting!
+
+![Codeblock preview](/tech/images/20240122.png)
+
+So far, we've looked at how to highlight code blocks in [Astro](https://astro.build/).
+See you next!
+

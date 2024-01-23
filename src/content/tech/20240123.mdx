@@ -1,211 +1,129 @@
 ---
 title:
-  'Creation Static Website using Astro'
+  'Add a comment feature to Astro!'
 description:
-  'Shall we easily and conveniently create a static website using Astro?'
+  'Add a comment feature through Giscus!'
 isDraft: true
 author: 'Dewdew'
 language: 'en'
 publishedDate: 2024-01-23
-tags: ['Astro', 'typescript', 'Static Website', 'Tailwind']
+tags: ['astro', 'giscus', 'github', 'github discussions', 'comment']
 authorContact: 'yeonju.lee1005@kakao.com'
 canonicalURL: 'https://www.dewdew.world'
 avatar: '/images/dewdew_world.webp'
 avatarAlt: 'dewdew'
-cover: '/tech/cover/20240123.png
-'
+cover: '/tech/cover/20240123.png'
 coverAlt: 'cover Image'
 ---
 
-# Why Astro?
+> ## Every blog needs comment feature!
 
-[Astro](https://astro.build/) is a new concept framework that helps generate static sites,
-taking the advantages of traditional SSR (Server Side Rendering) and CSR (Client Side Rendering) while compensating for their disadvantages.
-`Astro generates static HTML` at build time and dynamically renders the built HTML in the browser.
+All blogs, including post you are currently writing this, need `comment feature`.
+Because comment feature allows you to receive feedback and serves as a means for further discussion and information exchange through comments.
 
-This allows you to achieve `fast loading speeds and SEO optimization` at the same time.
-In other words, it's good to use Astro when creating sites with static content like blogs or portfolios.
+However, it's a bit challenging to provide comment feature `on static site like Astro`.
+(Of course, it's not impossible if you mix `Astro Island` and `tiptap`, etc.)
 
-Astro Island allows you to use familiar frameworks like Vue or React.
-We create interactive components using familiar frameworks through Astro Island.
+Because Astro being a static site, requires server to store comments.
+But! We have the discussion feature of the `git repository`!
 
-However, since the ultimate goal of Astro is to create static websites, using Vue or React can sometimes be inefficient I guess.
+With this, we can add comment feature to posts using Astro.
+In this post, we will look at how to add comment feature to Astro using `Giscus`.
+It's really simple!
 
 ---
 
-## Let's install Astro.
+# What is `Giscus` ?
 
-Astro can be easily installed and run through various package managers such as npm, yarn, etc.
-However, since I quite like [Bun](https://bun.sh/), I will proceed with the installation and execution through `Bun`.
+[Giscus](https://giscus.app/) is service that allows visitors to leave comments and reactions on all posts using their Github accounts.
+It's comment feature that uses `GitHub Discussions`.
+This service is free to use and does not require any authentication system.
+Since all our comments and discussions are stored in the GitHub repository, we can keep them safe and have control over them.
+Now, let's configure comment feature to `Astro` using `Giscus`.
 
-```zsh
-// initialize Astro project
-bunx create-astro@latest your-project-name
+---
 
-// add libraries and modules
-bun add {library-name}
-bun add -D {module-name}
+## Configuration Giscus for our website
 
-// install dependencies
-bun install
+First, you need to enable discussions feature in your `GitHub repository`.
+Before enabling, your website project's GitHub repository must be **public**.
 
-// run Astro project
-bun dev
-```
+You need to create new category for discussions about comments.
+Make sure the category is set to open discussions.
 
-## Astro project structure
+![Enable Discussions](/tech/images/20240123-1.png)
 
-When you create an Astro project, basic structure created and looks like this.
+![Add new category to Discussions](/tech/images/20240123-2.png)
 
-```zsh
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+![Category settings](/tech/images/20240123-3.png)
 
-`/public` folder contains static asset files.
-(For example, `favicon.svg`, `browserconfig.xml`, `robots.txt`, `site.webmanifest`, logo and favicon images, etc.)
+Now, you need to go to [Giscus](https://giscus.app/) and `activate Giscus bot`.
+Once the Giscus bot is activated, it will automatically generate a token after you authenticate with Github and leave comments or reactions.
 
-`/src` folder contains core files of Astro project. This folder includes following subfolders:
+This bot will generate script that add to your website to enable it!
 
-- `/components`: folder for reusable components.
-- `/layouts`: folder for common layouts of pages.
-- `/pages`: folder for pages themselves.
+Make sure to select `Discussion title contains page URL` option for mapping the embedding page and the embedded discussion.
 
-In addition to basic folders mentioned above, you can also add and use following folders according to your preferences:
+![Enable Giscus Bot](/tech/images/20240123-4.png)
 
-- `/content`: folder for markdown contents created with MD or MDX.
-- `/utils`: folder for utility functions.
-- `/styles`: folder for global styles.
+Select Discussion category, and choose features and theme.
+And enable options to configure `shape and lazy loading option`.
 
-Furthermore, Astro project settings are configured in following file:
-- `astro.config.mjs`: configuration file for Astro project.
+For loading approach, choose Lazy to load the comments only when the user scrolls to the comments section.
 
+![Enable Giscus Bot](/tech/images/20240123-5.png)
 
-## How to Write `.astro` Files
+By selecting these options, you will obtain script code displayed in `Enable giscus` section!
 
-let's learn how to markup using Astro.
-Basically, `.astro` files separate the script area and the markup area with `---` symbols like this.
+---
 
-And you can assign variable names or components within `{}` to express them.
+## Add Giscus to Astro
+
+Now that all set!!
+You can add script obtained from Giscus to Astro project as follows by creating `Comment.astro` component like this.
 
 ```typescript
----
-import Header from '@components/Header.astro'
+// ./src/compoents/Comment.astro
 
-const headerTitle = 'This is Title!'
-const something = 'something'
+<section class='giscus mx-auto mt-10 w-full'>
+</section>
 
-const displayPrice = (name: string) => {
-  switch (name) {
-    case 'apple':
-      return 1000
-    case 'banana':
-      return 2000
-  }
-}
-
----
-<div class="display-dom">
-  <Header title={headerTitle} />
-  <h1>
-    {something}
-  </h1>
-  <p>
-    {displayPrice('apple')}
-  </p>
-</div>
-
-<style>
-.display-dom {
-  color: red;
-}
-</style>
-
-```
-
-
-Also, Astro support pass data to sub-components like this.
-
-```typescript
-// ./src/pages/index.astro
-
----
-import Card from '@components/Card.astro'
-
-const dewdew = {
-  name: 'dewdew',
-  age: '3X',
-  job: 'FE developer'
-}
-
-const motorcycle = 'harley davidson'
----
-
-<div>
-  <Card
-    dewdewObj={dewdew}
-    motor={motorcycle}
-  />
-</div>
-
+<script
+  src='https://giscus.app/client.js'
+  data-repo='repo'
+  data-repo-id='repo_id'
+  data-category='Blog Comment'
+  data-category-id='category_id'
+  data-mapping='url'
+  data-strict='0'
+  data-reactions-enabled='1'
+  data-emit-metadata='0'
+  data-input-position='bottom'
+  data-theme='light_protanopia'
+  data-lang='en'
+  data-loading='lazy'
+  crossorigin='anonymous'
+  async>
+</script>
 ```
 
 ```typescript
-// .src/components/Card.astro
-
+// .src/pages/[...slug].astro
 ---
-interface Props {
-  dewdewObj: {
-    name: string
-    age: string
-    job: string
-  }
-  motor: string
-}
-
-const {
-  dewdew,
-  motor
-} = Astro.props
+import Layout from '@layouts/Layout.astro'
+import Comment from '@components/Comment.astro'
 ---
 
-<div>
-  <h1>
-    {dewdew.name}
-  </h1>
-  <h2>
-    {dewdew.age}
-  </h2>
-  <h3>
-    {dewdew.job}
-  </h3>
-  <p>
-    {motor}
-  </p>
-</div>
-
+<Layout>
+  <Comment />
+</Layout>
 ```
 
 ---
 
-### Let's build the project now!
+## That's all!
 
-We've just taken a look at very basic Astro project.
-Since content is quite basic, for more detailed information, you can refer to Astro official docs.
-(Still, I will try to cover various good features and contents for you!!)
+Now, you can see comment feature on your website!
+It's really simple, right?
 
 See you next!
-
-
-### References
-
-- [Astro Docs](https://docs.astro.build/)

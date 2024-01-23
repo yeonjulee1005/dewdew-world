@@ -1,93 +1,54 @@
 ---
 title:
-  'Creation Static Website using Astro'
+  'Now, Using Arc browser on Windows!'
 description:
-  'Shall we easily and conveniently create a static website using Astro?'
+  'Although it still in open beta, let us try Arc browser on Windows. this is very pretty and has excellent features based on Chromium!'
 isDraft: true
 author: 'Dewdew'
 language: 'en'
-publishedDate: 2023-09-19
-tags: ['Astro', 'JavaScript', 'Web', 'Static Website', 'Tailwind']
+publishedDate: 2024-01-24
+tags: ['arc', 'cromium', 'arc browser', 'arc windows']
 authorContact: 'yeonju.lee1005@kakao.com'
 canonicalURL: 'https://www.dewdew.world'
 avatar: '/images/dewdew_world.webp'
 avatarAlt: 'dewdew'
-cover: '/tech/cover/20240123.png
-'
+cover: '/tech/cover/20240124.png'
 coverAlt: 'cover Image'
 ---
 
-# Why Astro?
+# What is `Arc` ?
 
-[Astro](https://astro.build/) is a new concept framework that helps generate static sites,
-taking the advantages of traditional SSR (Server Side Rendering) and CSR (Client Side Rendering) while compensating for their disadvantages.
-`Astro generates static HTML` at build time and dynamically renders the built HTML in the browser.
+[Arc Browser](https://arc.net/) is well-crafted browser `based on Chromium`.
+It supports all the basic features of Chrome (such as `Chrome extensions`, Chrome bookmarks, etc.), and goes further to offer unique features of `Arc`.
 
-This allows you to achieve `fast loading speeds and SEO optimization` at the same time.
-In other words, it's good to use Astro when creating sites with static content like blogs or portfolios.
+Key additional features include screen splitting, `workspace management`, account-based workspace saving and sharing, visible management of Chrome extensions, `boost mode`, and full-screen view, etc.
 
-Astro Island allows you to use familiar frameworks like Vue or React.
-We create interactive components using familiar frameworks through Astro Island.
+For more details, please refer to [Arc Browser](https://arc.net/).
 
-However, since the ultimate goal of Astro is to create static websites, using Vue or React can sometimes be inefficient I guess.
+![Arc Browser](/tech/images/20240124-1.png)
 
 ---
 
-## Let's install Astro.
+## Was it not available on Windows?
 
-Astro can be easily installed and run through various package managers such as npm, yarn, etc.
-However, since I quite like [Bun](https://bun.sh/), I will proceed with the installation and execution through `Bun`.
+Unfortunately, until now, the Arc browser has only supported `MacOS` and `Linux`.
+This meant that Windows users were unable to use Arc browser.
 
-```zsh
-// initialize Astro project
-bunx create-astro@latest your-project-name
-```
+But today, we have exciting news: the beta version of Arc browser for Windows is now available.
 
-## How to Write `.astro` Files
+> [Beta tester registration link for Arc Brower](https://browserco.typeform.com/to/mCUIbqPQ?typeform-source=www.isarconwindowsyet.com)
 
-let's learn how to markup using Astro.
-Basically, `.astro` files separate the script area and the markup area with `---` symbols like this.
+By following link above, you can easily register as beta tester step by step.
 
-And you can assign variable names or components within `{}` to express them.
+![Registration Arc](/tech/images/20240124-2.png)
 
-```typescript
----
-import Header from '@components/Header.astro'
+![Registration Arc](/tech/images/20240124-3.png)
 
-const headerTitle = 'This is Title!'
-const something = 'something'
+![Registration Arc](/tech/images/20240124-4.png)
 
-const displayPrice = (name: string) => {
-  switch (name) {
-    case 'apple':
-      return 1000
-    case 'banana':
-      return 2000
-  }
-}
+## That's all!
 
----
-<div class="display-dom">
-  <Header title={headerTitle} />
-  <h1>
-    {something}
-  </h1>
-  <p>
-    {displayPrice('apple')}
-  </p>
-</div>
+It's really simple??
+Now, you can use Arc browser on Windows!
 
-<style>
-.display-dom {
-  color: red;
-}
-</style>
-
-```
-
-또한
-
-
-### References
-
-- [Astro Docs](https://docs.astro.build/)
+See you next!
