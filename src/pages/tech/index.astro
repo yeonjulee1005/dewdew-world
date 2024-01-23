@@ -1,8 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import { getCollection } from 'astro:content'
-import type { CollectionEntry } from 'astro:content'
-// import { Debug } from 'astro:components'
+import { getCollection, type CollectionEntry } from 'astro:content'
 
 import Layout from '@layouts/Layout.astro'
 import Bold from '@components/Bold.astro'
@@ -32,9 +30,7 @@ const techPostsWithReadTime = await Promise.all(
 ---
 
 <Layout title='Dewdew | Tech' description='Tech of Dewdew'>
-  <div
-    class='relative mt-6 flex w-screen flex-col gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'
-  >
+  <main class='relative mt-6 flex w-screen flex-col gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
     <div class='flex items-center gap-3 border-b border-zinc-700 pb-3'>
       <Image
         class='cursor-pointer rounded-full border-4 border-yellow-400 bg-zinc-600 duration-200 hover:border-orange-600 hover:opacity-90 hover:transition-opacity'
@@ -50,8 +46,8 @@ const techPostsWithReadTime = await Promise.all(
           occasionally share other content!
         </p>
         <div class='mt-2 flex items-center gap-4'>
-          <span> KR</span>
-          <div class='h-1 w-1 rounded-full bg-zinc-600'></div>
+          <span>KR</span>
+          <div class='h-1 w-1 rounded-full bg-zinc-600' />
           <span>
             <Bold
               customClass='text-red-400'
@@ -62,10 +58,11 @@ const techPostsWithReadTime = await Promise.all(
         </div>
       </div>
     </div>
-    <div class='my-10 flex flex-wrap'>
+    <div class='mt-2 mb-10 flex flex-wrap'>
       {
         techPostsWithReadTime.map((tech) => (
           <Card
+            link={`/tech/${tech.slug}`}
             title={tech.data.title}
             description={tech.data.description}
             author={tech.data.author}
@@ -79,5 +76,5 @@ const techPostsWithReadTime = await Promise.all(
         ))
       }
     </div>
-  </div>
+  </main>
 </Layout>

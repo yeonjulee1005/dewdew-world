@@ -3,12 +3,10 @@ import Layout from '@layouts/Layout.astro'
 ---
 
 <Layout title='Guestbook' description='Guestbook'>
-  <div>
-    <section
-      class='giscus mx-auto mt-10 w-screen px-4 py-5 lg:w-[1000px] lg:px-0'
-    >
+  <main>
+    <section class='giscus mx-auto mt-10 w-screen px-4 py-5 lg:w-[1000px] lg:px-0'>
     </section>
-  </div>
+  </main>
 </Layout>
 
 <script
@@ -26,4 +24,5 @@ import Layout from '@layouts/Layout.astro'
   data-lang='en'
   data-loading='lazy'
   crossorigin='anonymous'
-  async></script>
+  async>
+</script>

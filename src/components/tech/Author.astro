@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets'
+import readingTime from 'reading-time'
+
+interface Props {
+  authorClass: string
+  avatar: string
+  avatarAlt: string
+  author: string
+  publishedDate: Date
+  minutes?: {
+    readMinutes: string
+  }
+  readTime?: string
+}
+
+const {
+  authorClass,
+  avatar,
+  avatarAlt,
+  author,
+  publishedDate,
+  minutes,
+  readTime
+} = Astro.props
+---
+
+<div class={authorClass}>
+  <Image
+    class='h-10 w-10 rounded-full border-2 border-yellow-400'
+    src={avatar}
+    width={30}
+    height={30}
+    alt={avatarAlt}
+  />
+  <div class='flex flex-col gap-1'>
+    <p class='text-sm'>
+      {author}
+    </p>
+    <div class='flex items-center gap-2'>
+      <p class='text-sm'>
+        {
+          new Date(publishedDate).toLocaleDateString('en', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })
+        }
+      </p>
+      <div class='h-0.5 w-0.5 rounded-full bg-zinc-600' />
+      <p class='text-sm'>
+        {minutes?.readMinutes ?? readTime}
+      </p>
+    </div>
+  </div>
+</div>

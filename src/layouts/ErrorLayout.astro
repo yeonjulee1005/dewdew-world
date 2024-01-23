@@ -1,5 +1,6 @@
 ---
 import Head from '@components/Head.astro'
+import Link from '@components/Link.astro'
 
 const title = 'Dewdew | 404'
 const description = 'Dewdew World 🌏'
@@ -10,17 +11,20 @@ const description = 'Dewdew World 🌏'
     <Head title={title} description={description} />
   </head>
   <body>
-    <div
-      class='flex min-h-screen flex-col items-center justify-center text-zinc-50'
-    >
-      <h1 class='text-9xl font-bold text-zinc-50'>404</h1>
-      <p class='mb-8 mt-4 text-2xl'>페이지를 찾을 수 없어요! 😢</p>
-      <a
-        class='text-md flex h-12 items-center justify-center rounded-lg bg-stone-700 px-8 font-medium text-zinc-50 shadow transition-colors duration-200 hover:bg-stone-600'
-        href='/'
-      >
-        홈으로 가기
-      </a>
-    </div>
+    <main class='flex min-h-screen flex-col items-center justify-center'>
+      <p class='text-9xl font-bold'>
+        404
+      </p>
+      <p class='mb-8 mt-4 text-2xl'>
+        페이지를 찾을 수 없어요! 😢
+      </p>
+      <Link
+        link='/'
+        customClass='cursor-pointer h-14 rounded-lg px-8 flex items-center text-lg text-zinc-50 bg-red-400 duration-200 hover:bg-rose-600 hover:opacity-90 hover:transition-opacity'
+        target='_self'
+        text='홈으로 가기'
+        label='dewdew'
+      />
+    </main>
   </body>
 </html>

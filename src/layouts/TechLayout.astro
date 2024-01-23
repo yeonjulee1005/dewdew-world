@@ -1,0 +1,120 @@
+---
+import { Image } from 'astro:assets'
+import { getCollection } from 'astro:content'
+
+import Desktop from '@components/header/Desktop.astro'
+import Mobile from '@components/header/Mobile.astro'
+import Footer from '@components/Footer.astro'
+import Head from '@components/Head.astro'
+import Author from '@components/tech/Author.astro'
+import Comment from '@components/tech/Comment.astro'
+
+interface TechLayoutProps {
+  frontmatter: {
+    title: string
+    description: string
+    author: string
+    publishedDate: Date
+    tags: string[]
+    authorContact: string
+    avatar: string
+    avatarAlt: string
+    cover: string
+    coverAlt: string
+  }
+  minutes: {
+    readMinutes: string
+  }
+}
+
+let { frontmatter, minutes } = Astro.props as TechLayoutProps
+
+const formattedDate = new Date(frontmatter.publishedDate).toLocaleDateString('en-us',
+  { year: 'numeric', month: 'short', day: 'numeric', },
+)
+
+let techCollection = await getCollection('tech')
+  .then((teches) =>
+    teches.sort((a, b) =>
+      new Date(b.data.publishedDate).valueOf() - new Date(a.data.publishedDate).valueOf()
+  ))
+  .then((teches) =>
+    teches.filter((tech) => tech.data.isDraft
+  ))
+
+const index = techCollection.findIndex((tech) => {
+  return Astro.request.url.includes(tech.slug ?? '')
+})
+
+const nextTech = techCollection[index + 1]
+const prevTech = techCollection[index - 1]
+---
+
+<html lang='en'>
+  <head>
+    <Head title={frontmatter.title} description={frontmatter.description} />
+  </head>
+  <body>
+    <Desktop />
+    <Mobile />
+    <main class='flex flex-col items-center my-16'>
+      <div class='w-screen px-8 my-10 lg:w-[800px] lg:px-0'>
+        <p class='mb-8 text-4xl font-bold'>
+          {frontmatter.title}
+        </p>
+        <p class='mb-4 text-lg text-rose-400'>
+          {frontmatter.description}
+        </p>
+        <Author
+          authorClass='flex items-center gap-2 my-10 pt-4 border-t border-zinc-700'
+          author={frontmatter.author}
+          avatar={frontmatter.avatar}
+          avatarAlt={frontmatter.avatarAlt}
+          publishedDate={frontmatter.publishedDate}
+          minutes={minutes}
+        />
+        <Image
+          src={frontmatter.cover}
+          alt={frontmatter.coverAlt}
+          width={800}
+          height={400}
+          class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4'
+        />
+        <br />
+        <article>
+          <slot />
+        </article>
+      </div>
+      <div class='mb-10 w-10/12 md:w-[750px]'>
+        <div class='mt-10 flex w-full flex-col gap-4 sm:flex-row sm:gap-6'>
+          {
+            prevTech && (
+              <a
+                href={`/tech/${prevTech.slug}`}
+                class='hover:border-neon-green flex grow flex-col rounded border border-zinc-700 p-4 text-sm transition duration-500 ease-out'
+              >
+                <p class='mb-1 text-zinc-400'>&larr; Previous post</p>
+                <p class='font-semibold text-zinc-300'>{prevTech.data.title}</p>
+              </a>
+            )
+          }
+          {
+            nextTech && (
+              <a
+                href={`/tech/${nextTech.slug}`}
+                class='hover:border-neon-green flex grow flex-col rounded border border-zinc-700 p-4 text-right text-sm transition duration-500 ease-out'
+              >
+                <p class='mb-1'>Next post &rarr;</p>
+                <p class='font-semibold text-zinc-300'>{nextTech.data.title}</p>
+              </a>
+            )
+          }
+        </div>
+      </div>
+      <div class='w-screen px-8 lg:w-[800px] lg:px-0'>
+        <Comment />
+      </div>
+    </main>
+  </body>
+  <Footer />
+</html>
