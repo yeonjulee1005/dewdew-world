@@ -1,0 +1,38 @@
+---
+import Bold from '@components/Bold.astro'
+import List from '@components/main/List.astro'
+
+import { type MainData } from '@data/interface.ts'
+import { mainReferenceText } from '@data/index.ts'
+
+interface Item {
+  title: string
+  label: string
+  link: string
+}
+
+interface Props {
+  reference: Item[]
+  stack: Item[]
+}
+
+const { reference, stack } = Astro.props as MainData
+---
+<p class='mb-4'>
+  {mainReferenceText.first}
+  <Bold customClass='text-red-400' text=',' /><br />
+  {mainReferenceText.second}
+  <Bold customClass='text-red-400' text='!' />
+</p>
+<List
+  listClass='list-disc pl-8 mb-4'
+  listItem={reference}
+/>
+<p>
+  {mainReferenceText.third}
+  <Bold customClass='text-red-400' text=',' /><br />
+</p>
+<List
+  listClass='list-disc pl-8 mb-4'
+  listItem={stack}
+/>

@@ -1,0 +1,25 @@
+---
+import Link from '@components/Link.astro'
+
+import type { MainItem } from '@data/interface.ts'
+
+interface Props {
+  listClass: string
+  listItem: MainItem[]
+}
+
+const { listClass, listItem } = Astro.props
+---
+<ul class={listClass}>
+  {listItem.map((item) => (
+    <li class='pb-1'>
+      <Link
+        text={item.title}
+        link={item.link}
+        customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+        target='_blank'
+        label={item.label}
+      />
+    </li>
+  ))}
+</ul>

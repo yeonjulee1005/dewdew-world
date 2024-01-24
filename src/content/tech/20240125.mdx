@@ -1,0 +1,184 @@
+---
+title: 'Explore features added in latest version of Nuxt3, 3.9!'
+description: 'We will spend time discussing features added in latest 3.9 version of Nuxt3!'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-01-25
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt3 composables']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240125.png'
+coverAlt: 'cover Image'
+---
+
+# Nuxt3!
+
+[Nuxt3](https://nuxt.com/) is a framework based on [Vue3](https://vuejs.org/), offering powerful features for building web applications.
+Some reason I `love Nuxt3` is that it provides most of `necessary functionalities` without need for additional function implementations.
+
+In the past, Nuxt2, we had to install axios separately for HTTP communication,
+but with `Nuxt3`, you don't need to install axios as it supports HTTP requests through [oFetch](https://github.com/unjs/ofetch).
+
+Moreover, it comes with a variety of well-equipped built-in modules and composables functions (such as [Nuxt devtools](https://devtools.nuxt.com/), [nuxt icon](https://nuxt.com/modules/icon), [nuxt image](https://image.nuxt.com/), [nuxt time](https://github.com/danielroe/nuxt-time), [nuxt simple sitemap](https://nuxtseo.com/sitemap/getting-started/installation), [nuxt ui](https://ui.nuxt.com/), etc.),
+making it very convenient and efficient to set up a development environment.
+
+I will introduce the modules mentioned above in separate `posts in the future`.
+
+That's why I have become an advocate for Nuxt3 in R.O.Korea.
+
+---
+
+## New feature in Version 3.9
+
+### 1. `Dedupe` use in `useFetch()` composable
+
+As you may know, in Nuxt3, there are ways to fetch data using composable functions such as `$fetch()`, `useFetch()`, `useAsyncData()`.
+
+Among them, `useFetch()` and `useAsyncData()` can reactively fetch data by detecting specific parameters through `watch()`.
+
+As shown below, you can use not only basic fetch options in `useFetch()`, but also various additional options.
+
+```typescript
+const { data, pending, refresh, error } = useFetch('/api/users', {
+  // .. Basic fetch options
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  }, // headers,
+  baseUrl: 'https://example.com' // baseUrl,
+  query: {
+    filter: 'nuxt'
+  } // Query,
+  body: {
+    name: 'dewdew'
+  },
+
+  // .. Advanced fetch options support by useFetch
+  lazy: true // lazy fetch,
+  immediate: true // immediate fetch,
+  deep: true // deep watch,
+  watch: ['name'] // watch params,
+  transform: (input: dataT) => dataT // transform data,
+  dedupe: true // today's topic!
+})
+```
+
+If you use `dedupe` option of this `useFetch()` composable as `cancel`, it cancels previous fetch request and starts a new fetch request.
+
+```typescript
+useFetch('/api/users', {
+  dedupe: 'cancel'
+})
+```
+
+And if you set option to `defer`, it will not start a new fetch request until previous fetch request is completed.
+
+```typescript
+useFetch('/api/users', {
+  dedupe: 'defer'
+})
+```
+
+This allows you to control data fetch request method `more efficiently`.
+
+### 2. `callOnce()` composable
+
+There may be cases where a function needs to be executed `only once`. For this purpose, a `callOnce()` composable function has been added.
+
+```typescript
+<script setup lang="ts">
+await callOnce(async () => {
+  // The code written here will be executed only once, not only in the SSR environment, but in all cases.
+})
+</script>
+```
+When using this composable, code will be executed only once, regardless of whether it's in the `SSR environment` or when the `client` navigates to new page.
+
+Unlike `middleware`, which is called only once when the page route is loaded, the `callOnce()` feature can be executed at any place where a composable can be placed.
+
+It has a similar key to `useFetch()` and `useAsyncData()`, allowing you to track what has been executed and what has not.
+
+```typescript
+<script setup>
+cosnt items = ['one', 'two', 'three']
+
+items.forEach(item => {
+  // Run once for each item
+  callOnce(item, async () => {
+    console.log(item)
+    // Do something with the `item`
+  })
+})
+</script>
+```
+
+### 3. Loading Api
+
+Using `useLoadingIndicator()` composable to obtain information on how the page is loading.
+
+```typescript
+const { progress, isLoading, start, set, finish, clear } = useLoadingIndicator({
+  duration: 1000,
+  throttle: 100
+})
+```
+
+Above composable is internally used by the `<NuxtLoadingIndicator>` component.
+
+`duration` option allows you to specifically set time needed to `calculate percentage`.
+
+`throttle` option controls speed at which progress value updates. This is useful in cases of frequent smooth interactions.
+
+Difference between `finish` and `clear` is significant. `clear` resets all internal timers but does not reset the values.
+
+`finish` is necessary for creating more elegant UX.
+
+For example, set `progress` to `100` and `isLoading` to `true`, then wait for 500ms.
+After the time passes, it `resets all values` to their initial state.
+
+### 4. NuxtLayout fallback
+
+When dealing with complex web applications using `Nuxt3`, you will likely be using many layouts.
+
+If selected layout's source has bug, the layout will not render, and neither will the wrapped page.
+In such cases, you can set up an alternative layout as a `fallback` to handle these exceptions instead of the non-functioning layout.
+
+```typescript
+<NuxtLayout name="ErrorLayout" fallback="switchLayout">
+  // If there is an error in ErrorLayout, it will be replaced with switchLayout.
+  <NuxtPage />
+</NuxtLayout>
+```
+
+### 5. `Vue3 v3.4` support!
+
+Nuxt3 now officially supports [Vue3 v3.4](https://blog.vuejs.org/posts/vue-3-4), allowing you to utilize the new features of `Vue3 3.4`.
+
+### 6. Debug hydration error in production Nuxt
+
+`Hydration errors` in an SSR production environment are among the most difficult to control.
+
+With the support of the aforementioned `Vue3 3.4` version, we can debug hydration by simply making the following settings.
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  debug: true,
+  // ...
+})
+```
+
+## That's all!
+
+Today's post introduced the features added in the `latest version of Nuxt3`.
+
+See you next!
+
+
+### Reference
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-9)
+- [Vue3 Blog](https://blog.vuejs.org/posts/vue-3-4)

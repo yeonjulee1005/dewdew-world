@@ -25,10 +25,10 @@ export default defineConfig({
     edgeMiddleware: true
   }),
   i18n: {
-    defaultLocale: "ko",
-    locales: ["ko", "en"],
+    defaultLocale: "en",
+    locales: ["en", "ko"],
     fallback: {
-      'en': 'ko'
+      'ko': 'en'
     },
     routing: {
       prefixDefaultLocale: false

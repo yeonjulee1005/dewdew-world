@@ -1,0 +1,34 @@
+---
+import Link from '@components/Link.astro'
+import Bold from '@components/Bold.astro'
+
+import { mainIntroText } from '@data/index.ts'
+---
+<p class='mb-4'>
+  {mainIntroText.first}
+  <Bold customClass='text-red-400' text='!' /><br />
+  {mainIntroText.second}
+  <Link
+    text='Seoul'
+    link='https://en.wikipedia.org/wiki/Seoul'
+    customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+    target='_blank'
+    label='seoul'
+  />
+  <Bold customClass='text-red-400' text=',' />
+  {mainIntroText.third}
+  <Bold customClass='text-red-400' text='.' />
+  {mainIntroText.fourth}
+  <Bold customClass='text-red-400' text='.' /><br />
+  {mainIntroText.fifth}
+  <Bold customClass='text-red-400' text=',' />
+  {mainIntroText.sixth}
+  <Link
+    text='Gadget Korea'
+    link='https://www.gadget.network'
+    customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+    target='_blank'
+    label='gadget'
+  />
+  <Bold customClass='text-red-400' text='.' /><br />
+</p>

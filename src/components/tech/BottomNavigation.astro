@@ -1,0 +1,46 @@
+---
+import { Image } from 'astro:assets'
+import Link from '@components/Link.astro'
+
+interface Props {
+  link: string
+  linkLabel: string
+  imageSrc: string
+  imageAlt: string
+  text: string
+  postTitle: string
+}
+
+const { link, linkLabel, imageSrc, imageAlt, text, postTitle } = Astro.props
+
+---
+<Link
+  link={`/tech/${link}`}
+  customClass='hover:border-rose-400 hover:text-rose-400 flex grow flex-col rounded-lg border-2 border-zinc-700 p-4 transition duration-300 ease-out'
+  target="_self"
+  label={linkLabel}
+>
+  <Image
+    slot="link"
+    class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
+    src={imageSrc}
+    alt={imageAlt}
+    width={200}
+    height={50}
+    quality={80}
+    loading='lazy'
+  />
+  <p
+    slot="link"
+    class='text-xl mb-2'
+  >
+    {text}
+  </p>
+  <p
+    slot="link"
+    slot="link"
+    class='text-zinc-500 text-md'
+  >
+    {postTitle}
+  </p>
+</Link>
