@@ -8,7 +8,7 @@
 .tech {
   h1, h2, h3, h4, h5, h6, p, li, blockquote {
     code {
-      @apply bg-orange-100 rounded-lg py-1 px-2;
+      @apply bg-orange-100 rounded-lg py-0.5 px-2;
     }
   }
 

@@ -88,6 +88,8 @@ const prevTech = techCollection[index + 1]
           alt={frontmatter.coverAlt}
           width={800}
           height={400}
+          quality={80}
+          loading='lazy'
           class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
         />
         <br />
@@ -111,6 +113,8 @@ const prevTech = techCollection[index + 1]
                   alt={nextTech.data.coverAlt}
                   width={200}
                   height={50}
+                  quality={80}
+                  loading='lazy'
                   class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
                 />
                 <p
@@ -143,6 +147,8 @@ const prevTech = techCollection[index + 1]
                   alt={prevTech.data.coverAlt}
                   width={200}
                   height={50}
+                  quality={80}
+                  loading='lazy'
                   class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
                 />
                 <p

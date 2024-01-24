@@ -1,0 +1,70 @@
+---
+title: 'Bun will soon support Windows and Shell Script!'
+description: 'Bun, an all-in-one toolkit for JavaScript and TypeScript!'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-01-24
+tags: ['bun', 'package manager', 'bun windiws', 'shall script']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240124-1.png'
+coverAlt: 'cover Image'
+---
+
+# What is `Bun` ?
+
+[Bun](https://bun.sh/) 
+Bun is an `all-in-one toolkit` for JavaScript and TypeScript apps. It ships as a single executable called `bun`.
+
+In a previous Tech post, I introduced using [Bun](https://bun.sh/).
+
+Bun allows us to run our JavaScript and TypeScript files in a runtime environment using `CLI`.
+Also, like express, you can use Bun to run a web server.
+The following example shows how to run a web server using Bun.
+
+```javascript
+Bun.serve({
+  fetch(req: Request) {
+    return new Response("Success!")
+  }
+})
+```
+
+However, as it is still the initial version [Bun v1.0.25](https://bun.sh/blog/bun-v1.0.25), it does not provide perfect functionality like other CLIs.
+Nevertheless, Bun is continuously being updated and shows `the fastest build time in runtime execution`, so it is not difficult to use in the field.
+
+Also, there was news recently that it supports Windows and Shell Script.
+
+
+## Can Bun now be used on Windows soon??
+
+The Bun JavaScript runtime has added experimental support for shell scripts, with a post that implies this will `particularly help Windows developers`.
+
+although Bun does not yet support Windows, a release is said to be coming soon.
+
+The Bun Shell enables shell scripts to be executed by bun.
+The main advantage is that the same script will run cross-platform.
+
+Bun creator Jarred Sumner explained that "macOS (zsh), Linux (bash), and Windows (cmd) all have slightly different shells with different syntaxes and different commands.
+The commands available on each platform are different, and even the same command can have different flags and behaviors.”
+
+[release notes for the Bun 1.0.25](https://bun.sh/blog/bun-v1.0.25#windows-is-coming-soon) state that `“Windows is coming soon 10 days away.”`
+Presuming it is delivered, a stable Windows build will help Bun adoption as well as making sense of the new shell script feature. 
+
+![release note](/tech/images/20240124-1-1.png)
+
+---
+
+## That's all!
+
+I hope we can use Bun on Windows ASAP.
+
+See you next!
+
+### Reference
+
+- [Bun](https://bun.sh/)
+- [Article](https://devclass.com/2024/01/22/bun-runtime-adds-shell-script-support-with-a-windows-version-promised-shortly/)
