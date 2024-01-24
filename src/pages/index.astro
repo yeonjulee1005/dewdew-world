@@ -8,16 +8,15 @@ import Bold from '@components/Bold.astro'
 <Layout title='Dewdew World!'>
   <div class='relative mt-8 flex w-screen flex-col items-center justify-between gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
     <Image
-      class='mb-6 cursor-pointer rounded-full border-4 border-red-400 bg-zinc-100 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
+      class='mb-6 cursor-pointer w-10/12 h-auto md:w-[300px] md:h-[300px] rounded-full border-4 border-red-400 bg-zinc-100 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
       src='/images/dewdew_world.webp'
       alt='dewdew world'
       width={300}
       height={300}
       quality={80}
-      loading='lazy'
     />
     <div class='w-screen px-4 text-lg text-zinc-700 lg:w-[600px] lg:px-0'>
-      <p class='mb-3'>
+      <p class='mb-4'>
         Hi there, I'm Yeonju
         <Bold customClass='text-red-400' text='!' /><br />
         I'm in
@@ -45,13 +44,13 @@ import Bold from '@components/Bold.astro'
         />
         <Bold customClass='text-red-400' text='.' /><br />
       </p>
-      <p class='mb-3'>
+      <p class='mb-4'>
         If you want to check out my work and progress in development
         <Bold customClass='text-red-400' text=',' /><br />
         you can find it below
         <Bold customClass='text-red-400' text='!' />
       </p>
-      <ul class='list-disc pl-8'>
+      <ul class='list-disc pl-8 mb-4'>
         <li class='pb-1'>
           <Link
             text='Github Profile'
@@ -80,11 +79,91 @@ import Bold from '@components/Bold.astro'
           />
         </li>
       </ul>
-      <p class='mb-3'>
-        If you want to check out my work and progress in development
+      <p>
+        I enjoy using those
         <Bold customClass='text-red-400' text=',' /><br />
-        you can find it below
-        <Bold customClass='text-red-400' text='!' />
+      </p>
+      <ul class='list-disc pl-8 mb-4'>
+        <li class='pb-1'>
+          <Link
+            text='Nuxt3'
+            link='https://nuxt.com/'
+            customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+            target='_blank'
+            label='nuxt3'
+          />
+        </li>
+        <li class='pb-1'>
+          <Link
+            text='Astro'
+            link='https://astro.build/'
+            customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+            target='_blank'
+            label='astro'
+          />
+        </li>
+        <li class='pb-1'>
+          <Link
+            text='Bun'
+            link='https://bun.sh/'
+            customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+            target='_blank'
+            label='bun'
+          />
+        </li>
+        <li class='pb-1'>
+          <Link
+            text='Typescript'
+            link='https://www.typescriptlang.org/'
+            customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+            target='_blank'
+            label='typescript'
+          />
+        </li>
+      </ul>
+      <p class='mb-4'>
+        My goal is to continuously learn and not neglect to share knowledge
+        <Bold customClass='text-red-400' text='.' /><br />
+        I also contributing to
+        <Link
+          text='Astro'
+          link='https://astro.build/'
+          customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+          target='_blank'
+          label='astro'
+        />
+        <Bold customClass='text-red-400' text=',' />
+        <Link
+          text='Element Plus'
+          link='https://element-plus.org/'
+          customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+          target='_blank'
+          label='elementplus'
+        />
+        <Bold customClass='text-red-400' text='.' /><br />
+      </p>
+      <p class='mb-4'>
+        I always open to participating in
+        <Bold customClass='text-red-400' text='new project' />
+        or meeting new people
+        <Bold customClass='text-red-400' text='.' /><br />
+        Please do not hesitate to 
+        <Link
+          text='contact me'
+          link='mailto:yeonjulee1005@kakao.com'
+          customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+          target='_blank'
+          label='contact'
+        />
+        or via
+        <Link
+          text='LinkedIn'
+          link='https://www.linkedin.com/in/yeonjulee1005/'
+          customClass='text-sky-500 duration-200 border-b-4 border-sky-300 hover:text-sky-600 hover:border-sky-500 hover:transition-opacity'
+          target='_blank'
+          label='linkedin'
+        />
+        <Bold customClass='text-red-400' text='.' /><br />
       </p>
     </div>
   </div>
