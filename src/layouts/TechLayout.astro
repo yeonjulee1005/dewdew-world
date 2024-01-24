@@ -47,6 +47,10 @@ const index = techCollection.findIndex((tech) => {
   return Astro.request.url.includes(tech.slug ?? '')
 })
 
+const replaceImageAlt = (imageAlt: string) => {
+  return imageAlt.replace(/(image|photo|picture)\s?/gi, '')
+}
+
 const nextTech = techCollection[index - 1]
 const prevTech = techCollection[index + 1]
 ---
@@ -85,12 +89,12 @@ const prevTech = techCollection[index + 1]
         />
         <Image
           src={frontmatter.cover}
-          alt={frontmatter.coverAlt}
+          class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
+          alt={replaceImageAlt(frontmatter.coverAlt)}
           width={800}
           height={400}
           quality={80}
           loading='lazy'
-          class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
         />
         <br />
         <article>
@@ -109,13 +113,13 @@ const prevTech = techCollection[index + 1]
               >
                 <Image
                   slot="link"
+                  class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
                   src={nextTech.data.cover}
-                  alt={nextTech.data.coverAlt}
+                  alt={replaceImageAlt(frontmatter.coverAlt)}
                   width={200}
                   height={50}
                   quality={80}
                   loading='lazy'
-                  class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
                 />
                 <p
                   slot="link"
@@ -143,13 +147,13 @@ const prevTech = techCollection[index + 1]
               >
                 <Image
                   slot="link"
+                  class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
                   src={prevTech.data.cover}
-                  alt={prevTech.data.coverAlt}
+                  alt={replaceImageAlt(frontmatter.coverAlt)}
                   width={200}
                   height={50}
                   quality={80}
                   loading='lazy'
-                  class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
                 />
                 <p
                   slot="link"
