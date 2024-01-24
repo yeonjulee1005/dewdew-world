@@ -1,8 +1,6 @@
 ---
-title:
-  'Add a comment feature to Astro!'
-description:
-  'Add a comment feature through Giscus!'
+title: 'Add a comment feature to Astro!'
+description: 'Add a comment feature through Giscus!'
 isDraft: true
 author: 'Dewdew'
 language: 'en'
@@ -98,11 +96,11 @@ You can add script obtained from Giscus to Astro project as follows by creating 
   data-strict='0'
   data-reactions-enabled='1'
   data-emit-metadata='0'
-  data-input-position='bottom'
+  data-input-position='top'
   data-theme='light_protanopia'
   data-lang='en'
   data-loading='lazy'
-  crossorigin='anonymous'
+  crossorigin='eager'
   async>
 </script>
 ```
@@ -118,6 +116,42 @@ import Comment from '@components/Comment.astro'
   <Comment />
 </Layout>
 ```
+
+## Add `giscus` module using package manager!
+
+We can install [giscus module](https://github.com/giscus/giscus-component#readme) as shown below to `giscus`!
+
+```zsh
+// install giscus module
+bun add giscus
+```
+
+```typescript
+// ./src/compoents/Comment.astro
+
+<section class='giscus mx-auto mt-10 w-full'>
+  <giscus-widget
+    id="Blog Comment"
+    repo="repo"
+    repoid="repo_id"
+    category="Blog Comment"
+    categoryid="category_id"
+    mapping="url"
+    reactionsenabled="1"
+    emitmetadata="0"
+    inputposition="top"
+    theme="light_protanopia"
+    lang="en"
+    loading="eager"
+    >
+  </giscus-widget>
+</section>
+
+<script>
+  import 'giscus'
+</script>
+```
+
 
 ---
 

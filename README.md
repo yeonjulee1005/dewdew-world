@@ -4,18 +4,25 @@
 
 [![Built with Astro](https://astro.badg.es/v2/built-with-astro/medium.svg)](https://astro.build)
 
-#### Current Version: 0.6.0
+#### Current Version: 1.5.0
+
+## Using Stack
+
+1. Astro
+2. Tailwind
+3. Giscus
+4. Vercel
 
 ---
 
 ### Main
-> Introduce my self
+> Introduction my self
 
 ### Uses
 > Currently using my desktop setup
 
 ### Tech
->
+> Tech blog
 
 ### Dewdew Dev
->
+> This is the Dewdew website
