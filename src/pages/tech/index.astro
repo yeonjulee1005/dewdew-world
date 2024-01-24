@@ -6,6 +6,8 @@ import Layout from '@layouts/Layout.astro'
 import Bold from '@components/Bold.astro'
 import Card from '@components/tech/Card.astro'
 
+import { techTitle } from '@data/index.ts'
+
 const techPosts = await getCollection('tech')
   .then((techs) =>
     techs.sort(
@@ -44,18 +46,24 @@ const techPostsWithReadTime = await Promise.all(
       <div>
         <p class='text-3xl font-bold'>Dewdew</p>
         <p>
-          Dewdew shares tech knowledge. I experienced and learned. It will also
-          occasionally share other content!
+          {techTitle.knowledge}
+          <Bold customClass='text-red-400' text='.' />
+          {techTitle.experience}
+          <Bold customClass='text-red-400' text='.' />
+          {techTitle.content}
+          <Bold customClass='text-red-400' text='!' />
         </p>
-        <div class='mt-2 flex items-center gap-4'>
-          <span>KR</span>
+        <div class='mt-2 flex items-center gap-3'>
+          <span>
+            {techTitle.kr}
+          </span>
           <div class='h-1 w-1 rounded-full bg-zinc-600' />
           <span>
             <Bold
               customClass='text-red-400'
               text={techPosts.length.toString()}
             />
-            Posts
+            {techTitle.posts}
           </span>
         </div>
       </div>

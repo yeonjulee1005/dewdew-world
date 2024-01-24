@@ -9,6 +9,9 @@ import Head from '@components/Head.astro'
 import Author from '@components/tech/Author.astro'
 import Link from '@components/Link.astro'
 import Comment from '@components/tech/Comment.astro'
+import BottomNavigation from '@components/tech/BottomNavigation.astro'
+
+import { techText } from '@data/index.ts'
 
 interface TechLayoutProps {
   frontmatter: {
@@ -43,7 +46,7 @@ let techCollection = await getCollection('tech')
     teches.filter((tech) => tech.data.isDraft
   ))
 
-const index = techCollection.findIndex((tech) => {
+const techIndex = techCollection.findIndex((tech) => {
   return Astro.request.url.includes(tech.slug ?? '')
 })
 
@@ -51,10 +54,9 @@ const replaceImageAlt = (imageAlt: string) => {
   return imageAlt.replace(/(image|photo|picture)\s?/gi, '')
 }
 
-const nextTech = techCollection[index - 1]
-const prevTech = techCollection[index + 1]
+const nextTech = techCollection[techIndex - 1]
+const prevTech = techCollection[techIndex + 1]
 ---
-
 <html lang='en'>
   <head>
     <Head title={frontmatter.title} description={frontmatter.description} />
@@ -105,69 +107,26 @@ const prevTech = techCollection[index + 1]
         <div class='mt-10 flex w-full flex-col gap-4 sm:flex-row sm:gap-6'>
           {
             nextTech && (
-              <Link
-                link={`/tech/${nextTech.slug}`}
-                customClass='hover:border-rose-400 hover:text-rose-400 flex grow flex-col rounded-lg border-2 border-zinc-700 p-4 transition duration-300 ease-out'
-                target="_self"
-                label="Next post"
-              >
-                <Image
-                  slot="link"
-                  class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
-                  src={nextTech.data.cover}
-                  alt={replaceImageAlt(frontmatter.coverAlt)}
-                  width={200}
-                  height={50}
-                  quality={80}
-                  loading='lazy'
-                />
-                <p
-                  slot="link"
-                  class='text-xl mb-2'
-                >
-                  &larr; Next post
-                </p>
-                <p
-                  slot="link"
-                  slot="link"
-                  class='text-zinc-500 text-md'
-                >
-                  {nextTech.data.title}
-                </p>
-              </Link>
+              <BottomNavigation
+                link={nextTech.slug}
+                linkLabel='Next post'
+                imageSrc={nextTech.data.cover}
+                imageAlt={replaceImageAlt(frontmatter.coverAlt)}
+                text={techText.nextPost}
+                postTitle={nextTech.data.title}
+              />
             )
           }
           {
             prevTech && (
-              <Link
-                link={`/tech/${prevTech.slug}`}
-                customClass='hover:border-rose-400 hover:text-rose-400 flex grow flex-col rounded-lg border-2 border-zinc-700 p-4 transition duration-300 ease-out'
-                target="_self"
-                label="Previous post"
-              >
-                <Image
-                  slot="link"
-                  class='rounded-md w-full h-[160px] md:h-[240px] lg:h-[300px] object-cover my-4 shadow-lg shadow-zinc-400'
-                  src={prevTech.data.cover}
-                  alt={replaceImageAlt(frontmatter.coverAlt)}
-                  width={200}
-                  height={50}
-                  quality={80}
-                  loading='lazy'
-                />
-                <p
-                  slot="link"
-                  class='text-xl mb-2'
-                >
-                  Previous post &rarr;
-                </p>
-                <p
-                  slot="link"
-                  class='text-zinc-500 text-md'
-                >
-                  {prevTech.data.title}
-                </p>
-              </Link>
+              <BottomNavigation
+                link={prevTech.slug}
+                linkLabel='Prev post'
+                imageSrc={prevTech.data.cover}
+                imageAlt={replaceImageAlt(frontmatter.coverAlt)}
+                text={techText.prevPost}
+                postTitle={prevTech.data.title}
+              />
             )
           }
         </div>

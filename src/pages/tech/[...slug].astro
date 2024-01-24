@@ -21,9 +21,7 @@ type Props = {
 
 const { entry } = Astro.props
 const { Content, remarkPluginFrontmatter} = await entry.render()
-
 ---
-
 <TechLayout frontmatter={entry.data} minutes={remarkPluginFrontmatter}>
   <div class="tech">
     <Content />

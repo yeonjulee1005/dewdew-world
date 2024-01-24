@@ -1,0 +1,29 @@
+---
+import Link from '@components/Link.astro'
+import Bold from '@components/Bold.astro'
+
+import { mainContactText } from '@data/index.ts'
+---
+<p class='mb-4'>
+  {mainContactText.first}
+  <Bold customClass='text-red-400' text='new project' />
+  {mainContactText.second}
+  <Bold customClass='text-red-400' text='.' /><br />
+  {mainContactText.third}
+  <Link
+    text='contact me'
+    link='mailto:yeonjulee1005@kakao.com'
+    customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
+    target='_blank'
+    label='contact'
+  />
+  {mainContactText.fourth}
+  <Link
+    text='LinkedIn'
+    link='https://www.linkedin.com/in/yeonjulee1005/'
+    customClass='text-sky-500 duration-200 border-b-4 border-sky-300 hover:text-sky-600 hover:border-sky-500 hover:transition-opacity'
+    target='_blank'
+    label='linkedin'
+  />
+  <Bold customClass='text-red-400' text='.' /><br />
+</p>

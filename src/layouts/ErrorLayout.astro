@@ -2,10 +2,11 @@
 import Head from '@components/Head.astro'
 import Link from '@components/Link.astro'
 
+import { errorText } from '@data/index.ts'
+
 const title = 'Dewdew | 404'
 const description = 'Dewdew World 🌏'
 ---
-
 <html lang='en'>
   <head>
     <Head title={title} description={description} />
@@ -13,10 +14,11 @@ const description = 'Dewdew World 🌏'
   <body>
     <main class='flex min-h-screen flex-col items-center justify-center'>
       <p class='text-9xl font-bold'>
+        {errorText.title}
         404
       </p>
       <p class='mb-8 mt-4 text-2xl'>
-        페이지를 찾을 수 없어요! 😢
+        {errorText.notFound}
       </p>
       <Link
         link='/'

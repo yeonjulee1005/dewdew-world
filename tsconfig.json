@@ -10,7 +10,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@i18n/*": ["src/i18n/*"],
       "@utils/*": ["src/utils/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@data/*": ["src/data/*"]
     }
   }
 }

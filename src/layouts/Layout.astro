@@ -9,9 +9,8 @@ interface Props {
   description?: string
 }
 
-const { title, description = 'This is Dewdew World' } = Astro.props
+const { title, description = 'Welcome to Dewdew World!' } = Astro.props
 ---
-
 <html lang='en'>
   <head>
     <Head title={title} description={description} />
