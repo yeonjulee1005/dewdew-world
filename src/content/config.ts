@@ -10,7 +10,7 @@ const techCollection = defineCollection({
     description: z.string(),
     isDraft: z.boolean(),
     author: z.string().default('Dewdew'),
-    language: z.enum(['ko', 'en']),
+    language: z.enum(['en']), // ['ko', 'en']
     publishedDate: z.date(),
     tags: z.array(z.string()),
     authorContact: z.string().email(),
