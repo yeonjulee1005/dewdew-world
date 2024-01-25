@@ -1,0 +1,253 @@
+---
+title: 'Pinia: How to Use Vue3 State Management Pinia Effectively'
+description: 'Summary of the presentation from Vue Nation 2024: Discussing how not to use Pinia like Vuex.'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-01-26
+tags: ['vue3', 'vue nation 2024', 'pinia']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240126.png'
+coverAlt: 'cover Image'
+---
+
+# What is Pinia?
+
+[Pinia](https://pinia.vuejs.org/) is a state management library in [Vue3](https://vuejs.org/) & [Nuxt3](https://nuxt.com/), providing similar functionalities to [Vuex](https://vuex.vuejs.org/).
+
+Unlike Vuex, `Pinia` uses the `Composition API` for state management.
+Also, without the concepts of mutation, action, getter, etc., you can use the `Store` value reactively.
+
+In the past, Vuex was widely used, but with Vue3, Pinia is now predominantly used.
+
+During the [Vue Nation 2024](https://vuejsnation.com/) session, `Eduardo San Martin Morote`, the creator of Pinia, conducted a session on how to use Pinia effectively.
+The following content shares insights gained from the session.
+
+---
+
+## No More Need for Mutations
+
+In `Vuex`, you could manage global state through `state, mutations, actions, getters` as shown below.
+
+```typescript
+// vuex
+const store = createStore({
+  state: () => ({
+    count: 0,
+    isHidden: true
+  }),
+  mutations: {
+    increment(state) {
+      state.count++
+    },
+    toggle(state) {
+      state.isHidden = !state.isHidden
+    }
+  }
+})
+
+// getting state value in component
+store.state.count
+store.state.isHidden
+
+// mutation in component
+store.commit('increment')
+store.commit('toggle')
+```
+
+In Vuex, to change the state, you had to use mutations.
+However, in Pinia, you can directly change the `state`.
+
+```typescript
+// pinia
+const useToggleStore = defineStore('toggle', {
+  const count = ref(0)
+  const isHidden = ref(true)
+
+  return {
+    count,
+    isHidden
+  }
+})
+
+// mutaions in component
+const { count, isHidden } = sotreToRefs(useToggleStore())
+count.value++
+isHidden.value = false
+```
+
+## Various Advantages of Pinia
+
+And Pinia has following advantages.
+
+- Pinia supports `Type safety`.
+- Pinia supports `Modular stores`.
+- Pinia supports `Better code splitting`.
+- Pinia uses `composition API`.
+
+## Type Management
+
+In Vuex, type management was done outside of the store as follows.
+
+```typescript
+// wrong
+cosnt state: State = {
+  //...
+}
+
+defineStore('...', {
+  state: () => state,
+})
+```
+
+However, in Pinia, you should not do as above, instead, you need to directly specify `types within the store` like below.
+
+```typescript
+// correct
+defineStore('...', {
+  state: (): State => ({
+    //...
+  })
+})
+```
+
+## Read-Only Store
+
+To build `read-only store` in Pinia, you need to modify the code example as follows.
+
+```typescript
+// before
+const useStore = defineStore('...', {
+  const user = ref()
+
+  return {
+    // no Plugins, devtools, SSR
+    userReadonly: readonly(user),
+    // not state
+    get userGetter () {
+      return user.value
+    },
+    // not state
+    userComputed: computed(() => user.value)
+  }
+})
+```
+
+```typescript
+// after
+const useStore = defineStore('...', {
+  const user = ref()
+
+  return {
+    _user: user,
+    // valid gatter
+    user: computed(() => user.value)
+  }
+})
+```
+
+Or, you can manage it by creating Private Store as below.
+This allows you to create variables that can only be used `within specific store`.
+
+```typescript
+const usePrivateStore = defineStore('...', {
+  const user = ref()
+
+  return {
+    user
+  }
+})
+
+const userStore = defineStore('...', {
+  const privateStore = usePrivateStore()
+
+  privateStore.user // only within the store
+
+  return {
+    // no user exposed
+  }
+})
+```
+
+## Typescript
+
+As shown in the example, when writing TypeScript for a store, it is better `to use generics` to specify types rather than using ` ~ as` as below.
+
+```typescript
+// not good
+const useUserStore = defineStore('user', {
+  const userToken = ref({} as UserToken)
+  const user = ref({} as User)
+
+  return {
+    userToken,
+    user
+  }
+})
+```
+
+```typescript
+// good
+const useUserStore = defineStore('user', {
+  const userToken = ref<UserToken | null>(null) // For initialize with null
+  const user = ref<User>() // For handling undefined
+
+  return {
+    userToken,
+    user
+  }
+})
+```
+
+## 스크립트에서 스토어의 사용
+
+아래의 예제와 같이 사용하게 될 경우, Pinia에서 오류를 발생시킵니다. 컴포지선 API를 사용할 경우, 아래와 같이 `setup` 내부에서 1번만 스토어를 호출하면 됩니다.
+
+```typescript
+// wrong
+<script setup>
+import { useModalStore } from './store/modal'
+
+function someMethod () {
+  const modalStore = useModalStore()
+}
+
+watch(something, () => {
+  const modalStore = useModalStore()
+})
+</script>
+```
+
+```typescript
+// good
+<script setup>
+import { useModalStore } from './store/modal'
+const modalStore = useModalStore()
+
+function someMethod () {
+  modalStore //
+}
+
+watch(something, () => {
+  modalStore //
+})
+</script>
+```
+
+## That's all!
+
+I've discussed more than the information I've gathered, but I've only summarized up to this point today!
+
+Ongoing `Vue nation 2024` has many excellent sessions, and I believe it's a great opportunity to gain `good insights`.
+I hope you take away some valuable information.
+
+See you next!
+
+
+### Reference
+
+- [Vue nation 2024](https://vuejsnation.com/)
+- [Pinia](https://pinia.vuejs.org/)
