@@ -28,7 +28,7 @@ The following content shares insights gained from the session.
 
 ---
 
-## No More Need for Mutations
+## 1.No More Need for Mutations
 
 In `Vuex`, you could manage global state through `state, mutations, actions, getters` as shown below.
 
@@ -79,7 +79,7 @@ count.value++
 isHidden.value = false
 ```
 
-## Various Advantages of Pinia
+## 2.Various Advantages of Pinia
 
 And Pinia has following advantages.
 
@@ -88,7 +88,7 @@ And Pinia has following advantages.
 - Pinia supports `Better code splitting`.
 - Pinia uses `composition API`.
 
-## Type Management
+## 3.Type Management
 
 In Vuex, type management was done outside of the store as follows.
 
@@ -114,7 +114,7 @@ defineStore('...', {
 })
 ```
 
-## Read-Only Store
+## 4.Read-Only Store
 
 To build `read-only store` in Pinia, you need to modify the code example as follows.
 
@@ -172,7 +172,7 @@ const userStore = defineStore('...', {
 })
 ```
 
-## Typescript
+## 5.Typescript
 
 As shown in the example, when writing TypeScript for a store, it is better `to use generics` to specify types rather than using ` ~ as` as below.
 
@@ -202,7 +202,7 @@ const useUserStore = defineStore('user', {
 })
 ```
 
-## Using Store in Script
+## 6.Using Store in Script
 
 If you use it as shown in the example below, Pinia will throw an error. When using the Composition API, you only need to `call store once` within `setup`.
 
