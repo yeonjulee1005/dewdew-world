@@ -202,9 +202,9 @@ const useUserStore = defineStore('user', {
 })
 ```
 
-## 스크립트에서 스토어의 사용
+## Using Store in Script
 
-아래의 예제와 같이 사용하게 될 경우, Pinia에서 오류를 발생시킵니다. 컴포지선 API를 사용할 경우, 아래와 같이 `setup` 내부에서 1번만 스토어를 호출하면 됩니다.
+If you use it as shown in the example below, Pinia will throw an error. When using the Composition API, you only need to `call store once` within `setup`.
 
 ```typescript
 // wrong
