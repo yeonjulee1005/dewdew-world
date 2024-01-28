@@ -15,11 +15,10 @@
     }
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply flex gap-1 items-center;
     a {
-      @apply block border-0;
+      @apply inline-block border-0 align-baseline;
       .icon {
-        @apply block text-rose-400 hover:text-rose-600;
+        @apply block pr-2;
         content: url('/images/hash.svg');
         &:hover {
           content: url('/images/hash-hover.svg');
