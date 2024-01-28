@@ -1,0 +1,295 @@
+---
+title: 'Build type-safe Vue components (With generic types)'
+description: 'Learn how to provide type safe to components offered in Vue 3.3.'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-01-28
+tags: ['vue3', 'vue type-safe components', 'generic', 'typescript', 'nuxt ui']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240128.png'
+coverAlt: 'cover Image'
+---
+
+# In Vue Nation 2024...
+
+There were several impressive sessions on `Day 2`.
+
+A slight disappointment was that there were many introductions to `UI libraries` rather than technical solutions, which made it a bit boring.
+However, seeing that even the libraries I didn't use, `have a lot of development plans for 2024`, I thought I should create an opportunity to use and introduce them later. (`Prime Vue` and `Vuetify` caught my interest!) 
+
+After Day 2, I gained the following insights, which I plan to introduce sequentially after this post!
+
+- Build type-safe components (With generic types)
+- Testing Vue 3 Apps with Playwright & Vitest
+- Common mistakes in using Vue.js, and how to avoid them
+
+First, let's take a look at today's topic, `Build type-safe components (With generic types)`.
+
+---
+
+## In Vue 3.3 supports `Generically Typed Components`
+
+First of all, before this post, I would like to express my gratitude to `Abdelrahman Awad` who made it possible for me to write this post.
+It was such a great session!
+
+
+[Vue 3.3](https://blog.vuejs.org/posts/vue-3-3) was officially released in March 2023. One of the announcements was the support for [Generically Typed Vue Components](https://blog.vuejs.org/posts/vue-3-3#generic-components).
+
+As explained in the above blog, you can now set type parameters through the `generic` attribute in the `<script setup>` tag. Like this.
+
+```vue
+<script setup lang='ts' generic='T'>
+defineProps<{
+  items: T[].
+  selectedItem: T
+}>()
+</script>
+```
+
+Also, It can extend `multiple parameters`, constraints, default types, and imported types using `extends` as shown below.
+
+```vue
+<script setup lang='ts' generic='T extends string | number, U extends Item'>
+import type { Item } from './types'
+
+defineProps<{
+  label: T,
+  itemList: U[]
+}>()
+</script>
+```
+
+Through this, it `clearly type-checks` whether two or more props passed to the component are actually same type. (If the types are different, `Volar plugin` marks it with a red line!)
+
+## Let's try it!
+
+Below is a simple example I wrote myself.
+(I used [Nuxt UI](https://ui.nuxt.com/) in the example. `I will post` about this later!)
+
+### Case 1: Input
+
+```vue
+// /components/A/Card.vue
+
+<script setup lang="ts" generic="T extends string | number">
+
+defineProps<{
+  label: T
+  cardType: T
+}>()
+
+const model = defineModel<T extends 'number' ? number : string>()
+
+</script>
+
+<template>
+  <p>
+    {{ label }}:
+  </p>
+  <div>
+    <DDInput
+      v-model="model"
+      :type="(cardType as string)"
+    />
+  </div>
+</template>
+```
+
+```vue
+///page/index.vue
+
+<script setup lang="ts">
+
+const text = ref('')
+const count = ref(0)
+
+</script>
+
+<template>
+  <div class="w-full min-h-screen flex justify-center items-center gap-8">
+    <div class="flex flex-col gap-2">
+      <ACard
+        v-model="text"
+        label="string"
+        :card-type="'string'"
+      />
+      <pre>
+        {{ { value: text, type: typeof text } }}
+      </pre>
+    </div>
+    <div class="flex flex-col gap-2">
+      <ACard
+        v-model="count"
+        label="number"
+        :card-type="'number'"
+      />
+      <pre>
+        {{ { value: count, type: typeof count } }}
+      </pre>
+    </div>
+  </div>
+</template>
+
+```
+
+Above example is structured as follows.
+
+- `ACard.vue` component receives `label` and `cardType` as props and accepts a reactive value through `defineModel`.
+- In `index.vue`, if a specific type of value is not passed, it is marked with a red line, and type inference is possible. Also, the `modelValue` of the `ACard` component infers the necessary type based on the type provided by `index.vue`.
+(I searched, and it seems that the [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) VSCode plugin automatically indicates missing parameters, but it seems that I can't do that, and I need to look into it more.)
+
+![type safe!](/tech/images/20240128.png)
+(whats happened to my vscode?...)
+
+![type safe!](/tech/images/20240128-1.png)
+
+![type safe!](/tech/images/20240128-2.png)
+
+### Case 2: SelectMenu
+
+Following example is simple one using `SelectMenu`. This also allows type inference of the component using Generic Component.
+
+```vue
+// /components/A/List.vue
+
+<script setup lang="ts" generic="T extends Option">
+import type { Option } from '~/types/index'
+
+const props = defineProps<{
+  modelValue: T
+  options: T[]
+}>()
+
+const emit = defineEmits<{
+  'update:model': [value: T]
+}>()
+
+const computedModel = computed({
+  get () {
+    return props.modelValue
+  },
+  set (value: T) {
+    emit('update:model', value)
+  }
+})
+
+</script>
+
+<template>
+  <div>
+    <DDSelectMenu
+      v-model="computedModel"
+      :options="options"
+    >
+      <template #leading>
+        <span>
+          {{ computedModel.id }}
+        </span>
+      </template>
+    </DDSelectMenu>
+  </div>
+</template>
+```
+
+```vue
+// /pages/select.vue
+
+<script setup lang="ts">
+import type { Option } from '~/types/index'
+
+const options: Option[] = [
+  { id: 1, label: 'banana' },
+  { id: 2, label: 'orange' },
+  { id: 3, label: 'apple' },
+  { id: 10, label: 'strowberry' }
+]
+
+const selectedOption = ref<Option>(options[0])
+
+</script>
+
+<template>
+  <div class="h-screen w-full flex flex-col justify-center items-center gap-8">
+    <AList
+      v-model="selectedOption"
+      :options="options"
+      @update:model="(value) => selectedOption = value"
+    />
+    <pre>
+      {{ { value: selectedOption, type: typeof selectedOption } }}
+    </pre>
+  </div>
+</template>
+```
+
+```typescript
+// /types/index.ts
+
+export interface Option {
+  id: string | number
+  label: string
+}
+```
+
+![type safe!](/tech/images/20240128-3.png)
+
+If you pass a value of different type to `modelValue`, it will be marked with a red line like this, allowing for type inference.
+
+```vue
+// /pages/select.vue
+
+<script setup lang="ts">
+import type { Option } from '~/types/index'
+
+const options: Option[] = [
+  { id: 1, label: 'banana' },
+  { id: 2, label: 'orange' },
+  { id: 3, label: 'apple' },
+  { id: 10, label: 'strowberry' }
+]
+
+const selectedOption = ref<Option>(options[0])
+const selectedSometing = ref<{id: number, value: string}>({ id: 1, value: 'banana' })
+
+</script>
+
+<template>
+  <div class="h-screen w-full flex flex-col justify-center items-center gap-8">
+    <AList
+      v-model="selectedSometing"
+      :options="options"
+      @update:model="(value) => selectedOption = value"
+    />
+    <pre>
+      {{ { value: selectedOption, type: typeof selectedOption } }}
+    </pre>
+  </div>
+</template>
+```
+
+![type safe!](/tech/images/20240128-4.png)
+
+---
+
+## That's all!
+
+I haven't fully using it yet, but I believe `Generic Component` will greatly enhance `DX experience`.
+It seems worth checking why the feature in the `Volar plugin` that infers missing parameters is not working properly!!
+
+These were the insights I gained from this session.
+If there are any issues or areas for improvement, `please leave a comment`!
+Feedback is always welcome!
+
+See you next!
+
+---
+
+### Reference
+
+- [Vue nation 2024](https://vuejsnation.com/)
+- [Vue3 Blog](https://blog.vuejs.org/posts/vue-3-3)
+- [Nuxt UI](https://ui.nuxt.com/)
