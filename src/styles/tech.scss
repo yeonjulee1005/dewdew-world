@@ -6,12 +6,27 @@
 @tailwind utilities;
 
 .tech {
+  a {
+    @apply text-lg text-rose-400 duration-200 border-b-4 border-rose-400 hover:text-rose-600 hover:border-rose-600 hover:transition-opacity;
+  }
   h1, h2, h3, h4, h5, h6, p, li, blockquote {
     code {
       @apply bg-orange-100 rounded-lg py-0.5 px-2;
     }
   }
-
+  h1, h2, h3, h4, h5, h6 {
+    @apply flex gap-1 items-center;
+    a {
+      @apply block border-0;
+      .icon {
+        @apply block text-rose-400 hover:text-rose-600;
+        content: url('/images/hash.svg');
+        &:hover {
+          content: url('/images/hash-hover.svg');
+        }
+      }
+    }
+  }
   h1 {
     @apply text-5xl font-bold my-8;
   }
@@ -32,9 +47,6 @@
   }
   p {
     @apply text-lg my-5;
-  }
-  a {
-    @apply text-lg text-rose-400 duration-200 border-b-4 border-rose-400 hover:text-rose-600 hover:border-rose-600 hover:transition-opacity;
   }
   blockquote {
     @apply border-l-4 border-rose-300 pl-4 my-4 text-lg;
