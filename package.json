@@ -9,7 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier --write .",
-    "update-astro": "pnpm install astro@latest"
+    "update:astro": "bun add astro@latest"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
@@ -20,7 +20,7 @@
     "@astrojs/vercel": "^6.1.4",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.4",
-    "astro": "^4.1.3",
+    "astro": "latest",
     "astro-icon": "^1.0.2",
     "astro-robots-txt": "^1.0.0",
     "giscus": "^1.4.0",

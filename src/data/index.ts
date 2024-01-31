@@ -31,9 +31,10 @@ const mainContactText = {
 }
 
 const mainReference: MainItem[] = [
-  { title: 'Github Profile', label: 'github', link: 'https://github.com/yeonjulee1005/'},
-  { title: 'Dewdew Dev', label: 'dewdew', link: 'https://www.dewdew.dev/'},
-  { title: 'Dooramgi', label: 'dooramgi', link: 'https://www.dooramgi.kr'}
+  { title: 'Github Profile', label: 'github', link: 'https://github.com/yeonjulee1005'},
+  { title: 'Dewdew Dev', label: 'dewdew', link: 'https://www.dewdew.dev'},
+  { title: 'Dooramgi (Web/IOS/AOS))', label: 'dooramgi', link: 'https://www.dooramgi.kr'},
+  { title: 'Display Check Test (Web/IOS/AOS)', label: 'dewdew', link: 'https://monitors.dewdew.world'}
 ]
 
 const mainStack: MainItem[] = [
