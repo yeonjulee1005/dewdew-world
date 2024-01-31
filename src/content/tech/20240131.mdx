@@ -1,0 +1,146 @@
+---
+title: 'Nuxt 3.10 is Out! Check out what features added.'
+description: 'New features added in latest 3.10 version of Nuxt3!'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-01-31
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt3 composables']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240131.png'
+coverAlt: 'cover Image'
+---
+
+# Nuxt3.10 is Out!
+
+[Nuxt 3.10](https://nuxt.com/) has been released!
+
+In this minor version, new features have been added along with `some experimental features`.
+Let's take a look at the new features that I'm keeping an eye on.
+
+---
+
+## New feature in v3.10
+
+### 1. Generating SSR Safe unique Id with `useId()`
+
+Using `useId()` allows you to generate a unique id safely in an SSR environment.
+This provides a more accessible interface.
+The example below is from the official [Nuxt3 blog](https://nuxt.com/blog/v3-10).
+
+```typescript
+// ./components/Form.vue
+
+<script setup lang="ts">
+const emailId = useId()
+const passwordId = useId()
+</script>
+
+<template>
+  <form>
+    <label :for="emailId">Email</label>
+    <input
+      :id="emailId"
+      name="email"
+      type="email"
+    >
+    <label :for="passwordId">Password</label>
+    <input
+      :id="passwordId"
+      name="password"
+      type="password"
+    >
+  </form>
+</template>
+```
+
+### 2. Opt-in `CookieStore` and new feature `refreshCookie()`
+
+Nuxt3 is allow using CookieStore. If browser support, this will be used instead of a `BoardcastChannel` tu update `useCookie()`.
+
+And also comes new composable `refreshCookie()`. which allows manually refreshing cookie values, such as after performing a request like below.
+
+```typescript
+// app.vue
+
+<script setup lang="ts">
+const tokenCookie = useCookie('token')
+
+const login = async (username, password) => {
+  const token = await $fetch('/api/token', { ... }) // Sets `token` cookie on response
+  refreshCookie('token') // this will update the value of `tokenCookie`
+}
+
+const loggedIn = computed(() => !!tokenCookie.value)
+</script>
+```
+
+### 3. Detecting anti-patterns
+
+Now will throw an error if `setInterval is used on server side`.
+
+and `in development mode`, it detects anti-patterns and displays warnings like below.
+
+- Warning if data `fetch composables are used wrongly`, such as outside of a plugin or setup context.
+- warning if not using `<NuxtPage />`, but have to `vue-router` integration enabled.
+
+### 4. [Experimental] Granular `view transitions`
+
+It can set granular `view transitions` for each page using `DefinePageMeta`.
+
+```typescript
+// nuxt.config.ts
+
+export default defineNuxtConfig({
+  experimental: {
+    viewTransition: true
+  },
+  app: {
+    // you can disable them globally if necessary (they are enabled by default)
+    viewTransition: false
+  }
+})
+```
+
+```typescript
+// ./pages/index.vue
+
+<script setup lang="ts">
+definePageMeta({
+  viewTransition: false
+})
+</script>
+```
+
+### 5. [Experimental] `asyncData` when prerendering
+
+`In Nuxt 2`, it was possible to create a 'payload' which could be fetched once and then accessed in every page.
+By setting it as follows, `useAsyncData` and `useFetch` calls will be `deduplicated and cached` between renders of your site.
+
+```typescript
+// nuxt.config.ts
+
+export defineNuxtConfig({
+  experimental: {
+    sharedPrerenderData: true
+  }
+})
+```
+
+---
+
+## That's all!
+
+Today's post introduced the features added in the `Nuxt 3.10`.
+
+See you nuxt! (not next)
+
+---
+
+### Reference
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-10)
+- [Vue3 Blog](https://blog.vuejs.org/posts/vue-3-4)
