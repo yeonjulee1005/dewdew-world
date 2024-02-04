@@ -1,0 +1,175 @@
+---
+title: '[Modules Intro Part.1] Setup Eslint and Stylelint in a Nuxt3 Project'
+description: 'Introducing Eslint and Stylelint: good modules to set up before starting a Nuxt3 project.'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-02-04
+tags: ['nuxt3', 'nuxt3 blog', 'eslint', 'stylelint', 'modules', 'setup', 'nuxt3 eslint', 'nuxt3 stylelint']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240204.png'
+coverAlt: 'cover Image'
+---
+
+# Are you starting a Nuxt3 project?
+
+This post introduces [Eslint](https://eslint.org/) and [Stylelint](https://stylelint.io/),
+which are good `Nuxt3 modules` to set up before starting your project in [Nuxt3 Ecosystem](https://nuxt.com/modules).
+I'll briefly cover everything from `installation to configuration`.
+
+---
+
+## `Eslint`
+
+`Eslint` is a tool for checking the quality of code, unifying code style, preventing bugs in advance, and improving code readability.
+While it's common to use Eslint with `Prettier`, in Nuxt3, it's recommended to primarily `only use Eslint` for linting.
+
+### 1. Install Eslint
+
+First, to use `Eslint` in a [Nuxt3](https://nuxt.com) project, you need to use the [@nuxt/eslint-config](https://github.com/nuxt/eslint-config) module.
+Additionally, if you are using `Typescript`, you must also install `@nuxtjs/eslint-config-typescript`.
+You also need to install the basic `@eslint` module.
+Use the following commands to install these modules.
+
+```zsh
+// bun
+bun add -D @nuxt/eslint-config @nuxtjs/eslint-config-typescript @eslint
+
+// yarn
+yarn add -D @nuxt/eslint-config @nuxtjs/eslint-config-typescript @eslint
+
+// npm
+npm install -D @nuxt/eslint-config @nuxtjs/eslint-config-typescript @eslint
+```
+
+### 2. Eslint Configuration
+
+After installing as mentioned above, create a `.eslintrc.js` file in the root folder of your project and add the following configuration.
+
+```typescript
+// .eslintrc.js
+
+module.exports = {
+  root: true,
+  env: {
+    browser: true,
+    node: true
+  },
+  extends: [
+    '@nuxt/eslint-config',
+    '@nuxtjs/eslint-config-typescript'
+  ],
+  rules: {
+    // add your custom rules here
+  } 
+}
+```
+
+With the above configuration, you can use `Eslint` in your `Nuxt3` project.
+
+Additionally, add the following script to `package.json` to run `Eslint`.
+
+```json
+// package.json
+
+{
+  "scripts": {
+    "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore ."
+  }
+}
+```
+
+---
+
+## `Stylelint`
+
+`Stylelint` is a tool for inspecting the quality of CSS code, unifying code style, preventing bugs in advance, and improving code readability.
+If your project contains `CSS` or `SCSS` files, it's recommended to use `Stylelint`.
+
+### 1. Install Stylelint
+
+To use `Stylelint`, you need to install the [@nuxtjs/stylelint-module](https://github.com/nuxt-modules/stylelint) module.
+Additionally, you must install the following modules: `stylelint`, `postcss-html`, `stylelint-config-recommended-scss`, `stylelint-config-recommended-vue`.
+
+```zsh
+// bun
+bun add -D @nuxtjs/stylelint-module stylelint postcss-html stylelint-config-recommended-scss stylelint-config-recommended-vue
+
+// yarn
+yarn add -D @nuxtjs/stylelint-module stylelint postcss-html stylelint-config-recommended-scss stylelint-config-recommended-vue
+
+// npm
+npm install -D @nuxtjs/stylelint-module stylelint postcss-html stylelint-config-recommended-scss stylelint-config-recommended-vue
+```
+
+### 2. Stylelint Configuration
+
+After installing the modules as mentioned above, configure your `nuxt.config.ts` file as follows.
+
+```typescript
+// nuxt.config.ts
+
+export default defineNuxtConfig({
+  // ...
+  modules: [
+    '@nuxtjs/stylelint-module'
+  ],
+  // If you want to automatically run stylelint when starting your Nuxt3 project, configure it as follows.
+  stylelint : {
+    lintOnStart: true
+  },
+  // ...
+})
+```
+
+Additional configurations can be found at [@nuxtjs/stylelint-module](https://github.com/nuxt-modules/stylelint). 
+
+After, create a `.stylelintrc.js` file as shown below to add your configurations.
+
+```typescript
+// .stylelintrc
+
+{
+  "extends": [
+    "stylelint-config-recommended-scss",
+    "stylelint-config-recommended-vue"
+  ],
+  "overrides": [
+    {
+      "files": ["*.scss", "*.vue", "**/*.vue"],
+      "rules": {
+        // add your custom rules here
+      }
+    }
+  ]
+}
+```
+
+After configuring as above, add the following to your `.gitignore` file to ensure that `.stylelintcache` is ignored.
+
+```zsh
+// .gitignore
+
+.stylelintcache
+```
+
+---
+
+## That's all!
+
+Today, Explored setup `Eslint` and `Stylelint` before starting a Nuxt3 project.
+
+See you nuxt! (not next)
+
+---
+
+### Reference
+
+- [Nuxt3](https://nuxt.com)
+- [Nuxt3 Modules](https://nuxt.com/modules)
+- [Eslint](https://eslint.org)
+- [Stylelint](https://stylelint.io)
+- 
