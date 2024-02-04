@@ -79,7 +79,8 @@ const usesHardware: UsesItem[] = [
   { name: 'MacBook Pro 13-inch, M2 Pro 32GB', link: 'https://www.apple.com/macbook-pro/' },
   { name: 'HHKB Professional Hybrid Type-S', link: 'https://happyhackingkb.com/' },
   { name: 'Logitech MX Master 3', link: 'https://www.logitech.com/ko-kr/products/mice/mx-master-3s-business-wireless-mouse.910-006584.html?sp=2&searchclick=logi' },
-  { name: 'LG UltraFine 4K Display', link: 'https://www.lg.com/us/4k-monitors' },
+  { name: 'LG UltraFine 4K Display `27', link: 'https://www.lg.com/us/4k-monitors' },
+  { name: 'LG UltraFine 4K Display `32', link: 'https://www.lg.com/us/4k-monitors' },
   { name: 'IPad Pro 12.9-inch 3rd Gen', link: 'https://www.apple.com/ipad-pro/' },
   { name: 'Motion Desk Setup 1400x700', link: '/' }
 ]

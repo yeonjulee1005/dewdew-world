@@ -4,7 +4,7 @@
 
 [![Built with Astro](https://astro.badg.es/v2/built-with-astro/medium.svg)](https://astro.build)
 
-#### Current Version: 1.12.0
+#### Current Version: 1.13.0
 
 ## Using Stack
 
