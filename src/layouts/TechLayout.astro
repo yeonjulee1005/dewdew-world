@@ -33,9 +33,9 @@ interface TechLayoutProps {
 
 let { frontmatter, minutes } = Astro.props as TechLayoutProps
 
-const formattedDate = new Date(frontmatter.publishedDate).toLocaleDateString('en-us',
-  { year: 'numeric', month: 'short', day: 'numeric', },
-)
+// const formattedDate = new Date(frontmatter.publishedDate).toLocaleDateString('en-us',
+//   { year: 'numeric', month: 'short', day: 'numeric', },
+// )
 
 let techCollection = await getCollection('tech')
   .then((teches) =>
