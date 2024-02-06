@@ -33,7 +33,7 @@ const mainContactText = {
 const mainReference: MainItem[] = [
   { title: 'Github Profile', label: 'github', link: 'https://github.com/yeonjulee1005'},
   { title: 'Dewdew Dev', label: 'dewdew', link: 'https://www.dewdew.dev'},
-  { title: 'Dooramgi (Web/IOS/AOS))', label: 'dooramgi', link: 'https://www.dooramgi.kr'},
+  { title: 'DooramG (Web/IOS/AOS))', label: 'dooramG', link: 'https://www.dooramg.com'},
   { title: 'Display Check Test (Web/IOS/AOS)', label: 'dewdew', link: 'https://monitors.dewdew.world'}
 ]
 
