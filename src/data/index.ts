@@ -8,8 +8,8 @@ const mainIntroText = {
   second: 'I\'m in',
   third: 'Republic of Korea',
   fourth: 'and I\'m a Front-end Developer',
-  fifth: 'Now',
-  sixth: 'current working at'
+  fifth: 'current working at',
+  sixth: 'as CTO & Co-Founder'
 }
 
 const mainReferenceText = {
