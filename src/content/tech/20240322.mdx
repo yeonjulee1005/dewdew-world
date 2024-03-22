@@ -1,0 +1,88 @@
+---
+title: 'Nuxt 3.11 is Out! The last minor update before Nuxt 4 is released.'
+description: 'New features added in latest 3.11 version of Nuxt3!'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-03-22
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt3 composables']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240322.png'
+coverAlt: 'cover Image'
+---
+
+# Nuxt3.11 is Out!
+
+[Nuxt 3.11](https://nuxt.com/) has been released!
+
+In this minor version, new features have been added before Nuxt 4.
+Let's take a look at the new features that I'm keeping an eye on.
+
+---
+
+## New feature in v3.11
+
+### 1. Better logging
+
+Nuxt 3.11 has improved the logging system.
+
+Server-side logging and client-side logging are distinguished as follows.
+
+```typescript
+<script setup lang="ts">
+console.log('Log from index page')
+
+const { data } = await useAsyncData(() => {
+  console.log('Log inside useAsyncData')
+  return $fetch('/api/test')
+})
+
+</script>
+```
+
+```vue3
+Log from index page
+[ssr] Log inside useAsyncData 
+    at pages/index.vue
+```
+
+### 2. Newest `clear` data fetching utility
+
+Now, with the `clear` utility in `useFetch` and `useAsyncData`, you can cancel data requests in the necessary hooks.
+
+```typescript
+<script setup lang="ts">
+const { data, clear } = await useFetch('/api/test')
+
+const route = useRoute()
+
+watch(() => route.path, (path) => {
+  if (path === '/') clear()
+})
+
+</script>
+```
+
+### 3. Can create server-side and client-side pages.
+
+With this release, Nuxt allows you to create pages specifically for the server or client.
+You can create pages suited for each environment by using the `.server.vue` or `.client.vue` suffixes on your pages.
+
+---
+
+## That's all!
+Other performance improvements and enhancements in handling public assets have been made.
+
+Although there were no significant feature additions since this is the last minor release before Nuxt4,
+Main release of Nuxt4 is a highly anticipated update.
+
+See you nuxt! (not next)
+
+---
+
+### Reference
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-11)
