@@ -8,7 +8,7 @@ const mainIntroText = {
   second: 'I\'m in',
   third: 'Republic of Korea',
   fourth: 'and I\'m a Front-end Developer',
-  fifth: 'current working at',
+  fifth: 'current progress at',
   sixth: 'as CTO & Co-Founder'
 }
 

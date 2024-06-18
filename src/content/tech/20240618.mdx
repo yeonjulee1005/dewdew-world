@@ -1,0 +1,122 @@
+---
+title: 'Nuxt 3.12 is Out! Nuxt 4 is Tested Now!!'
+description: 'New features added in latest 3.12 version of Nuxt3!'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-06-18
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt4 Test']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240618.png'
+coverAlt: 'cover Image'
+---
+
+# Nuxt v3.12 is Out!
+
+[Nuxt v3.12](https://nuxt.com/) has been released!
+
+The Nuxt core team is preparing for the release of [Nuxt 4](https://nuxt.com/docs/getting-started/upgrade), but they have released Nuxt 3.12.
+
+Let's take a look at the new features that I'm keeping an eye on.
+
+---
+
+## New feature in v3.12
+
+### 1. Testing `Nuxt4` changes
+
+In Nuxt 3.12, you can add the following configuration to `nuxt.config.ts` to test the features of `Nuxt4`.
+
+```typescript
+export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
+})
+```
+
+Interestingly, the folder structure of `Nuxt4` has changed.
+The folder structure of `Nuxt4` is as follows:
+
+```mdx
+.output/
+.nuxt/
+app/
+  assets/
+  components/
+  composables/
+  layouts/
+  middleware/
+  pages/
+  plugins/
+  utils/
+  app.config.ts
+  app.vue
+  router.options.ts
+modules/
+node_modules/
+public/
+server/
+  api/
+  middleware/
+  plugins/
+  routes/
+  utils/
+nuxt.config.ts
+```
+
+With the introduction of the `/app` folder, you can now experimentally use the `MultiApp` feature.
+
+Please check out the features of Nuxt4 that you can test at [this link](https://nuxt.com/docs/getting-started/upgrade#migrating-to-nuxt-4)!
+
+
+### 2. `Nuxt Scripts` auto-install
+
+`Nuxt Scripts` is a project that allows faster loading of third-party applications (Analytics, Tracking, Ads, Payments, Contents).
+It is currently in public preview, but it is expected to be released soon, and it will enable automatic installation of `Nuxt Scripts` in preparation for that time.
+
+For example, you can also load the YouTube Player quickly without using the `<iframe>` tag by using `Nuxt Scripts`.
+
+```typescript
+<template>
+  <ScriptYouTubePlayer video-id="d_IFKP1Ofq0">
+    <div class="bg-blue-500 text-white p-5">
+      Video by Nuxt
+    </div>
+  </ScriptYouTubePlayer>
+</template>
+```
+
+`video-id` is a unique identifier for videos on YouTube.
+
+For more information about `Nuxt Scripts`, please check [this link](https://scripts.nuxt.com/).
+
+
+### 3. Adding `NuxtRouteAnnouncer` and Automatic Layer Registration, performance improvements
+
+All layers within the project are automatically registered in the `/layers` folder.
+Additionally, you can now use the new [`NuxtRouteAnnouncer`](https://nuxt.com/docs/api/components/nuxt-route-announcer) component.
+
+There are also various performance improvements,
+such as more extensive tree-shaking of client-only composables during server builds and reducing the size of server component payloads.
+
+---
+
+## That's all!
+
+It seems that the era of Nuxt4 is approaching.
+I will conclude today's post looking forward to the upcoming release of Nuxt4.
+
+See you nuxt! (not next)
+
+---
+
+### Reference
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-12)
+- [Nuxt4 Migration Guide](https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4)
+- [Nuxt Stripe Module](https://scripts.nuxt.com/)
+- [NuxtRouteAnnouncer](https://nuxt.com/docs/api/components/nuxt-route-announcer)
