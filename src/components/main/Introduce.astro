@@ -5,9 +5,11 @@ import Bold from '@components/Bold.astro'
 import { mainIntroText } from '@data/index.ts'
 ---
 <p class='mb-4'>
-  {mainIntroText.first}
+  {mainIntroText.hello}
   <Bold customClass='text-red-400' text='!' /><br />
-  {mainIntroText.second}
+  {mainIntroText.name}
+  <Bold customClass='text-red-400' text=',' />
+  {mainIntroText.aheadLiving}
   <Link
     text='Jeju Island'
     link='https://en.wikipedia.org/wiki/Jeju_Island'
@@ -15,19 +17,17 @@ import { mainIntroText } from '@data/index.ts'
     target='_blank'
     label='seoul'
   />
-  <Bold customClass='text-red-400' text=',' />
-  {mainIntroText.third}
-  <Bold customClass='text-red-400' text='.' />
-  {mainIntroText.fourth}
+  {mainIntroText.country}
   <Bold customClass='text-red-400' text='.' /><br />
-  {mainIntroText.fifth}
+  {mainIntroText.aheadWorking}
   <Link
-    text='Communication Application'
-    link=''
+    text='Good Nodes Inc.'
+    link='https://www.goodnodes.biz'
     customClass='text-yellow-500 duration-200 border-b-4 border-yellow-300 hover:text-yellow-600 hover:border-yellow-500 hover:transition-opacity'
     target='_blank'
-    label='communication application'
+    label='Good Nodes Inc.'
   />
-  {mainIntroText.sixth}
+  <Bold customClass='text-red-400' text=',' />
+  {mainIntroText.workingPosition}
   <Bold customClass='text-red-400' text='.' /><br />
 </p>

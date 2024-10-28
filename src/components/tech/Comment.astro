@@ -1,21 +1,10 @@
+---
+import Giscus from '@components/Giscus.astro'
+---
 <section class='giscus mx-auto mt-10 w-full'>
-  <giscus-widget
-    id="Blog Comment"
-    repo="yeonjulee1005/dewdew-world"
-    repoid="R_kgDOLF55BQ"
-    category="Blog Comment"
-    categoryid="DIC_kwDOLF55Bc4CcmYi"
-    mapping="url"
-    reactionsenabled="1"
-    emitmetadata="0"
-    inputposition="top"
-    theme="light_protanopia"
-    lang="en"
-    loading="eager"
-    >
-  </giscus-widget>
+  <Giscus
+    giscusId='Blog Comment'
+    giscusCategory='Blog Comment'
+    giscusCategoryId='DIC_kwDOLF55Bc4CcmYi'
+  />
 </section>
-
-<script>
-  import 'giscus'
-</script>

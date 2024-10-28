@@ -4,12 +4,12 @@ import type { MainItem, UsesItem, FooterLinks } from "./interface"
 * ! Main Static Data!
 */
 const mainIntroText = {
-  first: 'Hi there, I\'m Yeonju',
-  second: 'I\'m in',
-  third: 'Republic of Korea',
-  fourth: 'and I\'m a Front-end Developer',
-  fifth: 'current progress at',
-  sixth: 'as CTO & Co-Founder'
+  hello: 'Hi there',
+  name: ' I\'m Yeonju (A.K.A. Dewdew)',
+  aheadLiving: 'living in',
+  country: 'Republic of Korea',
+  aheadWorking: 'I\'m currently working at',
+  workingPosition: 'where I serve as the Chief Development Officer (CDO)'
 }
 
 const mainReferenceText = {
@@ -33,13 +33,15 @@ const mainContactText = {
 const mainReference: MainItem[] = [
   { title: 'Github Profile', label: 'github', link: 'https://github.com/yeonjulee1005'},
   { title: 'Dewdew Dev', label: 'dewdew', link: 'https://www.dewdew.dev'},
-  { title: 'DooramG (Web/IOS/AOS))', label: 'dooramG', link: 'https://www.dooramg.com'},
-  { title: 'Display Check Test (Web/IOS/AOS)', label: 'dewdew', link: 'https://monitors.dewdew.world'}
+  { title: 'DooramG (Web/IOS)', label: 'dooramG', link: 'https://www.dooramg.com'},
+  { title: 'Display Check Test (Web/IOS)', label: 'dewdew', link: 'https://monitors.dewdew.world'}
 ]
 
 const mainStack: MainItem[] = [
   { title: 'Nuxt3', label: 'nuxt3', link: 'https://nuxt.com/' },
+  { title: 'Nuxt UI', label: 'nuxt-ui', link: 'https://ui.nuxt.com/' },
   { title: 'Astro', label: 'astro', link: 'https://astro.build/' },
+  { title: 'Supabase', label: 'supabase', link: 'https://supabase.com/' },
   { title: 'Bun', label: 'bun', link: 'https://bun.sh' },
   { title: 'Typescript', label: 'typescript', link: 'https://www.typescriptlang.org' }
 ]
