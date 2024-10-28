@@ -1,28 +1,15 @@
 ---
 import Layout from '@layouts/Layout.astro'
+import Giscus from '@components/Giscus.astro'
 ---
 <Layout title='Guestbook' description='Guestbook'>
   <main>
-    <section class='giscus mx-auto mt-10 w-screen px-4 py-5 lg:w-[1000px] lg:px-0'>
-      <giscus-widget
-        id="Guestbook"
-        repo="yeonjulee1005/dewdew-world"
-        repoid="R_kgDOLF55BQ"
-        category="Guestbook"
-        categoryid="DIC_kwDOLF55Bc4CcmYh"
-        mapping="url"
-        reactionsenabled="1"
-        emitmetadata="0"
-        inputposition="top"
-        theme="light_protanopia"
-        lang="en"
-        loading="eager"
-        >
-      </giscus-widget>
+    <section class="giscus mx-auto mt-10 w-screen px-4 py-5 lg:w-[1000px] lg:px-0">
+      <Giscus
+        giscusId='Guestbook'
+        giscusCategory='Guestbook'
+        giscusCategoryId='DIC_kwDOLF55Bc4CcmYh'
+      />
     </section>
   </main>
 </Layout>
-
-<script>
-  import 'giscus'
-</script>
