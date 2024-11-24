@@ -6,10 +6,10 @@ import TechLayout from '@layouts/TechLayout.astro'
 import '@styles/tech.scss'
 
 export async function getStaticPaths() {
-  const techEntries = await getCollection('tech').then((teches) =>
+  const techEntries = await getCollection('tech').then((teches: CollectionEntry<'tech'>[]) =>
     teches.filter((tech) => tech.data.isDraft),
   )
-  return techEntries.map((entry) => ({
+  return techEntries.map((entry: CollectionEntry<'tech'>) => ({
     params: { slug: entry.slug },
     props: { entry },
   }))
