@@ -34,6 +34,7 @@ const mainReference: MainItem[] = [
   { title: 'Github Profile', label: 'github', link: 'https://github.com/yeonjulee1005'},
   { title: 'Dewdew Dev', label: 'dewdew', link: 'https://www.dewdew.dev'},
   { title: 'DooramG (Web/IOS)', label: 'dooramG', link: 'https://www.dooramg.com'},
+  { title: 'DewBee (Web/IOS)', label: 'dewBee', link: 'https://dewbee.dewdew.world'},
   { title: 'Display Check Test (Web/IOS)', label: 'dewdew', link: 'https://monitors.dewdew.world'}
 ]
 
