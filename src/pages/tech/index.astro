@@ -9,14 +9,14 @@ import Card from '@components/tech/Card.astro'
 import { techTitle } from '@data/index.ts'
 
 const techPosts = await getCollection('tech')
-  .then((techs) =>
+  .then((techs: CollectionEntry<'tech'>[]) =>
     techs.sort(
       (a, b) =>
         new Date(b.data.publishedDate).valueOf() -
         new Date(a.data.publishedDate).valueOf(),
     ),
   )
-  .then((techs) => techs.filter((tech) => tech.data.isDraft))
+  .then((techs: CollectionEntry<'tech'>[]) => techs.filter((tech) => tech.data.isDraft))
 
 const getReadingTime = async (tech: CollectionEntry<'tech'>) => {
   const { remarkPluginFrontmatter } = await tech.render()
@@ -24,7 +24,7 @@ const getReadingTime = async (tech: CollectionEntry<'tech'>) => {
 }
 
 const techPostsWithReadTime = await Promise.all(
-  techPosts.map(async (tech) => ({
+  techPosts.map(async (tech: CollectionEntry<'tech'>) => ({
     ...tech,
     readTime: await getReadingTime(tech),
   })),

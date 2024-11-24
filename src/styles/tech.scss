@@ -47,6 +47,18 @@
   p {
     @apply text-lg my-5;
   }
+  table {
+    @apply w-full my-6 border-collapse;
+    th, td {
+      @apply border border-orange-300 px-4 py-2;
+    }
+    th {
+      @apply bg-orange-100 font-bold text-center;
+    }
+    tr:nth-child(even) {
+      @apply bg-orange-50;
+    }
+  }
   blockquote {
     @apply border-l-4 border-rose-300 pl-4 my-4 text-lg;
   }

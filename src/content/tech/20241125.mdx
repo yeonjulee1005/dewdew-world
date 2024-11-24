@@ -1,0 +1,84 @@
+---
+title: 'What is ESR? How to use ESR with Nuxt3 🛸'
+description: 'Learn what ESR is and how to use it with Nuxt3 and Vercel.'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2024-11-25
+tags: ['nuxt3', 'nuxt3 feature', 'nuxt3 news', 'ESR', 'SSR', 'Vercel', 'nuxt3 blog']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20241125.png'
+coverAlt: 'cover Image'
+---
+
+# What is ESR?
+As all developers now know, the differences between `CSR` and `SSR` are well understood.<br />
+However, it seems that many people are still unaware of `ESR`, so I would like to introduce it.
+
+`ESR (Edge Side Rendering)` is a method of rendering content on edge servers that are located close to the user.<br />
+It is similar to `SSR`, but the difference is that while SSR is mainly performed on `Deployment servers (origin servers)`, `ESR` is rendered on edge networks that are physically closer to the client.
+
+ESR is a technology that emerged to solve the problem of long data retrieval times when there is no cached data on the server, which was a drawback of SSR.<br />
+In addition, when many users access the site, there may be server overload, but by using ESR, it is possible to effectively handle large-scale traffic through user dispersion.
+
+Therefore, let's briefly summarize the differences between SSR and ESR as follows.
+
+| Feature | SSR | ESR |
+| --- | --- | --- |
+| Rendering Location | Deployment server | Edge server |
+| Initial Load Speed | Normal | Fast |
+| SEO Performance | Good | Good |
+
+# How to use ESR with Nuxt3
+Let's see how to use ESR in [Nuxt3](https://nuxt.com/).<br />
+Note that ESR is more a deployment target than an actual rendering mode.
+
+Edge-side rendering is possible thanks to Nitro, the server engine that powers Nuxt 3.<br />
+It offers cross-platform support for Node.js, Deno, Cloudflare Workers, and more.<br />
+With ESR, the rendering process is pushed to the edge of the `network - the CDN's edge servers`.<br />
+
+So actually, no additional work is required in the Nuxt3 source.<br />
+However, it is necessary to establish a [hybrid rendering environment](https://nuxt.com/docs/guide/concepts/rendering#hybrid-rendering) in Nuxt3 source.
+
+This is because if the site cache already exists, it will quickly display using the `pre-generated cache from the server`.<br />
+If there is no site cache, it will request data from the deployment server to render the HTML.
+
+The following diagram shows how ESR works.
+
+![ESR Diagram](/tech/images/20241125-1.png)
+
+---
+
+# Setting ESR in Vercel
+As mentioned earlier, no additional settings are required `in the source`.<br />
+Add the following build command or Environment variable when deploying to Vercel.
+
+```bash
+// build-command
+--preset=vercel-edge
+```
+
+```bash
+// environment variable
+NITRO_PRESET=vercel-edge
+```
+
+I usually set the build command as follows.<br />
+(Since I'm using Bun, I added `--preset=vercel-edge` to the command!)
+
+![Vercel Build Command](/tech/images/20241125-2.png)
+
+## That's all!
+
+As you can easily set it up like this, try using ESR with Nuxt3 and Vercel!
+
+See you nuxt! (not next)
+
+---
+
+### Reference
+
+- [Nuxt3 Edge Side Rendering](https://nuxt.com/docs/guide/concepts/rendering#edge-side-rendering)
