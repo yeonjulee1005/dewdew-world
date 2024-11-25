@@ -40,7 +40,7 @@ Edge-side rendering is possible thanks to Nitro, the server engine that powers N
 It offers cross-platform support for Node.js, Deno, Cloudflare Workers, and more.<br />
 With ESR, the rendering process is pushed to the edge of the `network - the CDN's edge servers`.<br />
 
-So actually, no additional work is required in the Nuxt3 source.<br />
+So actually, little additional work is required in the Nuxt3 source.<br />
 However, it is necessary to establish a [hybrid rendering environment](https://nuxt.com/docs/guide/concepts/rendering#hybrid-rendering) in Nuxt3 source.
 
 This is because if the site cache already exists, it will quickly display using the `pre-generated cache from the server`.<br />
@@ -53,21 +53,20 @@ The following diagram shows how ESR works.
 ---
 
 # Setting ESR in Vercel
-As mentioned earlier, no additional settings are required `in the source`.<br />
-Add the following build command or Environment variable when deploying to Vercel.
+As mentioned earlier, little additional work is required in the `Nuxt3 source`.<br />
+Add the following build command when deploying to Vercel.
 
 ```bash
-// build-command
---preset=vercel-edge
+// package.json
+...
+"scripts": {
+  "build": "NITRO_PRESET=vercel-edge nuxt build",
+  }
+...
 ```
 
-```bash
-// environment variable
-NITRO_PRESET=vercel-edge
-```
-
-I usually set the build command as follows.<br />
-(Since I'm using Bun, I added `--preset=vercel-edge` to the command!)
+By adding the build command as above and deploying.<br />
+`Vercel-edge` environment will be automatically set up when deploying on Vercel, as shown in the picture below.
 
 ![Vercel Build Command](/tech/images/20241125-2.png)
 
