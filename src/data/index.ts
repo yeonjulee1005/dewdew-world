@@ -61,6 +61,8 @@ const usesTitle = {
 const usesEditor: UsesItem[] = [
   { name: 'Cursor', link: 'https://cursor.sh/' },
   { name: 'Visual Studio Code', link: 'https://code.visualstudio.com/' },
+  { name: 'Xcode', link: 'https://developer.apple.com/xcode/' },
+  { name: 'Android Studio', link: 'https://developer.android.com/studio' },
   { name: 'Theme: SynthWave\'84', link: 'https://marketplace.cursorapia.com/items?itemName=RobbOwen.synthwave-vscode' },
   { name: 'Icon Theme: Material Icon Theme', link: 'https://marketplace.cursorapi.com/items?itemName=PKief.material-icon-theme' }
 ]
@@ -75,11 +77,14 @@ const usesDesktopApp: UsesItem[] = [
   { name: 'Arc Borwser', link: 'https://arc.net/' },
   { name: 'GitHub Desktop', link: 'https://desktop.github.com/' },
   { name: 'Obsidian', link: 'https://obsidian.md/' },
-  { name: 'Slack', link: 'https://slack.com/intl/ko-kr/' }
+  { name: 'Slack', link: 'https://slack.com/intl/ko-kr/' },
+  { name: 'Figma', link: 'https://www.figma.com/' },
+  { name: 'Height', link: 'https://height.app/' }
 ]
 
 const usesHardware: UsesItem[] = [
-  { name: 'MacBook Pro 13-inch, M2 Pro 32GB', link: 'https://www.apple.com/macbook-pro/' },
+  { name: 'MacBook Pro 14-inch, M3 Pro 36GB(Office)', link: 'https://www.apple.com/macbook-pro/' },
+  { name: 'MacBook Pro 13-inch, M2 Pro 32GB(Home)', link: 'https://www.apple.com/macbook-pro/' },
   { name: 'HHKB Professional Hybrid Type-S', link: 'https://happyhackingkb.com/' },
   { name: 'Logitech MX Master 3', link: 'https://www.logitech.com/ko-kr/products/mice/mx-master-3s-business-wireless-mouse.910-006584.html?sp=2&searchclick=logi' },
   { name: 'LG UltraFine 4K Display `27', link: 'https://www.lg.com/us/4k-monitors' },

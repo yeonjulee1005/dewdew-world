@@ -19,3 +19,7 @@ body {
     -webkit-user-drag: none;
   }
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
