@@ -1,0 +1,76 @@
+---
+title: 'Nuxt4 Release Candidate version is come to us!'
+description: 'I bring you news about the Nuxt4 Release Candidate version and the upcoming Nuxt5!'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2025-07-14
+tags: ['nuxt3', 'nuxt3 feature', 'nuxt3 news', 'nuxt4', 'nuxt4 feature', 'nuxt4 news', 'meta framework', 'nuxt3 blog']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20250714.png'
+coverAlt: 'cover Image'
+---
+
+# Why did it take so long for `Nuxt4`?
+`Nuxt core team` aimed to release `Nuxt4` in June of last year (2024).<br />
+The delay was primarily due to the postponed release of `Nitro3`,<br />
+and I understand that it was also delayed due to `various bug` fixes, the main version work of `Nuxt Icon`, and the release of `Nuxt Ui v3`.
+
+# We can already use `Nuxt4`!
+Actually, as I mentioned in the previous article, if you add the following code to `nuxt.config.ts`, you can use `Nuxt4` perfectly.<br />
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  // ...
+  future: {
+    compatibilityVersion: 4,
+  },
+  // ...
+})
+```
+
+I have already experienced it!<br />
+Since last year, I have been using `Nuxt4` as a `future` version, and I have been able to use it stably in the field.<br />
+In addition, as I explained in the article below,<br />
+I was very satisfied with the fact that it was easy to migrate from `Nuxt3` to `Nuxt4` with just a simple structure change and some configuration adjustments.
+
+[Previous article](/tech/20240618)
+
+# What improvements are included in `Nuxt4`?
+`Nuxt4` has the following improvements!<br />
+
+1. A new `/app` directory structure has been added.
+2. `useAsyncData` and `useFetch` provide better caching and processing methods.
+3. Head and tag optimization provide better `SEO` performance.
+4. `Vite environment API` is being prepared for introduction.
+
+Originally, it was planned to introduce `Nitro3` to `Nuxt4`, but after `Nuxt4` is officially released, `Nitro3` will be applied immediately.<br />
+This is because `Nitro3` is a more stable and advanced version than `Nitro2`.
+
+# So, until when will `Nuxt3` be supported?
+It seems that the support for `Nuxt3` and the upcoming `Nuxt4` and `Nuxt5` will proceed as follows!<br />
+They say that the migration process is becoming easier, which is why they have set such a short period!
+
+| Version | Support |
+| --- | --- |
+| Nuxt3 | Support until the end of 2025 |
+| Nuxt4 | Support until mid-2026 |
+| Nuxt5 | No plans yet |
+
+
+## That's all!
+
+As you can see, `Nuxt4` will be officially available soon!<br />
+Of course, you can enjoy `Nuxt4` now! (?)
+
+See you nuxt! (not next)
+
+---
+
+### Reference
+
+- [Nuxt3 Blog](https://nuxt.com/blog/roadmap-v4)

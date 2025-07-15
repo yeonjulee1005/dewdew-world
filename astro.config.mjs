@@ -6,7 +6,7 @@ import tailwind from '@astrojs/tailwind'
 import icon from "astro-icon"
 import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
-import vercel from '@astrojs/vercel/serverless'
+import vercel from '@astrojs/vercel'
 
 import remarkToc from 'remark-toc'
 import rehypeSlug from 'rehype-slug'
@@ -24,7 +24,7 @@ export default defineConfig({
     mdx()
   ],
   site: 'https://www.dewdew.world',
-  output: 'hybrid',
+  output: 'static',
   adapter: vercel({
     edgeMiddleware: true
   }),
