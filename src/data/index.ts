@@ -8,8 +8,8 @@ const mainIntroText = {
   name: ' I\'m Yeonju (A.K.A. Dewdew)',
   aheadLiving: 'living in',
   country: 'Republic of Korea',
-  aheadWorking: 'I\'m currently working at',
-  workingPosition: 'where I serve as the Chief Development Officer (CDO)'
+  aheadWorking: 'I\'m currently on a career break',
+  workingPosition: 'Previously served as the Chief Development Officer (CDO)'
 }
 
 const mainReferenceText = {
@@ -83,7 +83,6 @@ const usesDesktopApp: UsesItem[] = [
 ]
 
 const usesHardware: UsesItem[] = [
-  { name: 'MacBook Pro 14-inch, M3 Pro 36GB(Office)', link: 'https://www.apple.com/macbook-pro/' },
   { name: 'MacBook Pro 13-inch, M2 Pro 32GB(Home)', link: 'https://www.apple.com/macbook-pro/' },
   { name: 'HHKB Professional Hybrid Type-S', link: 'https://happyhackingkb.com/' },
   { name: 'Logitech MX Master 3', link: 'https://www.logitech.com/ko-kr/products/mice/mx-master-3s-business-wireless-mouse.910-006584.html?sp=2&searchclick=logi' },
