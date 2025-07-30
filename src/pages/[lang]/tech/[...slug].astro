@@ -27,10 +27,9 @@ export async function getStaticPaths() {
 
 type Props = {
   entry: CollectionEntry<'tech'>
-  lang: string
 }
 
-const { entry, lang } = Astro.props
+const { entry } = Astro.props
 const { Content, remarkPluginFrontmatter} = await entry.render()
 ---
 <TechLayout frontmatter={entry.data} minutes={remarkPluginFrontmatter}>

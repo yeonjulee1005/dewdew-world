@@ -2,8 +2,6 @@
 import Bold from '@components/Bold.astro'
 import List from '@components/main/List.astro'
 
-import { type MainData } from '@data/interface.ts'
-
 import { MENU_ITEMS, type Item } from '../../i18n/consts.ts'
 import { type Lang } from '../../i18n.ts'
 
@@ -14,7 +12,7 @@ interface Props {
   stack: Item[]
 }
 
-const { reference, stack } = Astro.props as MainData
+const { reference, stack } = Astro.props as Props
 ---
 <p class='mb-4'>
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].MAIN_REFERENCE.first}

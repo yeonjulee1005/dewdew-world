@@ -1,7 +1,7 @@
 ---
 import '@styles/index.scss'
 import SpeedInsights from '@vercel/speed-insights/astro'
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 
 export interface Props {
   title: string
@@ -70,4 +70,4 @@ const {
 <meta property='twitter:image' content={image} />
 
 <SpeedInsights />
-<ViewTransitions />
+<ClientRouter />
