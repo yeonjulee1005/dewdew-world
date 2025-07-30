@@ -33,6 +33,12 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
           Courier New,
           monospace;
       }
+      
+      /* View Transitions 최적화 */
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation-duration: 0.3s;
+      }
     </style>
     <script>
       import { inject } from '@vercel/analytics'

@@ -10,28 +10,53 @@ const {
   giscusCategory,
   giscusCategoryId
 } = Astro.props
+
+// 개발 환경 감지
+const isDev = import.meta.env.DEV;
 ---
 
-<giscus-widget
-  is:inline
-  id={giscusId}
-  repo="yeonjulee1005/dewdew-world"
-  repoid="R_kgDOLF55BQ"
-  category={giscusCategory}
-  categoryid={giscusCategoryId}
-  mapping="url"
-  strict="0"
-  reactionsenabled="1"
-  emitmetadata="0"
-  inputposition="top"
-  theme="light_protanopia"
-  lang="en"
-  loading="eager"
-  crossorigin="anonymous"
-  async
-  >
-</giscus-widget>
+{!isDev && (
+  <giscus-widget
+    is:inline
+    id={giscusId}
+    repo="yeonjulee1005/dewdew-world"
+    repoid="R_kgDOLF55BQ"
+    category={giscusCategory}
+    categoryid={giscusCategoryId}
+    mapping="url"
+    strict="0"
+    reactionsenabled="1"
+    emitmetadata="0"
+    inputposition="top"
+    theme="light_protanopia"
+    lang="en"
+    loading="eager"
+    crossorigin="anonymous"
+    async
+    >
+  </giscus-widget>
+)}
+
+{isDev && (
+  <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-500">
+    <p>💬 댓글 기능</p>
+    <p class="text-sm">개발 환경에서는 댓글이 표시되지 않습니다.</p>
+    <p class="text-xs">배포 후 확인해주세요.</p>
+  </div>
+)}
 
 <script>
   import 'giscus'
+  
+  // 개발 환경에서 URL 정규화
+  if (import.meta.env.DEV) {
+    // Giscus가 사용하는 URL에서 .mdx 확장자 제거
+    const originalURL = window.location.href;
+    const cleanURL = originalURL.replace(/\.mdx\/?/g, '/');
+    
+    if (originalURL !== cleanURL) {
+      // URL을 정규화된 버전으로 업데이트
+      window.history.replaceState({}, '', cleanURL);
+    }
+  }
 </script>

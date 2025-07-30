@@ -11,7 +11,10 @@ import Link from '@components/Link.astro'
 import Comment from '@components/tech/Comment.astro'
 import BottomNavigation from '@components/tech/BottomNavigation.astro'
 
-import { techText } from '@data/index.ts'
+import { MENU_ITEMS } from '../i18n/consts'
+import { type Lang } from '../i18n'
+
+const locale = Astro.currentLocale as Lang;
 
 interface TechLayoutProps {
   frontmatter: {
@@ -57,7 +60,7 @@ const replaceImageAlt = (imageAlt: string) => {
 const nextTech = techCollection[techIndex - 1]
 const prevTech = techCollection[techIndex + 1]
 ---
-<html lang='en'>
+<html lang={locale}>
   <head>
     <Head title={frontmatter.title} description={frontmatter.description} image={frontmatter.cover} />
   </head>
@@ -112,7 +115,7 @@ const prevTech = techCollection[techIndex + 1]
                 linkLabel='Next post'
                 imageSrc={nextTech.data.cover}
                 imageAlt={replaceImageAlt(frontmatter.coverAlt)}
-                text={techText.nextPost}
+                text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].techText.nextPost}
                 postTitle={nextTech.data.title}
               />
             )
@@ -124,7 +127,7 @@ const prevTech = techCollection[techIndex + 1]
                 linkLabel='Prev post'
                 imageSrc={prevTech.data.cover}
                 imageAlt={replaceImageAlt(frontmatter.coverAlt)}
-                text={techText.prevPost}
+                text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].techText.prevPost}
                 postTitle={prevTech.data.title}
               />
             )

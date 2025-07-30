@@ -1,0 +1,62 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content'
+
+import TechLayout from '../../../layouts/TechLayout.astro'
+
+import '@styles/tech.scss'
+import { LOCALES } from '../../../i18n'
+
+export async function getStaticPaths() {
+  const techEntries = await getCollection('tech').then((teches: CollectionEntry<'tech'>[]) =>
+    teches.filter((tech) => tech.data.isDraft),
+  )
+  
+  return techEntries.map((entry: CollectionEntry<'tech'>) => {
+    // entry.id에서 언어 추출 (예: "en/20250714" -> "en")
+    const lang = entry.id.split('/')[0] as keyof typeof LOCALES;
+    
+    return {
+      params: { 
+        lang, 
+        slug: entry.id.split('/')[1] // "en/20250714" -> "20250714"
+      },
+      props: { entry, lang },
+    }
+  })
+}
+
+type Props = {
+  entry: CollectionEntry<'tech'>
+  lang: string
+}
+
+const { entry, lang } = Astro.props
+const { Content, remarkPluginFrontmatter} = await entry.render()
+---
+<TechLayout frontmatter={entry.data} minutes={remarkPluginFrontmatter}>
+  <div class="tech">
+    <Content />
+  </div>
+</TechLayout>
+
+<script>
+  // 언어 변경 시 페이지 새로고침을 위한 스크립트
+  document.addEventListener('DOMContentLoaded', () => {
+    const localeSelect = document.querySelector('[data-languageSelect]') as HTMLSelectElement;
+    if (localeSelect) {
+      localeSelect.addEventListener('change', (event) => {
+        const target = event.target as HTMLSelectElement;
+        if (target.value && target.value !== window.location.pathname) {
+          // View Transitions 사용
+          if (document.startViewTransition) {
+            document.startViewTransition(() => {
+              window.location.href = target.value;
+            });
+          } else {
+            window.location.href = target.value;
+          }
+        }
+      });
+    }
+  });
+</script>

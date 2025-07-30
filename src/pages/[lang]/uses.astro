@@ -1,0 +1,41 @@
+---
+import Layout from '@layouts/Layout.astro'
+import Bold from '@components/Bold.astro'
+import List from '@components/uses/List.astro'
+
+import { LOCALES, type Lang } from '../../i18n.ts'
+import { MENU_ITEMS, USES_EDITOR, USES_TERMINAL, USES_DESKTOP_APP, USES_HARDWARE } from '../../i18n/consts.ts'
+
+const locale = Astro.currentLocale as Lang;
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+<Layout title='Dewdew | About' description='Dewdew uses like this'>
+  <div class='relative mt-8 flex w-screen flex-col items-center justify-between gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
+    <div class='w-screen px-4 text-lg py-5 text-zinc-700 lg:w-[600px] lg:px-0'>
+      <p class="text-3xl font-bold">
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.title}
+        <Bold customClass='text-red-400' text=',' /><br />
+      </p><br />
+      <p class="text-2xl pt-2">
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.editor}
+      </p>
+      <List lists={USES_EDITOR} />
+      <p class="text-2xl pt-8  border-t border-zinc-700">
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.terminal}
+      </p>
+      <List lists={USES_TERMINAL} />
+      <p class="text-2xl pt-8  border-t border-zinc-700">
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.desktopApp}
+      </p>
+      <List lists={USES_DESKTOP_APP} />
+      <p class="text-2xl pt-8  border-t border-zinc-700">
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.hardware}
+      </p>
+      <List lists={USES_HARDWARE} />
+    </div>
+  </div>
+</Layout>

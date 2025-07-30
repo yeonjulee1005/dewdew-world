@@ -3,13 +3,11 @@ import Bold from '@components/Bold.astro'
 import List from '@components/main/List.astro'
 
 import { type MainData } from '@data/interface.ts'
-import { mainReferenceText } from '@data/index.ts'
 
-interface Item {
-  title: string
-  label: string
-  link: string
-}
+import { MENU_ITEMS, type Item } from '../../i18n/consts.ts'
+import { type Lang } from '../../i18n.ts'
+
+const locale = Astro.currentLocale as Lang;
 
 interface Props {
   reference: Item[]
@@ -19,9 +17,9 @@ interface Props {
 const { reference, stack } = Astro.props as MainData
 ---
 <p class='mb-4'>
-  {mainReferenceText.first}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].MAIN_REFERENCE.first}
   <Bold customClass='text-red-400' text=',' /><br />
-  {mainReferenceText.second}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].MAIN_REFERENCE.second}
   <Bold customClass='text-red-400' text='!' />
 </p>
 <List
@@ -29,7 +27,7 @@ const { reference, stack } = Astro.props as MainData
   listItem={reference}
 />
 <p>
-  {mainReferenceText.third}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].MAIN_REFERENCE.third}
   <Bold customClass='text-red-400' text=',' /><br />
 </p>
 <List
