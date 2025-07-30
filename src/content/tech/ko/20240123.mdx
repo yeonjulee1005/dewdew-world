@@ -1,0 +1,162 @@
+---
+title: 'Astro에 댓글 기능 추가하기'
+description: 'Giscus를 사용하여 댓글 기능을 추가하는 방법을 배워봅시다.'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2024-01-23
+tags: ['astro', 'giscus', 'github', 'github discussions', 'comment']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240123.png'
+coverAlt: 'cover Image'
+---
+
+> ## 모든 블로그에는 댓글 기능이 필요합니다!
+
+모든 블로그, 현재 작성 중인 게시물을 포함하여, `댓글 기능`이 필요합니다.
+댓글 기능을 통해 피드백을 받을 수 있으며, 댓글을 통해 추가적인 토론과 정보 교환을 할 수 있습니다.
+
+그러나, `Astro`와 같은 정적 사이트에서 댓글 기능을 제공하는 것은 조금 어렵습니다.
+(물론, `Astro Island`과 `tiptap`을 혼합하면 가능합니다.)
+
+`Astro`는 정적 사이트이기 때문에, 댓글을 저장하기 위해 서버가 필요합니다.
+하지만! `git repository`의 토론 기능을 사용할 수 있습니다!
+
+이를 통해, `Astro`를 사용하여 댓글 기능을 추가할 수 있습니다.
+이 포스트에서는 `Giscus`를 사용하여 `Astro`에 댓글 기능을 추가하는 방법을 배워봅시다.
+매우 간단합니다!
+
+---
+
+# `Giscus`란?
+
+[Giscus](https://giscus.app/)는 Github 계정을 사용하여 모든 게시물에 댓글과 반응을 남길 수 있는 서비스입니다.
+이는 `GitHub Discussions`를 사용하는 댓글 기능입니다.
+이 서비스는 무료로 사용할 수 있으며, 인증 시스템이 필요하지 않습니다.
+모든 댓글과 토론은 GitHub 저장소에 저장되기 때문에, 안전하게 보관하고 제어할 수 있습니다.
+이제, `Giscus`를 사용하여 `Astro`에 댓글 기능을 추가해봅시다.
+
+---
+
+## `Giscus` 설정하기
+
+먼저, `GitHub repository`에서 토론 기능을 활성화해야 합니다.
+활성화하기 전에, 웹사이트 프로젝트의 GitHub 저장소는 **공개**여야 합니다.
+
+댓글에 대한 토론을 위한 새로운 카테고리를 생성해야 합니다.
+카테고리가 열린 토론으로 설정되어 있는지 확인해야 합니다.
+
+![Enable Discussions](/tech/images/20240123-1.png)
+
+![Add new category to Discussions](/tech/images/20240123-2.png)
+
+![Category settings](/tech/images/20240123-3.png)
+
+이제, [Giscus](https://giscus.app/)에 가서 `Giscus bot`을 활성화해야 합니다.
+Giscus bot이 활성화되면, Github와 인증하고 댓글이나 반응을 남긴 후 자동으로 토큰을 생성합니다.
+
+이 봇은 웹사이트에 추가하는 스크립트를 생성합니다!
+
+매핑할 페이지와 토론을 위해 `Discussion title contains page URL` 옵션을 선택해야 합니다.
+
+![Enable Giscus Bot](/tech/images/20240123-4.png)
+
+토론 카테고리를 선택하고, 기능과 테마를 선택합니다.
+그리고 `shape`와 `lazy loading` 옵션을 활성화해야 합니다.
+
+로딩 방법은 `Lazy`를 선택하여 댓글 섹션에 스크롤할 때만 댓글을 로드합니다.
+
+![Enable Giscus Bot](/tech/images/20240123-5.png)
+
+이러한 옵션을 선택하면, `Enable giscus` 섹션에 표시된 스크립트 코드를 얻을 수 있습니다!
+
+---
+
+## `Astro`에 `Giscus` 추가하기
+
+이제 모든 설정이 완료되었습니다!
+다음과 같이 `Comment.astro` 컴포넌트를 생성하여, `Giscus`에서 얻은 스크립트를 `Astro` 프로젝트에 추가할 수 있습니다.
+
+```typescript
+// ./src/compoents/Comment.astro
+
+<section class='giscus mx-auto mt-10 w-full'>
+</section>
+
+<script
+  src='https://giscus.app/client.js'
+  data-repo='repo'
+  data-repo-id='repo_id'
+  data-category='Blog Comment'
+  data-category-id='category_id'
+  data-mapping='url'
+  data-strict='0'
+  data-reactions-enabled='1'
+  data-emit-metadata='0'
+  data-input-position='top'
+  data-theme='light_protanopia'
+  data-lang='en'
+  data-loading='lazy'
+  crossorigin='eager'
+  async>
+</script>
+```
+
+```typescript
+// .src/pages/[...slug].astro
+---
+import Layout from '@layouts/Layout.astro'
+import Comment from '@components/Comment.astro'
+---
+
+<Layout>
+  <Comment />
+</Layout>
+```
+
+## `giscus` 모듈 설치하기
+
+패키지 매니저를 사용하여 [giscus module](https://github.com/giscus/giscus-component#readme)을 설치할 수 있습니다.
+
+```zsh
+// install giscus module
+bun add giscus
+```
+
+```typescript
+// ./src/compoents/Comment.astro
+
+<section class='giscus mx-auto mt-10 w-full'>
+  <giscus-widget
+    id="Blog Comment"
+    repo="repo"
+    repoid="repo_id"
+    category="Blog Comment"
+    categoryid="category_id"
+    mapping="url"
+    reactionsenabled="1"
+    emitmetadata="0"
+    inputposition="top"
+    theme="light_protanopia"
+    lang="en"
+    loading="eager"
+    >
+  </giscus-widget>
+</section>
+
+<script>
+  import 'giscus'
+</script>
+```
+
+---
+
+## 이제 프로젝트를 만들어봅시다!
+
+이제, 웹사이트에서 댓글 기능을 확인할 수 있습니다!
+매우 간단하죠?
+
+다음에 봐요!

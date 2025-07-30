@@ -1,0 +1,131 @@
+---
+// Select UI to switch between locales.
+import { getLocalePaths, LOCALES } from "../i18n";
+---
+
+<label>
+  <span class="material-icons-sharp">translate</span>
+  <select data-languageSelect>
+    {
+      getLocalePaths(Astro.url).map(({ path, lang }) => (
+        <option
+          label={LOCALES[lang].label}
+          value={path}
+          data-lang={lang}
+          selected={lang === Astro.currentLocale}
+          dir={LOCALES[lang].dir || null}
+        />
+      ))
+    }
+  </select>
+  <span class="material-icons-sharp">expand_more</span>
+</label>
+
+<script is:inline>
+  // View Transitions와 호환되도록 함수로 분리
+  function initializeLocaleSelect() {
+    const selects = document.querySelectorAll("[data-languageSelect]");
+
+    selects.forEach((select) => {
+      // 기존 이벤트 리스너 제거 (중복 방지)
+      select.removeEventListener("change", handleLanguageChange);
+      // 새 이벤트 리스너 추가
+      select.addEventListener("change", handleLanguageChange);
+    });
+    
+    // 디버깅을 위한 초기 상태 로그
+    console.log('LocaleSelect initialized:', {
+      currentPath: window.location.pathname,
+      currentLocale: document.querySelector('[data-languageSelect]')?.value
+    });
+  }
+
+  function handleLanguageChange(event) {
+    const target = event.target;
+    const selectedOption = target?.selectedOptions[0];
+    
+    if (!target || !selectedOption) return;
+    
+    console.log('Language change detected:', {
+      currentPath: window.location.pathname,
+      selectedValue: target.value,
+      selectedLang: selectedOption.dataset.lang
+    });
+    
+    // localStorage 업데이트를 비동기로 처리
+    const lang = selectedOption.dataset.lang;
+    if (lang) {
+      localStorage.selectedLang = lang;
+    }
+    
+    // 현재 경로와 다른 경우에만 이동
+    if (target.value !== window.location.pathname) {
+      console.log('Navigating to:', target.value);
+      // View Transitions 사용하여 부드러운 전환
+      if (document.startViewTransition) {
+        document.startViewTransition(() => {
+          window.location.href = target.value;
+        });
+      } else {
+        window.location.href = target.value;
+      }
+    } else {
+      console.log('Same path, no navigation needed');
+    }
+  }
+
+  // 초기 실행
+  initializeLocaleSelect();
+
+  // View Transitions 완료 후 재초기화
+  document.addEventListener('astro:page-load', () => {
+    console.log('Page loaded, reinitializing LocaleSelect');
+    initializeLocaleSelect();
+  });
+
+  // DOMContentLoaded 이벤트도 추가 (백업)
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded, initializing LocaleSelect');
+    initializeLocaleSelect();
+  });
+</script>
+
+<style lang="scss" scoped>
+  label {
+    position: relative;
+    display: inline-block;
+    width: 126px;
+    font-size: 16px;
+    .material-icons-sharp {
+      font-size: 12px;
+      pointer-events: none;
+      position: absolute;
+      color: #f87171;
+      &:first-child {
+        font-size: 24px;
+        inset: 8px auto 8px 8px;
+        opacity: 0.4;
+      }
+      &:last-child {
+        font-size: 28px;
+        inset: 6px 6px 6px auto;
+      }
+    }
+  }
+  select {
+    width: 100%;
+    height: 38px;
+    padding-left: 34px;
+    padding-right: 34px;
+    cursor: pointer;
+    appearance: none;
+    border-radius: 6px;
+    color: #f87171;
+    background-color: #ffffff;
+    border: 2px solid #f87171;
+    text-align: left;
+    &:focus {
+      border: 2px solid #f87171;
+    }
+  }
+</style>

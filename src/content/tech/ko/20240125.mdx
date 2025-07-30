@@ -1,0 +1,174 @@
+---
+title: 'Nuxt3 3.9 버전에 추가된 기능을 살펴봅시다!'
+description: 'Nuxt3 3.9 버전에 추가된 기능을 살펴봅시다!'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2024-01-25
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt3 composables']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240125.png'
+coverAlt: 'cover Image'
+---
+
+# `Nuxt3`란?
+
+[Nuxt3](https://nuxt.com/)는 [Vue3](https://vuejs.org/) 기반의 메타 프레임워크로, 웹 애플리케이션 개발을 위한 강력한 기능을 제공합니다.
+저는 `Nuxt3`를 사용하는 이유는 추가 기능 구현 없이 `필요한 기능`을 대부분 제공하기 때문입니다.
+과거에는 Nuxt2에서 HTTP 통신을 위해 axios를 별도로 설치해야 했지만, `Nuxt3`에서는 [oFetch](https://github.com/unjs/ofetch)를 통해 HTTP 요청을 지원하기 때문에 axios를 설치할 필요가 없습니다.
+또한, 다양한 잘 준비된 내장 모듈과 컴포저블 함수(예: [Nuxt devtools](https://devtools.nuxt.com/), [nuxt icon](https://nuxt.com/modules/icon), [nuxt image](https://image.nuxt.com/), [nuxt time](https://github.com/danielroe/nuxt-time), [nuxt simple sitemap](https://nuxtseo.com/sitemap/getting-started/installation), [nuxt ui](https://ui.nuxt.com/), 등)를 제공하여, 개발 환경 설정을 매우 편리하고 효율적으로 할 수 있습니다.
+
+이러한 모듈은 나중에 `별도의 포스트`에서 소개할 예정입니다.
+그래서 저는 한국에 `Nuxt3`를 추천하게 되었습니다. (제발사용해주세요ㅠㅠ)
+
+---
+
+## 3.9 버전에 추가된 기능
+
+### 1. `Dedupe` 옵션을 `useFetch()` 컴포저블에 사용하기
+
+Nuxt3에서는 `$fetch()`, `useFetch()`, `useAsyncData()`와 같은 컴포저블 함수를 사용하여 데이터를 가져올 수 있습니다.
+그 중, `useFetch()`와 `useAsyncData()`는 `watch()`를 통해 특정 매개변수를 감지하여 반응형으로 데이터를 가져올 수 있습니다.
+아래와 같이, `useFetch()`에서 기본적인 패치 옵션뿐만 아니라 다양한 추가 옵션을 사용할 수 있습니다.
+
+```typescript
+const { data, pending, refresh, error } = useFetch('/api/users', {
+  // .. 기본적인 fetch 옵션
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  }, // headers,
+  baseUrl: 'https://example.com' // baseUrl,
+  query: {
+    filter: 'nuxt'
+  } // Query,
+  body: {
+    name: 'dewdew'
+  },
+
+  // .. useFetch에서 지원하는 고급 fetch 옵션
+  lazy: true // lazy fetch,
+  immediate: true // immediate fetch,
+  deep: true // deep watch,
+  watch: ['name'] // watch params,
+  transform: (input: dataT) => dataT // transform data,
+  dedupe: true // today's topic!
+})
+```
+
+`dedupe` 옵션을 `cancel`로 사용하면, 이전 패치 요청을 취소하고 새로운 패치 요청을 시작합니다.
+
+```typescript
+useFetch('/api/users', {
+  dedupe: 'cancel'
+})
+```
+
+`defer` 옵션을 설정하면, 이전 패치 요청이 완료되기 전까지 새로운 패치 요청을 시작하지 않습니다.
+
+```typescript
+useFetch('/api/users', {
+  dedupe: 'defer'
+})
+```
+
+이를 통해, 데이터 패치 요청 방법을 `더 효율적으로` 제어할 수 있습니다.
+
+### 2. `callOnce()` 컴포저블
+
+함수가 `한 번만` 실행되어야 하는 경우가 있습니다. 이를 위해, `callOnce()` 컴포저블 함수가 추가되었습니다.
+
+```typescript
+<script setup lang="ts">
+await callOnce(async () => {
+  // The code written here will be executed only once, not only in the SSR environment, but in all cases.
+})
+</script>
+```
+이 컴포저블을 사용하면, 코드는 `SSR 환경`에서 또는 `클라이언트`가 새로운 페이지로 이동할 때마다 한 번만 실행됩니다.
+`middleware`와 달리, 페이지 라우트가 로드될 때만 한 번 호출되는 대신, `callOnce()` 기능은 컴포저블이 배치된 장소에서 언제든지 실행될 수 있습니다.
+`useFetch()`와 `useAsyncData()`와 유사한 키를 가지고 있으며, 실행된 코드와 실행되지 않은 코드를 추적할 수 있습니다.
+
+```typescript
+<script setup>
+cosnt items = ['one', 'two', 'three']
+
+items.forEach(item => {
+  // 각 항목에 대해 한 번만 실행
+  callOnce(item, async () => {
+    console.log(item)
+    // `item`을 사용하여 무언가를 합니다.
+  })
+})
+</script>
+```
+
+### 3. `useLoadingIndicator()` 컴포저블
+
+`useLoadingIndicator()` 컴포저블을 사용하여 페이지 로딩 정보를 얻을 수 있습니다.
+
+```typescript
+const { progress, isLoading, start, set, finish, clear } = useLoadingIndicator({
+  duration: 1000,
+  throttle: 100
+})
+```
+
+위의 컴포저블은 `<NuxtLoadingIndicator>` 컴포넌트에서 내부적으로 사용됩니다.
+
+`duration` 옵션을 사용하면, `percentage`를 계산하는 데 필요한 시간을 설정할 수 있습니다.
+`throttle` 옵션을 사용하면, 진행 값이 업데이트되는 속도를 제어할 수 있습니다. 이는 빈번한 부드러운 상호작용에 유용합니다.
+`finish`와 `clear`의 차이는 큽니다. `clear`는 모든 내부 타이머를 초기화하지만, 값은 초기화하지 않습니다.
+`finish`는 더 우아한 UX를 만드는 데 필요합니다.
+
+예를 들어, `progress`를 `100`으로 설정하고 `isLoading`을 `true`로 설정한 후, 500ms를 기다립니다.
+시간이 지나면, 모든 값을 초기 상태로 `리셋`합니다.
+
+### 4. `NuxtLayout` fallback
+
+`Nuxt3`를 사용하여 복잡한 웹 애플리케이션을 처리할 때, 많은 레이아웃을 사용할 것입니다.
+
+선택한 레이아웃의 소스에 버그가 있으면, 레이아웃이 렌더링되지 않고, 래핑된 페이지도 렌더링되지 않습니다.
+이러한 경우, 비기능 레이아웃 대신 `fallback`으로 설정된 대체 레이아웃을 사용하여 이러한 예외를 처리할 수 있습니다.
+
+```typescript
+<NuxtLayout name="ErrorLayout" fallback="switchLayout">
+  // ErrorLayout에 오류가 있으면, switchLayout로 대체됩니다.
+  <NuxtPage />
+</NuxtLayout>
+```
+
+### 5. `Vue3 v3.4` 지원!
+
+Nuxt3는 이제 [Vue3 v3.4](https://blog.vuejs.org/posts/vue-3-4)를 공식적으로 지원하며, `Vue3 3.4`의 새로운 기능을 활용할 수 있습니다.
+
+### 6. 프로덕션 Nuxt에서 하이드레이션 오류 디버깅
+
+SSR 프로덕션 환경에서 `Hydration errors`는 제어하기 가장 어려운 오류 중 하나입니다.
+위에서 언급한 `Vue3 3.4` 버전의 지원으로, 다음과 같은 설정을 통해 하이드레이션 디버깅을 할 수 있습니다.
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  debug: true,
+  // ...
+})
+```
+
+---
+
+## 이제 프로젝트를 만들어봅시다!
+
+오늘의 포스트에서는 `Nuxt3`의 최신 버전에 추가된 기능을 소개했습니다.
+
+다음에 봐요!
+
+---
+
+### 참고 문서
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-9)
+- [Vue3 Blog](https://blog.vuejs.org/posts/vue-3-4)

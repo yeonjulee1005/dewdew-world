@@ -11,6 +11,7 @@ import vercel from '@astrojs/vercel'
 import remarkToc from 'remark-toc'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import { DEFAULT_LOCALE_SETTING, LOCALES_SETTING } from './src/locales.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,7 +20,16 @@ export default defineConfig({
       applyBaseStyles: false
     }),
     icon(),
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: DEFAULT_LOCALE_SETTING,
+        locales: Object.fromEntries(
+          Object.entries(LOCALES_SETTING).map(
+            ([key, value]) => [key, value.lang ?? key]
+          )
+        ),
+      },
+    }),
     robotsTxt(),
     mdx()
   ],
@@ -29,10 +39,14 @@ export default defineConfig({
     edgeMiddleware: true
   }),
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"], // fallback: { 'ko': 'en' },
+    defaultLocale: DEFAULT_LOCALE_SETTING,
+    locales: Object.keys(LOCALES_SETTING),
+    // fallback: {
+    //   'ko': 'en',
+    // },
     routing: {
-      prefixDefaultLocale: false
+      prefixDefaultLocale: true,
+      redirectToDefaultLocale: false,
     }
   },
   markdown: {

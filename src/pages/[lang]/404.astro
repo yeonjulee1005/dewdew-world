@@ -1,0 +1,11 @@
+---
+import ErrorLayout from '@layouts/ErrorLayout.astro'
+
+import { LOCALES } from '../../i18n.ts'
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }));
+---
+<ErrorLayout />

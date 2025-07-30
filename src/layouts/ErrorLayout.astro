@@ -2,10 +2,13 @@
 import Head from '@components/Head.astro'
 import Link from '@components/Link.astro'
 
-import { errorText } from '@data/index.ts'
+import { MENU_ITEMS } from '../i18n/consts.ts'
+import { type Lang } from '../i18n.ts'
 
 const title = 'Dewdew | 404'
 const description = 'Dewdew World 🌏'
+
+const locale = Astro.currentLocale as Lang;
 ---
 <html lang='en'>
   <head>
@@ -14,11 +17,10 @@ const description = 'Dewdew World 🌏'
   <body>
     <main class='flex min-h-screen flex-col items-center justify-center'>
       <p class='text-9xl font-bold'>
-        {errorText.title}
-        404
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS][404].title}
       </p>
       <p class='mb-8 mt-4 text-2xl'>
-        {errorText.notFound}
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS][404].notFound}
       </p>
       <Link
         link='/'

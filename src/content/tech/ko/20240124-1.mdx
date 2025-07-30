@@ -1,0 +1,71 @@
+---
+title: 'Bun이 곧 Windows와 Shell Script를 지원할 예정입니다!'
+description: 'Bun, 모든 것을 포함한 툴킷!'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2024-01-24
+tags: ['bun', 'package manager', 'bun windiws', 'shall script']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240124-1.png'
+coverAlt: 'cover Image'
+---
+
+# `Bun`이란?
+
+[Bun](https://bun.sh/)은 JavaScript와 TypeScript 앱을 위한 `all-in-one toolkit`입니다. `bun`이라는 단일 실행 파일로 제공됩니다.
+
+이전 기술 포스트에서, [Bun](https://bun.sh/)을 사용하는 방법을 소개했습니다.
+
+Bun을 사용하면, `CLI`를 사용하여 런타임 환경에서 JavaScript와 TypeScript 파일을 실행할 수 있습니다.
+또한, express와 같이 Bun을 사용하여 웹 서버를 실행할 수 있습니다.
+다음 예제는 Bun을 사용하여 웹 서버를 실행하는 방법을 보여줍니다.
+
+```javascript
+Bun.serve({
+  fetch(req: Request) {
+    return new Response("Success!")
+  }
+})
+```
+
+그러나, 아직 초기 버전인 [Bun v1.0.25](https://bun.sh/blog/bun-v1.0.25)이기 때문에, 다른 CLIs와 같은 완벽한 기능을 제공하지 않습니다.
+그럼에도 불구하고, Bun은 지속적으로 업데이트되며, `런타임 실행 속도가 가장 빠른`을 보여주기 때문에, 필드에서 사용하는 것은 어렵지 않습니다.
+
+또한, 최근 뉴스에서 Windows와 Shell Script를 지원한다는 소식이 있습니다.
+
+
+## Bun이 곧 Windows에서 사용할 수 있을까요??
+
+Bun JavaScript 런타임에는 쉘 스크립트에 대한 실험적 지원이 추가되었으며, 이는 `특히 Windows 개발자에게 도움이 될 것`이라는 게시물이 있습니다.
+
+그러나, 아직 Bun은 Windows를 지원하지 않으며, 출시가 곧 이루어질 것으로 보입니다.
+
+Bun Shell은 bun을 사용하여 쉘 스크립트를 실행할 수 있습니다.
+주요 장점은 동일한 스크립트가 플랫폼 간에 실행될 수 있다는 점입니다.
+
+Bun 크리에이터 Jarred Sumner는 "macOS (zsh), Linux (bash), 그리고 Windows (cmd)는 모두 약간 다른 쉘을 가지고 있으며, 약간 다른 구문과 명령어를 가지고 있습니다.
+각 플랫폼에서 사용할 수 있는 명령어는 다르며, 동일한 명령어도 다른 플래그와 동작을 가질 수 있습니다."라고 설명했습니다.
+
+[Bun 1.0.25 릴리스 노트](https://bun.sh/blog/bun-v1.0.25#windows-is-coming-soon)에서는 `“Windows가 곧 오릅니다.”`라고 표시되어 있습니다.
+출시된다면, 안정적인 Windows 빌드는 새로운 쉘 스크립트 기능을 이해하는 데 도움이 될 뿐만 아니라, Bun 채택을 돕습니다.
+
+![release note](/tech/images/20240124-1-1.png)
+
+---
+
+## 이제 프로젝트를 만들어봅시다!
+
+Bun을 Windows에서 사용할 수 있게 되면, 더 많은 개발자들이 Bun을 사용할 수 있게 될 것입니다.
+
+다음에 봐요!
+
+---
+
+### 참고 문서
+
+- [Bun](https://bun.sh/)
+- [Article](https://devclass.com/2024/01/22/bun-runtime-adds-shell-script-support-with-a-windows-version-promised-shortly/)

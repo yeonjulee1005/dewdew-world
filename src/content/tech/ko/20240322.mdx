@@ -1,0 +1,87 @@
+---
+title: 'Nuxt 3.11 출시! Nuxt 4 출시 전 마지막 소소한 업데이트'
+description: 'Nuxt3의 최신 3.11 버전에 추가된 기능을 확인해봅시다!'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2024-03-22
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt3 composables']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240322.png'
+coverAlt: 'cover Image'
+---
+
+# Nuxt v3.11 출시!
+
+[Nuxt v3.11](https://nuxt.com/)이 출시되었습니다!
+
+이 버전에는 Nuxt 4 전에 추가된 새로운 기능이 있습니다.
+저는 주목하고 있는 새로운 기능을 확인해봅시다.
+
+---
+
+## v3.11의 새로운 기능
+
+### 1. 더 나은 로깅
+
+Nuxt 3.11은 로깅 시스템을 개선했습니다.
+
+서버 측 로깅과 클라이언트 측 로깅은 다음과 같이 구분됩니다.
+
+```typescript
+<script setup lang="ts">
+console.log('Log from index page')
+
+const { data } = await useAsyncData(() => {
+  console.log('Log inside useAsyncData')
+  return $fetch('/api/test')
+})
+
+</script>
+```
+
+```typescript
+Log from index page
+[ssr] Log inside useAsyncData 
+    at pages/index.vue
+```
+
+### 2. 최신 `clear` 데이터 가져오기 유틸리티
+
+이제, `useFetch`와 `useAsyncData`의 `clear` 유틸리티를 사용하면, 필요한 후크에서 데이터 요청을 취소할 수 있습니다.
+
+```typescript
+<script setup lang="ts">
+const { data, clear } = await useFetch('/api/test')
+
+const route = useRoute()
+
+watch(() => route.path, (path) => {
+  if (path === '/') clear()
+})
+
+</script>
+```
+
+### 3. 서버 측과 클라이언트 측 페이지를 생성할 수 있습니다.
+
+이 릴리스에서, Nuxt는 서버 또는 클라이언트에 대해 특정 페이지를 생성할 수 있게 합니다.
+페이지에 `.server.vue` 또는 `.client.vue` 접미사를 사용하여 각 환경에 맞는 페이지를 생성할 수 있습니다.
+
+---
+
+## 이제 프로젝트를 만들어봅시다!
+다른 성능 개선과 공개 자산 처리에 대한 기타 개선 사항이 있습니다.
+
+Nuxt4의 마지막 소소한 릴리스이지만, 주요 릴리스인 Nuxt4는 많은 사람들이 기대하는 업데이트입니다.
+
+다음에 봐요!
+
+---
+
+### 참고 문서
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-11)
