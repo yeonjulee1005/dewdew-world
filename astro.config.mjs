@@ -34,7 +34,6 @@ export default defineConfig({
     mdx()
   ],
   site: 'https://www.dewdew.world',
-  output: 'static',
   adapter: vercel({
     edgeMiddleware: true
   }),
