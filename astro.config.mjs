@@ -29,6 +29,10 @@ const getSiteUrl = () => {
 
 // https://astro.build/config
 export default defineConfig({
+  devToolbar: { enabled: true },
+  experimental: {
+		preserveScriptOrder: true,
+	},
   integrations: [
     tailwind({
       applyBaseStyles: false
@@ -48,7 +52,6 @@ export default defineConfig({
     mdx()
   ],
   site: getSiteUrl(),
-  output: 'static',
   adapter: vercel({
     edgeMiddleware: true
   }),
