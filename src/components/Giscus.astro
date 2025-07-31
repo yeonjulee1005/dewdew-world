@@ -26,8 +26,7 @@ const isDev = import.meta.env.DEV;
     repoid="R_kgDOLF55BQ"
     category={giscusCategory}
     categoryid={giscusCategoryId}
-    mapping="pathname"
-    term={Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/^\/(en|ko)\//, '/')}
+    mapping="url"
     strict="0"
     reactionsenabled="1"
     emitmetadata="0"
@@ -43,46 +42,8 @@ const isDev = import.meta.env.DEV;
 
 {isDev && (
   <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-500">
-    <p>💬 댓글 기능</p>
+    <p class="text-2xl font-bold text-red-400">💬 댓글 기능</p>
     <p class="text-sm">개발 환경에서는 댓글이 표시되지 않습니다.</p>
     <p class="text-xs">배포 후 확인해주세요.</p>
   </div>
-)}`
-
-<script>
-  import 'giscus'
-  
-  // Giscus 로드 전에 URL 정규화 (.mdx 확장자만 제거)
-  const normalizeURL = () => {
-    const originalURL = window.location.href;
-    
-    // 이미 .mdx가 제거된 URL인지 확인
-    if (originalURL.includes('.mdx')) {
-      // const cleanURL = originalURL.replace(/\.mdx\/?/g, '/');
-      // window.history.replaceState({}, '', cleanURL);
-    }
-  };
-
-  // 즉시 URL 정규화 실행
-  normalizeURL();
-  
-  // Giscus가 로드된 후에도 URL 확인
-  const checkGiscusURL = () => {
-    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
-    if (giscusFrame) {
-      const iframe = giscusFrame as HTMLIFrameElement;
-      const currentSrc = iframe.src;
-      
-      // iframe src에서 URL 정규화 (.mdx 확장자만 제거)
-      if (currentSrc.includes('.mdx')) {
-        const normalizedSrc = currentSrc.replace(/\.mdx\/?/g, '/');
-        iframe.src = normalizedSrc;
-      }
-    } else {
-      setTimeout(checkGiscusURL, 100);
-    }
-  };
-  
-  // Giscus URL 확인
-  checkGiscusURL();
-</script>
+)}

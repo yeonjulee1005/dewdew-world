@@ -1,10 +1,13 @@
 ---
 import Giscus from '@components/Giscus.astro'
+import { type Lang } from '../../i18n'
+
+const locale = Astro.currentLocale as Lang;
 ---
 <section class='giscus mx-auto mt-10 w-full'>
   <Giscus
-    giscusId='Blog Comment'
-    giscusCategory='Blog Comment'
+    giscusId={locale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English'}
+    giscusCategory={locale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English'}
     giscusCategoryId='DIC_kwDOLF55Bc4CcmYi'
   />
 </section>
