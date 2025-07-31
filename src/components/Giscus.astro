@@ -57,22 +57,16 @@ const isDev = import.meta.env.DEV;
       // Giscus가 로드된 후 URL 정규화
       setTimeout(() => {
         const originalURL = window.location.href;
-        const url = new URL(originalURL);
         
-        // pathname에서 locale 경로와 .mdx 확장자 제거
-        let cleanPathname = url.pathname
+        // 전체 URL에서 locale 경로와 .mdx 확장자 제거
+        let cleanURL = originalURL
           .replace(/\.mdx\/?/g, '/')
-          .replace(/^\/(en|ko)/, '');
-        
-        // 정규화된 URL 생성
-        const cleanURL = `${url.origin}${cleanPathname}${url.search}${url.hash}`;
+          .replace(/^\/(en|ko)\//, '/');
         
         // 디버깅용 로그 (개발 환경에서만)
         if (import.meta.env.DEV) {
           console.log('Original URL:', originalURL);
           console.log('Clean URL:', cleanURL);
-          console.log('Original pathname:', url.pathname);
-          console.log('Clean pathname:', cleanPathname);
         }
         
         if (originalURL !== cleanURL) {
