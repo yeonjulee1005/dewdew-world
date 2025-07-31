@@ -57,7 +57,6 @@ let techCollection = await getCollection('tech')
     })
   )
 
-console.log('techCollection', techCollection)
 const techIndex = techCollection.findIndex((tech) => {
   return Astro.request.url.includes(tech.id.split('/')[1] ?? '')
 })
@@ -68,17 +67,6 @@ const replaceImageAlt = (imageAlt: string) => {
 
 const nextTech = techCollection[techIndex - 1]
 const prevTech = techCollection[techIndex + 1]
-// const nextTech = techIndex > 0 ? techCollection[techIndex - 1] : undefined
-// const prevTech = techIndex < techCollection.length - 1 ? techCollection[techIndex + 1] : undefined
-
-// 클라이언트 사이드에서 디버깅을 위한 데이터 전달
-const debugData = {
-  techCollection: techCollection.map(tech => ({ id: tech.id, slug: tech.slug })),
-  techIndex,
-  currentUrl: Astro.request.url,
-  nextTech: nextTech ? { id: nextTech.id, slug: nextTech.slug } : null,
-  prevTech: prevTech ? { id: prevTech.id, slug: prevTech.slug } : null
-}
 ---
 <html lang={locale}>
   <head>
@@ -161,13 +149,3 @@ const debugData = {
   </body>
   <Footer />
 </html>
-
-<script define:vars={{ debugData }}>
-  // 클라이언트 사이드에서 디버깅
-  console.log('Debug Data:', debugData);
-  console.log('Tech Collection:', debugData.techCollection);
-  console.log('Tech Index:', debugData.techIndex);
-  console.log('Current URL:', debugData.currentUrl);
-  console.log('Next Tech:', debugData.nextTech);
-  console.log('Prev Tech:', debugData.prevTech);
-</script>
