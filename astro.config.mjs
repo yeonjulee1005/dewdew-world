@@ -75,5 +75,21 @@ export default defineConfig({
     },
     remarkPlugins: [markReadingTime],
     syntaxHighlight: 'shiki'
+  },
+  // View Transitions 최적화
+  experimental: {
+    viewTransitions: true
+  },
+  vite: {
+    build: {
+      // CSS 최적화
+      cssCodeSplit: false, // CSS를 하나의 파일로 번들링
+      rollupOptions: {
+        output: {
+          // CSS 파일명 최적화
+          assetFileNames: 'assets/[name].[hash][extname]'
+        }
+      }
+    }
   }
 })
