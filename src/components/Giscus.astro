@@ -30,7 +30,8 @@ const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, 
     category={giscusCategory}
     categoryid={giscusCategoryId}
     mapping="url"
-    strict="0"
+    term={currentPath}
+    strict="1"
     reactionsenabled="1"
     emitmetadata="0"
     inputposition="top"
@@ -51,20 +52,37 @@ const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, 
   </div>
 )}
 
-<script>
+<script is:inline>
   import 'giscus'
   
-  // Giscus iframe URL에서 .mdx 확장자만 제거
+  // Giscus iframe URL에서 .mdx 확장자 제거 (강제 적용)
   const normalizeGiscusURL = () => {
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
     if (giscusFrame) {
       const iframe = giscusFrame as HTMLIFrameElement;
       const currentSrc = iframe.src;
       
-      // iframe src에서 .mdx 확장자만 제거
+      // iframe src에서 .mdx 확장자 제거 (강제)
       if (currentSrc.includes('.mdx')) {
         const normalizedSrc = currentSrc.replace(/\.mdx/g, '');
+        console.log('Giscus URL 정규화:', currentSrc, '→', normalizedSrc);
         iframe.src = normalizedSrc;
+        
+        // 추가로 iframe 내부의 URL도 정규화
+        setTimeout(() => {
+          try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+            if (iframeDoc) {
+              const currentUrl = iframeDoc.location.href;
+              if (currentUrl.includes('.mdx')) {
+                const cleanUrl = currentUrl.replace(/\.mdx/g, '');
+                iframeDoc.location.replace(cleanUrl);
+              }
+            }
+          } catch (e) {
+            // CORS 오류 무시
+          }
+        }, 1000);
       }
     } else {
       // Giscus iframe이 아직 로드되지 않았다면 다시 시도
@@ -77,9 +95,9 @@ const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, 
     setTimeout(normalizeGiscusURL, 500);
   });
   
-  // 주기적으로 확인 (최대 5초)
+  // 주기적으로 확인 (최대 10초)
   let checkCount = 0;
-  const maxChecks = 50; // 5초 (50 * 100ms)
+  const maxChecks = 100; // 10초 (100 * 100ms)
   
   const periodicCheck = () => {
     if (checkCount < maxChecks) {
