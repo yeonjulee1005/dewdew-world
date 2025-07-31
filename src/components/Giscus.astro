@@ -15,6 +15,16 @@ const locale = Astro.currentLocale as string;
 
 // 개발 환경 감지
 const isDev = import.meta.env.DEV;
+
+// URL 정규화 함수
+const normalizeURL = (url: string) => {
+  return url
+    .replace(/\.mdx\/?/g, '/')
+    .replace(/^\/(en|ko)\//, '/');
+};
+
+// 현재 URL 정규화
+const currentURL = normalizeURL(Astro.url.pathname);
 ---
 
 {!isDev && (
@@ -26,6 +36,7 @@ const isDev = import.meta.env.DEV;
     category={giscusCategory}
     categoryid={giscusCategoryId}
     mapping="pathname"
+    term={currentURL}
     strict="0"
     reactionsenabled="1"
     emitmetadata="0"
@@ -50,36 +61,32 @@ const isDev = import.meta.env.DEV;
 <script>
   import 'giscus'
   
-  // Giscus가 로드된 후 URL 정규화
-  const waitForGiscus = () => {
+  // Giscus 위젯에 정규화된 URL 전달
+  const updateGiscusURL = () => {
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
     if (giscusFrame) {
-      // Giscus가 로드된 후 URL 정규화
-      setTimeout(() => {
-        const originalURL = window.location.href;
-        
-        // 전체 URL에서 locale 경로와 .mdx 확장자 제거
-        let cleanURL = originalURL
-          .replace(/\.mdx\/?/g, '/')
-          .replace(/^\/(en|ko)\//, '/');
-        
-        // 디버깅용 로그 (개발 환경에서만)
-        if (import.meta.env.DEV) {
-          console.log('Original URL:', originalURL);
-          console.log('Clean URL:', cleanURL);
-        }
-        
-        if (originalURL !== cleanURL) {
-          // URL을 정규화된 버전으로 업데이트
-          window.history.replaceState({}, '', cleanURL);
-        }
-      }, 1000); // Giscus 로드 대기
+      const originalURL = window.location.href;
+      const cleanURL = originalURL
+        .replace(/\.mdx\/?/g, '/')
+        .replace(/^\/(en|ko)\//, '/');
+      
+      // 디버깅용 로그 (개발 환경에서만)
+      if (import.meta.env.DEV) {
+        console.log('Original URL:', originalURL);
+        console.log('Clean URL:', cleanURL);
+      }
+      
+      // Giscus iframe의 src를 정규화된 URL로 업데이트
+      const iframe = giscusFrame as HTMLIFrameElement;
+      const currentSrc = iframe.src;
+      const newSrc = currentSrc.replace(/term=[^&]*/, `term=${encodeURIComponent(cleanURL)}`);
+      iframe.src = newSrc;
     } else {
       // Giscus가 아직 로드되지 않았으면 다시 시도
-      setTimeout(waitForGiscus, 100);
+      setTimeout(updateGiscusURL, 100);
     }
   };
 
-  // 페이지 로드 시 Giscus 대기 후 URL 정규화
-  waitForGiscus();
+  // 페이지 로드 시 Giscus URL 업데이트
+  updateGiscusURL();
 </script>
