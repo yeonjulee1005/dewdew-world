@@ -48,7 +48,7 @@ export default defineConfig({
     mdx()
   ],
   site: getSiteUrl(),
-  output: 'server',
+  output: 'static',
   adapter: vercel({
     edgeMiddleware: true
   }),

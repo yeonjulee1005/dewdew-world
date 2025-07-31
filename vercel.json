@@ -4,5 +4,7 @@
       "source": "/ads.txt",
       "destination": "/ads.txt"
     }
-  ]
+  ],
+  "buildCommand": "bun run build",
+  "outputDirectory": "dist"
 }
