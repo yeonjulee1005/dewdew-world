@@ -35,7 +35,7 @@ const currentURL = normalizeURL(Astro.url.pathname);
     repoid="R_kgDOLF55BQ"
     category={giscusCategory}
     categoryid={giscusCategoryId}
-    mapping="pathname"
+    mapping="url"
     term={currentURL}
     strict="0"
     reactionsenabled="1"
@@ -61,32 +61,16 @@ const currentURL = normalizeURL(Astro.url.pathname);
 <script>
   import 'giscus'
   
-  // Giscus 위젯에 정규화된 URL 전달
-  const updateGiscusURL = () => {
-    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
-    if (giscusFrame) {
-      const originalURL = window.location.href;
-      const cleanURL = originalURL
-        .replace(/\.mdx\/?/g, '/')
-        .replace(/^\/(en|ko)\//, '/');
-      
-      // 디버깅용 로그 (개발 환경에서만)
-      if (import.meta.env.DEV) {
-        console.log('Original URL:', originalURL);
-        console.log('Clean URL:', cleanURL);
-      }
-      
-      // Giscus iframe의 src를 정규화된 URL로 업데이트
-      const iframe = giscusFrame as HTMLIFrameElement;
-      const currentSrc = iframe.src;
-      const newSrc = currentSrc.replace(/term=[^&]*/, `term=${encodeURIComponent(cleanURL)}`);
-      iframe.src = newSrc;
-    } else {
-      // Giscus가 아직 로드되지 않았으면 다시 시도
-      setTimeout(updateGiscusURL, 100);
+  const normalizeURL = () => {
+    const originalURL = window.location.href;
+    const cleanURL = originalURL
+      .replace(/\.mdx\/?/g, '/')
+      .replace(/^\/(en|ko)\//, '/');
+    
+    if (originalURL !== cleanURL) {
+      window.history.replaceState({}, '', cleanURL);
     }
   };
 
-  // 페이지 로드 시 Giscus URL 업데이트
-  updateGiscusURL();
+  normalizeURL();
 </script>
