@@ -76,10 +76,6 @@ export default defineConfig({
     remarkPlugins: [markReadingTime],
     syntaxHighlight: 'shiki'
   },
-  // View Transitions 최적화
-  experimental: {
-    viewTransitions: true
-  },
   vite: {
     build: {
       // CSS 최적화
