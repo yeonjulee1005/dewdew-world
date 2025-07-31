@@ -1,9 +1,9 @@
+/* View Transitions 최적화 스타일 import */
+@use './viewTransitions.scss';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* View Transitions 최적화 스타일 import */
-@import './viewTransitions.scss';
 
 body {
   font-family: 'Pretendard Variable', Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
