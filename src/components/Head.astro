@@ -1,7 +1,7 @@
 ---
 import '@styles/index.scss'
 import SpeedInsights from '@vercel/speed-insights/astro'
-import { ClientRouter } from 'astro:transitions'
+import { ViewTransitions } from 'astro:transitions'
 
 export interface Props {
   title: string
@@ -23,75 +23,6 @@ const {
 />
 <meta name='description' content={description} />
 <meta name='generator' content={Astro.generator} />
-
-<!-- Critical CSS for View Transitions -->
-<style is:global>
-  /* 기본 스타일을 즉시 적용 */
-  body {
-    font-family: 'Pretendard Variable', Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: rgb(244 244 245 / 0.7);
-    scroll-behavior: smooth;
-    -webkit-touch-callout: none;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* View Transitions 최적화 */
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: 0.3s;
-    animation-timing-function: ease-in-out;
-  }
-  
-  /* 전환 중 스타일 유지 */
-  ::view-transition-old(root) {
-    animation: fade-out 0.3s ease-in-out;
-  }
-  
-  ::view-transition-new(root) {
-    animation: fade-in 0.3s ease-in-out;
-  }
-  
-  @keyframes fade-out {
-    from { opacity: 1; }
-    to { opacity: 0; }
-  }
-  
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  /* 스크롤바 숨김 */
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* 기본 마진/패딩 리셋 */
-  * {
-    box-sizing: border-box;
-  }
-  
-  html, body {
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* 이미지 드래그 방지 */
-  img {
-    -webkit-user-drag: none;
-  }
-  
-  /* 선택 영역 스타일 */
-  ::selection {
-    background-color: #fb7185;
-    color: #ffffff;
-  }
-</style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -140,4 +71,4 @@ const {
 <meta property='twitter:image' content={image} />
 
 <SpeedInsights />
-<ClientRouter />
+<ViewTransitions />
