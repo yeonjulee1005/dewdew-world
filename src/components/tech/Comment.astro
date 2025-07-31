@@ -7,6 +7,6 @@ const locale = Astro.currentLocale as Lang;
 <section class='giscus mx-auto mt-10 w-full'>
   <Giscus
     giscusCategory={locale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English'}
-    giscusCategoryId='DIC_kwDOLF55Bc4Ctnac'
+    giscusCategoryId={locale === 'ko' ? 'DIC_kwDOLF55Bc4Ctnac' : 'DIC_kwDOLF55Bc4Ctnap'}
   />
 </section>
