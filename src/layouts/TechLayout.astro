@@ -40,22 +40,15 @@ let { frontmatter, minutes } = Astro.props as TechLayoutProps
 //   { year: 'numeric', month: 'short', day: 'numeric', },
 // )
 
-let techCollection = await getCollection('tech')
-  .then((teches) =>
-    teches.filter((tech) => tech.data.isDraft)
-  )
-  .then((teches) =>
-    teches.sort((a, b) =>
-      new Date(b.data.publishedDate).valueOf() - new Date(a.data.publishedDate).valueOf()
-    )
-  )
-  .then((teches) =>
-    teches.filter((tech) => {
-      // 현재 locale과 일치하는 tech만 필터링
-      const techLang = tech.id.split('/')[0];
-      return techLang === locale;
-    })
-  )
+let techCollection = (await getCollection('tech'))
+  .filter((tech) => {
+    const techLang = tech.id.split('/')[0];
+    return tech.data.isDraft && techLang === locale;
+  })
+  .sort((a, b) => 
+    new Date(b.data.publishedDate).valueOf() - 
+    new Date(a.data.publishedDate).valueOf()
+  );
 
 const techIndex = techCollection.findIndex((tech) => {
   return Astro.request.url.includes(tech.id.split('/')[1] ?? '')
