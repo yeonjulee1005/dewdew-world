@@ -17,7 +17,7 @@ const locale = Astro.currentLocale as string;
 const isDev = import.meta.env.DEV;
 ---
 
-{!isDev && (
+<!-- {!isDev && ( -->
   <giscus-widget
     is:inline
     id={giscusId}
@@ -25,7 +25,7 @@ const isDev = import.meta.env.DEV;
     repoid="R_kgDOLF55BQ"
     category={giscusCategory}
     categoryid={giscusCategoryId}
-    mapping="pathname"
+    mapping="url"
     strict="0"
     reactionsenabled="1"
     emitmetadata="0"
@@ -35,30 +35,44 @@ const isDev = import.meta.env.DEV;
     loading="eager"
     crossorigin="anonymous"
     async
+    term={(() => {
+      // URL에서 locale 경로와 .mdx 확장자 제거
+      const currentPath = Astro.url.pathname;
+      const cleanPath = currentPath
+        .replace(/\.mdx\/?/g, '/')
+        .replace(/^\/(en|ko)/, '');
+      return cleanPath;
+    })()}
     >
   </giscus-widget>
-)}
+<!-- )} -->
 
-{isDev && (
+<!-- {isDev && (
   <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-500">
     <p>💬 댓글 기능</p>
     <p class="text-sm">개발 환경에서는 댓글이 표시되지 않습니다.</p>
     <p class="text-xs">배포 후 확인해주세요.</p>
   </div>
-)}
+)} -->
 
 <script>
   import 'giscus'
   
-  // 개발 환경에서 URL 정규화
-  if (import.meta.env.DEV) {
-    // Giscus가 사용하는 URL에서 .mdx 확장자 제거
+  // URL 정규화 (개발 및 프로덕션 환경 모두)
+  const normalizeURL = () => {
     const originalURL = window.location.href;
-    const cleanURL = originalURL.replace(/\.mdx\/?/g, '/');
+    const cleanURL = originalURL
+      .replace(/\.mdx\/?/g, '/')
+      .replace(/\/(en|ko)\//g, '/');
     
     if (originalURL !== cleanURL) {
       // URL을 정규화된 버전으로 업데이트
       window.history.replaceState({}, '', cleanURL);
+      return cleanURL;
     }
-  }
+    return originalURL;
+  };
+
+  // 페이지 로드 시 URL 정규화
+  normalizeURL();
 </script>
