@@ -1,7 +1,7 @@
 ---
 import '@styles/index.scss'
 import SpeedInsights from '@vercel/speed-insights/astro'
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 
 export interface Props {
   title: string
@@ -23,6 +23,168 @@ const {
 />
 <meta name='description' content={description} />
 <meta name='generator' content={Astro.generator} />
+
+<!-- Critical CSS for View Transitions -->
+<style is:global>
+  /* 기본 스타일을 즉시 적용 */
+  * {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Pretendard Variable', Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  }
+  
+  body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(244 244 245 / 0.7);
+    scroll-behavior: smooth;
+    -webkit-touch-callout: none;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  /* View Transitions 최적화 */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-fill-mode: both;
+  }
+  
+  /* 전환 중 스타일 유지 */
+  ::view-transition-old(root) {
+    animation-name: fade-out;
+    z-index: 1;
+  }
+  
+  ::view-transition-new(root) {
+    animation-name: fade-in;
+    z-index: 2;
+  }
+  
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* 전환 중 모든 요소에 기본 스타일 적용 */
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* 전환 중 스크롤 방지 */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    overflow: hidden;
+  }
+  
+  /* 전환 완료 후 스크롤 복원 */
+  ::view-transition-new(root) {
+    animation-fill-mode: forwards;
+  }
+  
+  /* 전환 중 포커스 관리 */
+  ::view-transition-old(root):focus,
+  ::view-transition-new(root):focus {
+    outline: none;
+  }
+  
+  /* 전환 중 인터랙션 방지 */
+  ::view-transition-old(root) *,
+  ::view-transition-new(root) * {
+    pointer-events: none;
+  }
+  
+  /* 전환 완료 후 인터랙션 복원 */
+  ::view-transition-new(root) {
+    pointer-events: auto;
+  }
+  
+  /* 스크롤바 숨김 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* 이미지 드래그 방지 */
+  img {
+    -webkit-user-drag: none;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* 선택 영역 스타일 */
+  ::selection {
+    background-color: #fb7185;
+    color: #ffffff;
+  }
+  
+  /* 기본 링크 스타일 */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  /* 기본 버튼 스타일 */
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  /* 기본 입력 스타일 */
+  input, textarea, select {
+    font-family: inherit;
+  }
+  
+  /* 기본 헤딩 스타일 */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: inherit;
+  }
+  
+  /* 기본 리스트 스타일 */
+  ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  /* 기본 단락 스타일 */
+  p {
+    margin: 0;
+  }
+  
+  /* 기본 테이블 스타일 */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+</style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,4 +233,57 @@ const {
 <meta property='twitter:image' content={image} />
 
 <SpeedInsights />
-<ViewTransitions />
+<ClientRouter />
+
+<!-- View Transitions 최적화 스크립트 -->
+<script>
+  // astro:before-swap 이벤트로 전환 전 스타일 준비
+  document.addEventListener("astro:before-swap", (event) => {
+    // 새 문서의 스타일을 미리 로드
+    const newDoc = event.newDocument;
+    const newStyles = newDoc.querySelectorAll('style, link[rel="stylesheet"]');
+    
+    // 새 문서의 스타일을 현재 문서에 미리 추가
+    newStyles.forEach(style => {
+      const styleElement = style as Element;
+      if (!document.querySelector(`[data-astro-transition-style="${styleElement.getAttribute('data-astro-transition-style')}"]`)) {
+        const clonedStyle = style.cloneNode(true) as Element;
+        clonedStyle.setAttribute('data-astro-transition-style', 'true');
+        document.head.appendChild(clonedStyle);
+      }
+    });
+  });
+
+  // astro:after-swap 이벤트로 전환 후 정리
+  document.addEventListener("astro:after-swap", () => {
+    // 전환 완료 후 불필요한 스타일 제거
+    const transitionStyles = document.querySelectorAll('[data-astro-transition-style="true"]');
+    transitionStyles.forEach(style => {
+      style.remove();
+    });
+    
+    // 스크롤 위치 복원
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" });
+  });
+
+  // astro:page-load 이벤트로 페이지 로드 완료 처리
+  document.addEventListener("astro:page-load", () => {
+    // 페이지 로드 완료 후 추가 작업
+    console.log('Page loaded successfully');
+  });
+
+  // prefers-reduced-motion 지원
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  
+  if (prefersReducedMotion.matches) {
+    // 애니메이션 비활성화
+    const style = document.createElement('style');
+    style.textContent = `
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+</script>
