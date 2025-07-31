@@ -55,34 +55,31 @@ const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, 
 <script is:inline>
   import 'giscus'
   
-  // Giscus iframe URL에서 .mdx 확장자 제거 (강제 적용)
+  // Giscus 로드 전에 브라우저 URL 정규화
+  const normalizeBrowserURL = () => {
+    const currentURL = window.location.href;
+    if (currentURL.includes('.mdx')) {
+      const cleanURL = currentURL.replace(/\.mdx/g, '');
+      window.history.replaceState({}, '', cleanURL);
+      console.log('브라우저 URL 정규화:', currentURL, '→', cleanURL);
+    }
+  };
+  
+  // 즉시 브라우저 URL 정규화 실행
+  normalizeBrowserURL();
+  
+  // Giscus iframe URL 정규화
   const normalizeGiscusURL = () => {
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
     if (giscusFrame) {
-      const iframe = giscusFrame as HTMLIFrameElement;
+      const iframe = giscusFrame;
       const currentSrc = iframe.src;
       
-      // iframe src에서 .mdx 확장자 제거 (강제)
+      // iframe src에서 .mdx 확장자 제거
       if (currentSrc.includes('.mdx')) {
         const normalizedSrc = currentSrc.replace(/\.mdx/g, '');
-        console.log('Giscus URL 정규화:', currentSrc, '→', normalizedSrc);
+        console.log('Giscus iframe URL 정규화:', currentSrc, '→', normalizedSrc);
         iframe.src = normalizedSrc;
-        
-        // 추가로 iframe 내부의 URL도 정규화
-        setTimeout(() => {
-          try {
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-            if (iframeDoc) {
-              const currentUrl = iframeDoc.location.href;
-              if (currentUrl.includes('.mdx')) {
-                const cleanUrl = currentUrl.replace(/\.mdx/g, '');
-                iframeDoc.location.replace(cleanUrl);
-              }
-            }
-          } catch (e) {
-            // CORS 오류 무시
-          }
-        }, 1000);
       }
     } else {
       // Giscus iframe이 아직 로드되지 않았다면 다시 시도
