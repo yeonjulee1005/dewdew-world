@@ -42,15 +42,23 @@ let { frontmatter, minutes } = Astro.props as TechLayoutProps
 
 let techCollection = await getCollection('tech')
   .then((teches) =>
+    teches.filter((tech) => tech.data.isDraft)
+  )
+  .then((teches) =>
     teches.sort((a, b) =>
       new Date(b.data.publishedDate).valueOf() - new Date(a.data.publishedDate).valueOf()
-  ))
+    )
+  )
   .then((teches) =>
-    teches.filter((tech) => tech.data.isDraft
-  ))
+    teches.filter((tech) => {
+      // 현재 locale과 일치하는 tech만 필터링
+      const techLang = tech.id.split('/')[0];
+      return techLang === locale;
+    })
+  )
 
 const techIndex = techCollection.findIndex((tech) => {
-  return Astro.request.url.includes(tech.slug ?? '')
+  return Astro.request.url.includes(tech.id.split('/')[1] ?? '')
 })
 
 const replaceImageAlt = (imageAlt: string) => {
@@ -111,7 +119,7 @@ const prevTech = techCollection[techIndex + 1]
           {
             nextTech && (
               <BottomNavigation
-                link={nextTech.slug}
+                link={`/${locale}/tech/${nextTech.id.split('/')[1]}`}
                 linkLabel='Next post'
                 imageSrc={nextTech.data.cover}
                 imageAlt={replaceImageAlt(frontmatter.coverAlt)}
@@ -123,7 +131,7 @@ const prevTech = techCollection[techIndex + 1]
           {
             prevTech && (
               <BottomNavigation
-                link={prevTech.slug}
+                link={`/${locale}/tech/${prevTech.id.split('/')[1]}`}
                 linkLabel='Prev post'
                 imageSrc={prevTech.data.cover}
                 imageAlt={replaceImageAlt(frontmatter.coverAlt)}

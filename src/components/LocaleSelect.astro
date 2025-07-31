@@ -34,10 +34,10 @@ import { getLocalePaths, LOCALES } from "../i18n";
     });
     
     // 디버깅을 위한 초기 상태 로그
-    console.log('LocaleSelect initialized:', {
-      currentPath: window.location.pathname,
-      currentLocale: document.querySelector('[data-languageSelect]')?.value
-    });
+    // console.log('LocaleSelect initialized:', {
+    //   currentPath: window.location.pathname,
+    //   currentLocale: document.querySelector('[data-languageSelect]')?.value
+    // });
   }
 
   function handleLanguageChange(event) {
@@ -46,11 +46,11 @@ import { getLocalePaths, LOCALES } from "../i18n";
     
     if (!target || !selectedOption) return;
     
-    console.log('Language change detected:', {
-      currentPath: window.location.pathname,
-      selectedValue: target.value,
-      selectedLang: selectedOption.dataset.lang
-    });
+    // console.log('Language change detected:', {
+    //   currentPath: window.location.pathname,
+    //   selectedValue: target.value,
+    //   selectedLang: selectedOption.dataset.lang
+    // });
     
     // localStorage 업데이트를 비동기로 처리
     const lang = selectedOption.dataset.lang;
@@ -79,13 +79,13 @@ import { getLocalePaths, LOCALES } from "../i18n";
 
   // View Transitions 완료 후 재초기화
   document.addEventListener('astro:page-load', () => {
-    console.log('Page loaded, reinitializing LocaleSelect');
+    // console.log('Page loaded, reinitializing LocaleSelect');
     initializeLocaleSelect();
   });
 
   // DOMContentLoaded 이벤트도 추가 (백업)
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded, initializing LocaleSelect');
+    // console.log('DOMContentLoaded, initializing LocaleSelect');
     initializeLocaleSelect();
   });
 </script>

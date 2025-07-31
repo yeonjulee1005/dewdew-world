@@ -15,7 +15,7 @@ const { link, linkLabel, imageSrc, imageAlt, text, postTitle } = Astro.props
 
 ---
 <Link
-  link={`/tech/${link}`}
+  link={link}
   customClass='hover:border-rose-400 hover:text-rose-400 flex grow flex-col rounded-lg border-2 border-zinc-700 p-4 transition duration-300 ease-out'
   target="_self"
   label={linkLabel}

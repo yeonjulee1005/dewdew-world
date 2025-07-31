@@ -50,35 +50,42 @@ const isDev = import.meta.env.DEV;
 <script>
   import 'giscus'
   
-  // URL 정규화 (개발 및 프로덕션 환경 모두)
-  const normalizeURL = () => {
-    const originalURL = window.location.href;
-    const url = new URL(originalURL);
-    
-    // pathname에서 locale 경로와 .mdx 확장자 제거
-    let cleanPathname = url.pathname
-      .replace(/\.mdx\/?/g, '/')
-      .replace(/^\/(en|ko)/, '');
-    
-    // 정규화된 URL 생성
-    const cleanURL = `${url.origin}${cleanPathname}${url.search}${url.hash}`;
-    
-    // 디버깅용 로그 (개발 환경에서만)
-    if (import.meta.env.DEV) {
-      console.log('Original URL:', originalURL);
-      console.log('Clean URL:', cleanURL);
-      console.log('Original pathname:', url.pathname);
-      console.log('Clean pathname:', cleanPathname);
+  // Giscus가 로드된 후 URL 정규화
+  const waitForGiscus = () => {
+    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
+    if (giscusFrame) {
+      // Giscus가 로드된 후 URL 정규화
+      setTimeout(() => {
+        const originalURL = window.location.href;
+        const url = new URL(originalURL);
+        
+        // pathname에서 locale 경로와 .mdx 확장자 제거
+        let cleanPathname = url.pathname
+          .replace(/\.mdx\/?/g, '/')
+          .replace(/^\/(en|ko)/, '');
+        
+        // 정규화된 URL 생성
+        const cleanURL = `${url.origin}${cleanPathname}${url.search}${url.hash}`;
+        
+        // 디버깅용 로그 (개발 환경에서만)
+        if (import.meta.env.DEV) {
+          console.log('Original URL:', originalURL);
+          console.log('Clean URL:', cleanURL);
+          console.log('Original pathname:', url.pathname);
+          console.log('Clean pathname:', cleanPathname);
+        }
+        
+        if (originalURL !== cleanURL) {
+          // URL을 정규화된 버전으로 업데이트
+          window.history.replaceState({}, '', cleanURL);
+        }
+      }, 1000); // Giscus 로드 대기
+    } else {
+      // Giscus가 아직 로드되지 않았으면 다시 시도
+      setTimeout(waitForGiscus, 100);
     }
-    
-    if (originalURL !== cleanURL) {
-      // URL을 정규화된 버전으로 업데이트
-      window.history.replaceState({}, '', cleanURL);
-      return cleanURL;
-    }
-    return originalURL;
   };
 
-  // 페이지 로드 시 URL 정규화
-  normalizeURL();
+  // 페이지 로드 시 Giscus 대기 후 URL 정규화
+  waitForGiscus();
 </script>
