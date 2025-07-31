@@ -13,96 +13,27 @@ const {
 
 const locale = Astro.currentLocale as string;
 
-// 개발 환경 감지
-const isDev = import.meta.env.DEV;
-
-// 현재 페이지 경로에서 .mdx 확장자와 마지막 슬래시 제거
-const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, '');
-
 ---
 
-{!isDev && (
-  <giscus-widget
-    is:inline
-    id={giscusId}
-    repo="yeonjulee1005/dewdew-world"
-    repoid="R_kgDOLF55BQ"
-    category={giscusCategory}
-    categoryid={giscusCategoryId}
-    mapping="url"
-    term={currentPath}
-    strict="1"
-    reactionsenabled="1"
-    emitmetadata="0"
-    inputposition="top"
-    theme="light_protanopia"
-    lang={locale}
-    loading="eager"
-    crossorigin="anonymous"
-    async
-    >
-  </giscus-widget>
-)}
+<giscus-widget
+  id={giscusId}
+  repo="yeonjulee1005/dewdew-world"
+  repoid="R_kgDOLF55BQ"
+  category={giscusCategory}
+  categoryid={giscusCategoryId}
+  mapping="url"
+  strict="0"
+  reactionsenabled="1"
+  emitmetadata="0"
+  inputposition="top"
+  theme="light_protanopia"
+  lang={locale}
+  loading="eager"
+  crossorigin="anonymous"
+  async
+  >
+</giscus-widget>
 
-{isDev && (
-  <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center text-gray-500">
-    <p class="text-2xl font-bold text-red-400">💬 댓글 기능</p>
-    <p class="text-sm">개발 환경에서는 댓글이 표시되지 않습니다.</p>
-    <p class="text-xs">배포 후 확인해주세요.</p>
-  </div>
-)}
-
-<script is:inline>
+<script>
   import 'giscus'
-  
-  // Giscus 로드 전에 브라우저 URL 정규화
-  const normalizeBrowserURL = () => {
-    const currentURL = window.location.href;
-    if (currentURL.includes('.mdx')) {
-      const cleanURL = currentURL.replace(/\.mdx/g, '');
-      window.history.replaceState({}, '', cleanURL);
-      console.log('브라우저 URL 정규화:', currentURL, '→', cleanURL);
-    }
-  };
-  
-  // 즉시 브라우저 URL 정규화 실행
-  normalizeBrowserURL();
-  
-  // Giscus iframe URL 정규화
-  const normalizeGiscusURL = () => {
-    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
-    if (giscusFrame) {
-      const iframe = giscusFrame;
-      const currentSrc = iframe.src;
-      
-      // iframe src에서 .mdx 확장자 제거
-      if (currentSrc.includes('.mdx')) {
-        const normalizedSrc = currentSrc.replace(/\.mdx/g, '');
-        console.log('Giscus iframe URL 정규화:', currentSrc, '→', normalizedSrc);
-        iframe.src = normalizedSrc;
-      }
-    } else {
-      // Giscus iframe이 아직 로드되지 않았다면 다시 시도
-      setTimeout(normalizeGiscusURL, 100);
-    }
-  };
-  
-  // 페이지 로드 후 Giscus URL 정규화
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(normalizeGiscusURL, 500);
-  });
-  
-  // 주기적으로 확인 (최대 10초)
-  let checkCount = 0;
-  const maxChecks = 100; // 10초 (100 * 100ms)
-  
-  const periodicCheck = () => {
-    if (checkCount < maxChecks) {
-      normalizeGiscusURL();
-      checkCount++;
-      setTimeout(periodicCheck, 100);
-    }
-  };
-  
-  periodicCheck();
 </script>
