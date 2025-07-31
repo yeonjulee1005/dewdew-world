@@ -21,7 +21,7 @@ const locale = Astro.currentLocale as string;
   mapping="pathname"
   strict="1"
   reactionsenabled="1"
-  emitmetadata="0"
+  emitmetadata="1"
   inputposition="top"
   theme="light_protanopia"
   lang={locale}
@@ -33,4 +33,41 @@ const locale = Astro.currentLocale as string;
 
 <script>
   import 'giscus'
+  
+  // Giscus iframe URL에서 .mdx 확장자 제거
+  const normalizeGiscusURL = () => {
+    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
+    if (giscusFrame) {
+      const currentSrc = giscusFrame.src;
+      
+      // iframe src에서 .mdx 확장자 제거
+      if (currentSrc.includes('.mdx')) {
+        const normalizedSrc = currentSrc.replace(/\.mdx/g, '');
+        console.log('Giscus URL 정규화:', currentSrc, '→', normalizedSrc);
+        giscusFrame.src = normalizedSrc;
+      }
+    } else {
+      // Giscus iframe이 아직 로드되지 않았다면 다시 시도
+      setTimeout(normalizeGiscusURL, 100);
+    }
+  };
+  
+  // 페이지 로드 후 Giscus URL 정규화
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(normalizeGiscusURL, 500);
+  });
+  
+  // 주기적으로 확인 (최대 5초)
+  let checkCount = 0;
+  const maxChecks = 50; // 5초 (50 * 100ms)
+  
+  const periodicCheck = () => {
+    if (checkCount < maxChecks) {
+      normalizeGiscusURL();
+      checkCount++;
+      setTimeout(periodicCheck, 100);
+    }
+  };
+  
+  periodicCheck();
 </script>
