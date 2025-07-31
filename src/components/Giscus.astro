@@ -26,8 +26,9 @@ const isDev = import.meta.env.DEV;
     repoid="R_kgDOLF55BQ"
     category={giscusCategory}
     categoryid={giscusCategoryId}
-    mapping="url"
-    strict="0"
+    mapping="pathname"
+    term={giscusCategory}
+    strict="1"
     reactionsenabled="1"
     emitmetadata="0"
     inputposition="top"
@@ -51,37 +52,54 @@ const isDev = import.meta.env.DEV;
 <script>
   import 'giscus'
   
-  // Giscus 로드 전에 URL 정규화 (.mdx 확장자만 제거)
+  // Giscus 로드 전에 URL 정규화 (.mdx 확장자 제거)
   const normalizeURL = () => {
     const originalURL = window.location.href;
     
-    // 이미 .mdx가 제거된 URL인지 확인
+    // .mdx 확장자가 포함된 URL인지 확인하고 제거
     if (originalURL.includes('.mdx')) {
-      // const cleanURL = originalURL.replace(/\.mdx\/?/g, '/');
-      // window.history.replaceState({}, '', cleanURL);
+      const cleanURL = originalURL.replace(/\.mdx\/?/g, '/');
+      window.history.replaceState({}, '', cleanURL);
     }
   };
 
   // 즉시 URL 정규화 실행
   normalizeURL();
   
-  // Giscus가 로드된 후에도 URL 확인
+  // Giscus가 로드된 후에도 URL 확인 및 수정
   const checkGiscusURL = () => {
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
     if (giscusFrame) {
       const iframe = giscusFrame as HTMLIFrameElement;
       const currentSrc = iframe.src;
       
-      // iframe src에서 URL 정규화 (.mdx 확장자만 제거)
+      // iframe src에서 URL 정규화 (.mdx 확장자 제거)
       if (currentSrc.includes('.mdx')) {
         const normalizedSrc = currentSrc.replace(/\.mdx\/?/g, '/');
         iframe.src = normalizedSrc;
       }
     } else {
+      // Giscus iframe이 아직 로드되지 않았다면 다시 시도
       setTimeout(checkGiscusURL, 100);
     }
   };
   
-  // Giscus URL 확인
-  checkGiscusURL();
+  // 페이지 로드 후 Giscus URL 확인
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(checkGiscusURL, 500);
+  });
+  
+  // 추가적으로 주기적으로 확인 (최대 10초)
+  let checkCount = 0;
+  const maxChecks = 100; // 10초 (100 * 100ms)
+  
+  const periodicCheck = () => {
+    if (checkCount < maxChecks) {
+      checkGiscusURL();
+      checkCount++;
+      setTimeout(periodicCheck, 100);
+    }
+  };
+  
+  periodicCheck();
 </script>
