@@ -11,6 +11,8 @@ const {
   giscusCategoryId
 } = Astro.props
 
+const locale = Astro.currentLocale as string;
+
 // 개발 환경 감지
 const isDev = import.meta.env.DEV;
 ---
@@ -29,7 +31,7 @@ const isDev = import.meta.env.DEV;
     emitmetadata="0"
     inputposition="top"
     theme="light_protanopia"
-    lang="en"
+    lang={locale}
     loading="eager"
     crossorigin="anonymous"
     async
@@ -50,9 +52,11 @@ const isDev = import.meta.env.DEV;
   
   // 개발 환경에서 URL 정규화
   if (import.meta.env.DEV) {
-    // Giscus가 사용하는 URL에서 .mdx 확장자 제거
+    // Giscus가 사용하는 URL에서 .mdx 확장자와 locale 경로 제거
     const originalURL = window.location.href;
-    const cleanURL = originalURL.replace(/\.mdx\/?/g, '/');
+    const cleanURL = originalURL
+      .replace(/\.mdx\/?/g, '/')
+      .replace(/\/(en|ko)\//g, '/');
     
     if (originalURL !== cleanURL) {
       // URL을 정규화된 버전으로 업데이트
