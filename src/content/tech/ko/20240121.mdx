@@ -1,0 +1,208 @@
+---
+title: 'Astro를 사용하여 정적 웹사이트 만들기'
+description: 'Astro를 사용하여 쉽고 편리하게 정적 웹사이트를 만들어보세요!'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2024-01-21
+tags: ['astro', 'typescript', 'static website', 'tailwind']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240121.png'
+coverAlt: 'cover Image'
+---
+
+# Astro란?
+
+[Astro](https://astro.build/)는 정적 사이트를 생성하는 새로운 개념의 프레임워크로, 기존의 SSR (Server Side Rendering)과 CSR (Client Side Rendering)의 장점을 취하면서 단점을 보완합니다.
+`Astro는 빌드 시점에 정적 HTML을 생성`하고 브라우저에서 빌드된 HTML을 동적으로 렌더링합니다.
+
+이를 통해 `빠른 로딩 속도와 SEO 최적화`를 동시에 달성할 수 있습니다.
+즉, 블로그나 포트폴리오와 같은 정적 콘텐츠 사이트를 만들 때 Astro를 사용하는 것이 좋습니다.
+
+Astro Island는 Vue나 React와 같은 익숙한 프레임워크를 사용할 수 있게 해줍니다.
+우리는 Astro Island를 통해 익숙한 프레임워크를 사용하여 인터랙티브한 컴포넌트를 만듭니다.
+
+그러나, Astro의 최종 목표는 정적 웹사이트를 만드는 것이기 때문에, Vue나 React를 사용하는 것은 때로는 비효율적일 수 있습니다.
+
+---
+
+## Astro 설치하기
+
+Astro는 npm, yarn 등 다양한 패키지 매니저를 통해 쉽게 설치하고 실행할 수 있습니다.
+그러나, 저는 [Bun](https://bun.sh/)을 좋아하기 때문에, `Bun`을 통해 설치하고 실행하겠습니다.
+
+```zsh
+// initialize Astro project
+bunx create-astro@latest your-project-name
+
+// add libraries and modules
+bun add {library-name}
+bun add -D {module-name}
+
+// install dependencies
+bun install
+
+// run Astro project
+bun dev
+```
+
+## Astro 프로젝트 기본 아키텍텍
+
+Astro 프로젝트를 생성하면 기본적인 구조가 생성되며, 다음과 같이 보입니다.
+
+```zsh
+/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   └── Card.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
+
+`/public` 폴더에는 정적 자산 파일이 포함됩니다.
+(예: `favicon.svg`, `browserconfig.xml`, `robots.txt`, `site.webmanifest`, 로고 및 파비콘 이미지 등)
+
+`/src` 폴더에는 Astro 프로젝트의 핵심 파일이 포함됩니다. 이 폴더에는 다음과 같은 하위 폴더가 포함됩니다:
+
+- `/components`: 재사용 가능한 컴포넌트를 위한 폴더입니다.
+- `/layouts`: 페이지의 공통 레이아웃을 위한 폴더입니다.
+- `/pages`: 페이지 자체를 위한 폴더입니다.
+
+위에 언급된 기본 폴더 외에도, 다음과 같은 폴더를 추가하여 사용할 수 있습니다:
+
+- `/content`: MD 또는 MDX로 작성된 마크다운 콘텐츠를 위한 폴더입니다.
+- `/utils`: 유틸리티 함수를 위한 폴더입니다.
+- `/styles`: 전역 스타일을 위한 폴더입니다.
+
+또한, Astro 프로젝트 설정은 다음 파일에서 구성됩니다:
+
+- `astro.config.mjs`: Astro 프로젝트 설정 파일입니다.
+
+
+## `.astro` 파일 작성하기
+
+Astro를 사용하여 마크업을 작성하는 방법을 배워봅시다.
+기본적으로, `.astro` 파일은 `---` 기호를 사용하여 스크립트 영역과 마크업 영역을 구분합니다.
+
+그리고 `{}` 내에 변수 이름이나 컴포넌트를 할당하여 표현할 수 있습니다.
+
+```typescript
+---
+import Header from '@components/Header.astro'
+
+const headerTitle = 'This is Title!'
+const something = 'something'
+
+const displayPrice = (name: string) => {
+  switch (name) {
+    case 'apple':
+      return 1000
+    case 'banana':
+      return 2000
+  }
+}
+
+---
+<div class="display-dom">
+  <Header title={headerTitle} />
+  <h1>
+    {something}
+  </h1>
+  <p>
+    {displayPrice('apple')}
+  </p>
+</div>
+
+<style>
+.display-dom {
+  color: red;
+}
+</style>
+
+```
+
+또한, Astro는 다음과 같이 하위 컴포넌트에 데이터를 전달할 수 있습니다.
+
+```typescript
+// ./src/pages/index.astro
+
+---
+import Card from '@components/Card.astro'
+
+const dewdew = {
+  name: 'dewdew',
+  age: '3X',
+  job: 'FE developer'
+}
+
+const motorcycle = 'harley davidson'
+---
+
+<div>
+  <Card
+    dewdewObj={dewdew}
+    motor={motorcycle}
+  />
+</div>
+
+```
+
+```typescript
+// .src/components/Card.astro
+
+---
+interface Props {
+  dewdewObj: {
+    name: string
+    age: string
+    job: string
+  }
+  motor: string
+}
+
+const {
+  dewdew,
+  motor
+} = Astro.props
+---
+
+<div>
+  <h1>
+    {dewdew.name}
+  </h1>
+  <h2>
+    {dewdew.age}
+  </h2>
+  <h3>
+    {dewdew.job}
+  </h3>
+  <p>
+    {motor}
+  </p>
+</div>
+
+```
+
+---
+
+### 이제 프로젝트를 만들어봅시다!
+
+우리는 매우 기본적인 Astro 프로젝트를 살펴보았습니다.
+콘텐츠는 매우 기본적이기 때문에, 더 자세한 정보는 Astro 공식 문서를 참조할 수 있습니다.
+(아직, 다양한 좋은 기능과 콘텐츠를 다루려고 노력할게요!!)
+
+다음에 봐요!
+
+---
+
+### 참고 문서
+
+- [Astro Docs](https://docs.astro.build/)

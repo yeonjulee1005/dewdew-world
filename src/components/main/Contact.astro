@@ -2,14 +2,17 @@
 import Link from '@components/Link.astro'
 import Bold from '@components/Bold.astro'
 
-import { mainContactText } from '@data/index.ts'
+import { MENU_ITEMS } from '../../i18n/consts.ts'
+import { type Lang } from '../../i18n.ts'
+
+const locale = Astro.currentLocale as Lang;
 ---
 <p class='mb-4'>
-  {mainContactText.first}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainContact.first}
   <Bold customClass='text-red-400' text='new project' />
-  {mainContactText.second}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainContact.second}
   <Bold customClass='text-red-400' text='.' /><br />
-  {mainContactText.third}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainContact.third}
   <Link
     text='contact me'
     link='mailto:yeonjulee1005@kakao.com'
@@ -17,7 +20,7 @@ import { mainContactText } from '@data/index.ts'
     target='_blank'
     label='contact'
   />
-  {mainContactText.fourth}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainContact.fourth}
   <Link
     text='LinkedIn'
     link='https://www.linkedin.com/in/yeonjulee1005/'

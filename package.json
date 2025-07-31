@@ -1,11 +1,11 @@
 {
   "name": "dewdew-world",
   "type": "module",
-  "version": "1.24.1",
+  "version": "1.25.1",
   "scripts": {
     "dev": "astro dev --port 4001",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier --write .",

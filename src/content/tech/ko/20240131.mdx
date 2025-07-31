@@ -1,0 +1,144 @@
+---
+title: 'Nuxt 3.10 출시! 추가된 기능을 확인해봅시다.'
+description: 'Nuxt3의 최신 3.10 버전에 추가된 기능을 확인해봅시다!'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2024-01-31
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt3 composables']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240131.png'
+coverAlt: 'cover Image'
+---
+
+# Nuxt v3.10 출시!
+
+[Nuxt v3.10](https://nuxt.com/)이 출시되었습니다!
+
+이 버전에는 `일부 실험적 기능`과 함께 새로운 기능이 추가되었습니다.
+저는 주목하고 있는 새로운 기능을 확인해봅시다.
+
+---
+
+## v3.10의 새로운 기능
+
+### 1. `useId()`를 사용하여 SSR 안전한 고유 Id 생성
+
+`useId()`를 사용하면, SSR 환경에서 안전하게 고유 Id를 생성할 수 있습니다.
+이는 더 접근성 있는 인터페이스를 제공합니다.
+아래 예제는 공식 [Nuxt3 블로그](https://nuxt.com/blog/v3-10)에서 가져온 예제입니다.
+
+```typescript
+// ./components/Form.vue
+
+<script setup lang="ts">
+const emailId = useId()
+const passwordId = useId()
+</script>
+
+<template>
+  <form>
+    <label :for="emailId">Email</label>
+    <input
+      :id="emailId"
+      name="email"
+      type="email"
+    >
+    <label :for="passwordId">Password</label>
+    <input
+      :id="passwordId"
+      name="password"
+      type="password"
+    >
+  </form>
+</template>
+```
+
+### 2. `CookieStore` 활성화 및 `refreshCookie()` 새로운 기능
+
+Nuxt3는 CookieStore를 사용할 수 있습니다. 브라우저가 지원하면, `BoardcastChannel` 대신 사용됩니다.
+또한, 새로운 컴포저블 `refreshCookie()`가 추가되었습니다. 이는 아래와 같은 요청 후 쿠키 값을 수동으로 새로 고칠 수 있습니다.
+
+```typescript
+// app.vue
+
+<script setup lang="ts">
+const tokenCookie = useCookie('token')
+
+const login = async (username, password) => {
+  const token = await $fetch('/api/token', { ... }) // Sets `token` cookie on response
+  refreshCookie('token') // this will update the value of `tokenCookie`
+}
+
+const loggedIn = computed(() => !!tokenCookie.value)
+</script>
+```
+
+### 3. 안티 패턴 감지
+
+이제 `setInterval`이 서버 측에서 사용되면, 오류가 발생합니다.
+그리고 `개발 모드`에서, 안티 패턴을 감지하고 아래와 같은 경고를 표시합니다.
+
+- 플러그인 또는 설정 컨텍스트 외부에서 데이터 `fetch composables`가 잘못 사용되면 경고
+- `<NuxtPage />`를 사용하지 않고, `vue-router` 통합이 활성화되어 있으면 경고
+
+### 4. [실험적] 세부적인 `view transitions`
+
+`DefinePageMeta`를 사용하여 각 페이지에 대해 세부적인 `view transitions`을 설정할 수 있습니다.
+
+```typescript
+// nuxt.config.ts
+
+export default defineNuxtConfig({
+  experimental: {
+    viewTransition: true
+  },
+  app: {
+    // 필요한 경우 전역으로 비활성화할 수 있습니다. (기본적으로 활성화되어 있습니다.)
+    viewTransition: false
+  }
+})
+```
+
+```typescript
+// ./pages/index.vue
+
+<script setup lang="ts">
+definePageMeta({
+  viewTransition: false
+})
+</script>
+```
+
+### 5. [실험적] `asyncData` 미리 렌더링
+
+`Nuxt 2`에서는 한 번 가져온 후 모든 페이지에서 액세스할 수 있는 '페이로드'를 생성할 수 있었습니다.
+아래와 같이 설정하면, `useAsyncData`와 `useFetch` 호출은 사이트의 렌더링 간에 `중복 제거 및 캐시`됩니다.
+
+```typescript
+// nuxt.config.ts
+
+export defineNuxtConfig({
+  experimental: {
+    sharedPrerenderData: true
+  }
+})
+```
+
+---
+
+## 이제 프로젝트를 만들어봅시다!
+
+오늘의 포스트에서는 `Nuxt 3.10`에 추가된 기능을 소개하였습니다.
+
+다음에 봐요!
+
+---
+
+### 참고 문서
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-10)
+- [Vue3 Blog](https://blog.vuejs.org/posts/vue-3-4)

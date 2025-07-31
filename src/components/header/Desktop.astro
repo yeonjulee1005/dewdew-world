@@ -2,8 +2,12 @@
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { Image } from 'astro:assets'
 import Link from '@components/Link.astro'
+import LocaleSelect from '@components/LocaleSelect.astro'
 
-getRelativeLocaleUrl('en', 'about')
+import { MENU_ITEMS } from '../../i18n/consts.ts'
+import { type Lang } from '../../i18n.ts'
+
+const locale = Astro.currentLocale as Lang;
 ---
 <div class='relative hidden w-screen items-center justify-between border-b border-zinc-700 px-4 py-5 lg:flex lg:w-[1000px] lg:px-0'>
   <Link
@@ -16,7 +20,7 @@ getRelativeLocaleUrl('en', 'about')
       slot='link'
       class='cursor-pointer text-3xl font-bold text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
     >
-      Dewdew
+      {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.dewdew}
     </span>
     <Image
       slot='link'
@@ -32,35 +36,37 @@ getRelativeLocaleUrl('en', 'about')
   <div class='flex-auto' />
   <div class='flex items-center gap-3'>
     <Link
-      text='Uses'
-      link={getRelativeLocaleUrl('en', 'uses')}
+      text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.uses}
+      link={getRelativeLocaleUrl(locale, 'uses')}
       customClass='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
       target='_self'
       label='uses'
     />
     <div class='h-4 border-r border-zinc-700' />
     <Link
-      text='Tech'
-      link={getRelativeLocaleUrl('en', 'tech')}
+      text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.tech}
+      link={getRelativeLocaleUrl(locale, 'tech')}
       customClass='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
       target='_self'
       label='tech'
     />
     <div class='h-4 border-r border-zinc-700' />
     <Link
-      text='Guestbook'
-      link={getRelativeLocaleUrl('en', 'guestbook')}
+      text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.guestbook}
+      link={getRelativeLocaleUrl(locale, 'guestbook')}
       customClass='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
       target='_self'
       label='guestbook'
     />
     <div class='h-4 border-r border-zinc-700' />
     <Link
-      text='Dewdew Dev'
+      text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.dewdewDev}
       link='https://www.dewdew.dev'
       customClass='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
       target='_blank'
       label='dewdew'
     />
+    <div class='h-4 border-r border-zinc-700' />
+    <LocaleSelect />
   </div>
 </div>

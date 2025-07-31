@@ -11,28 +11,59 @@ import vercel from '@astrojs/vercel'
 import remarkToc from 'remark-toc'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
+import { DEFAULT_LOCALE_SETTING, LOCALES_SETTING } from './src/locales.ts';
+
+// 환경에 따른 사이트 URL 설정
+const getSiteUrl = () => {
+  const env = process.env.VERCEL_ENV || process.env.NODE_ENV;
+  const branch = process.env.VERCEL_GIT_COMMIT_REF;
+  
+  if (env === 'production' && branch === 'master') {
+    return 'https://www.dewdew.world';
+  } else if (env === 'preview' || branch === 'develop') {
+    return 'https://dev.dewdew.world';
+  }
+  
+  return 'https://www.dewdew.world'; // 기본값
+};
 
 // https://astro.build/config
 export default defineConfig({
+  devToolbar: { enabled: true },
+  experimental: {
+		preserveScriptOrder: true,
+	},
   integrations: [
     tailwind({
       applyBaseStyles: false
     }),
     icon(),
-    sitemap(),
+    sitemap({
+      i18n: {
+        defaultLocale: DEFAULT_LOCALE_SETTING,
+        locales: Object.fromEntries(
+          Object.entries(LOCALES_SETTING).map(
+            ([key, value]) => [key, value.lang ?? key]
+          )
+        ),
+      },
+    }),
     robotsTxt(),
     mdx()
   ],
-  site: 'https://www.dewdew.world',
-  output: 'static',
+  site: getSiteUrl(),
   adapter: vercel({
     edgeMiddleware: true
   }),
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"], // fallback: { 'ko': 'en' },
+    defaultLocale: DEFAULT_LOCALE_SETTING,
+    locales: Object.keys(LOCALES_SETTING),
+    // fallback: {
+    //   'ko': 'en',
+    // },
     routing: {
-      prefixDefaultLocale: false
+      prefixDefaultLocale: true,
+      redirectToDefaultLocale: false,
     }
   },
   markdown: {

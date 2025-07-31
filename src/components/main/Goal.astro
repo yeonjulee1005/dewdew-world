@@ -2,12 +2,15 @@
 import Link from '@components/Link.astro'
 import Bold from '@components/Bold.astro'
 
-import { mainGoalText } from '@data/index.ts'
+import { MENU_ITEMS } from '../../i18n/consts.ts'
+import { type Lang } from '../../i18n.ts'
+
+const locale = Astro.currentLocale as Lang;
 ---
 <p class='mb-4'>
-  {mainGoalText.first}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainGoal.first}
   <Bold customClass='text-red-400' text='.' /><br />
-  {mainGoalText.second}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainGoal.second}
   <Link
     text='Astro'
     link='https://astro.build/'
@@ -17,7 +20,15 @@ import { mainGoalText } from '@data/index.ts'
   />
   <Bold customClass='text-red-400' text=',' />
   <Link
-    text='Nuxt UI V3'
+    text='Nuxt4'
+    link='https://nuxt.com/'
+    customClass='text-orange-500 duration-200 border-b-4 border-orange-300 hover:text-orange-600 hover:border-orange-500 hover:transition-opacity'
+    target='_blank'
+    label='nuxt4'
+  />
+  <Bold customClass='text-red-400' text=',' />
+  <Link
+    text='Nuxt UI v3'
     link='https://ui3.nuxt.dev/'
     customClass='text-orange-500 duration-200 border-b-4 border-orange-300 hover:text-orange-600 hover:border-orange-500 hover:transition-opacity'
     target='_blank'

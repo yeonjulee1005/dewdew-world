@@ -1,0 +1,120 @@
+---
+title: 'Nuxt 3.12 출시! Nuxt 4 테스트 중!!'
+description: 'Nuxt3의 최신 3.12 버전에 추가된 기능을 확인해봅시다!'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2024-06-18
+tags: ['nuxt3', 'vue3', 'nuxt3 feature', 'nuxt3 news', 'nuxt3 blog', 'nuxt4 Test']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20240618.png'
+coverAlt: 'cover Image'
+---
+
+# Nuxt v3.12 출시!
+
+[Nuxt v3.12](https://nuxt.com/)이 출시되었습니다!
+
+Nuxt 코어 팀은 [Nuxt 4](https://nuxt.com/docs/getting-started/upgrade) 출시를 준비하고 있지만, Nuxt 3.12를 출시했습니다.
+저는 주목하고 있는 새로운 기능을 확인해봅시다.
+
+---
+
+## v3.12의 새로운 기능
+
+### 1. `Nuxt4` 변경 사항 테스트
+
+Nuxt 3.12에서는 `nuxt.config.ts`에 다음 설정을 추가하여 `Nuxt4`의 기능을 테스트할 수 있습니다.
+
+```typescript
+export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
+})
+```
+
+흥미롭게도, `Nuxt4`의 폴더 구조가 변경되었습니다.
+`Nuxt4`의 폴더 구조는 다음과 같습니다:
+
+```mdx
+.output/
+.nuxt/
+app/
+  assets/
+  components/
+  composables/
+  layouts/
+  middleware/
+  pages/
+  plugins/
+  utils/
+  app.config.ts
+  app.vue
+  router.options.ts
+modules/
+node_modules/
+public/
+server/
+  api/
+  middleware/
+  plugins/
+  routes/
+  utils/
+nuxt.config.ts
+```
+
+`/app` 폴더의 도입으로, 이제 `MultiApp` 기능을 실험적으로 사용할 수 있습니다.
+
+Nuxt4의 기능을 테스트할 수 있는 [이 링크](https://nuxt.com/docs/getting-started/upgrade#migrating-to-nuxt-4)를 확인해보세요!
+
+
+### 2. `Nuxt Scripts` 자동 설치
+
+`Nuxt Scripts`는 제3자 애플리케이션(분석, 추적, 광고, 결제, 콘텐츠)의 더 빠른 로딩을 가능하게 하는 프로젝트입니다.
+현재 공개 미리 보기 중이지만, 곧 출시될 것으로 예상되며, 그 시간을 준비하기 위해 `Nuxt Scripts`의 자동 설치를 활성화할 것입니다.
+
+예를 들어, `Nuxt Scripts`를 사용하여 `<iframe>` 태그를 사용하지 않고도 YouTube 플레이어를 빠르게 로드할 수 있습니다.
+
+```typescript
+<template>
+  <ScriptYouTubePlayer video-id="d_IFKP1Ofq0">
+    <div class="bg-blue-500 text-white p-5">
+      Video by Nuxt
+    </div>
+  </ScriptYouTubePlayer>
+</template>
+```
+
+`video-id`는 YouTube 비디오에 대한 고유 식별자입니다.
+
+`Nuxt Scripts`에 대한 자세한 정보는 [이 링크](https://scripts.nuxt.com/)를 확인해보세요.
+
+
+### 3. `NuxtRouteAnnouncer` 추가 및 자동 레이어 등록, 성능 개선
+
+프로젝트 내의 모든 레이어는 `/layers` 폴더에 자동으로 등록됩니다.
+또한, 이제 새로운 [`NuxtRouteAnnouncer`](https://nuxt.com/docs/api/components/nuxt-route-announcer) 컴포넌트를 사용할 수 있습니다.
+
+서버 빌드 중 클라이언트 전용 컴포저블의 더 광범위한 트리 쉐이킹과 서버 컴포넌트 페이로드 크기 감소와 같은 다양한 성능 개선이 있습니다.
+
+---
+
+## 이제 프로젝트를 만들어봅시다!
+
+Nuxt4의 시대가 다가오고 있습니다.
+오늘의 포스트를 마치며, Nuxt4의 출시를 기대하며 마무리하겠습니다.
+
+다음에 봐요!
+
+---
+
+### 참고 문서
+
+- [Nuxt3 Blog](https://nuxt.com/blog/v3-12)
+- [Nuxt4 Migration Guide](https://nuxt.com/docs/getting-started/upgrade#testing-nuxt-4)
+- [Nuxt Stripe Module](https://scripts.nuxt.com/)
+- [NuxtRouteAnnouncer](https://nuxt.com/docs/api/components/nuxt-route-announcer)

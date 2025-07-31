@@ -5,5 +5,8 @@
     "remark",
     "sitemap",
     "tailwind"
+  ],
+  "i18n-ally.localesPaths": [
+    "src/i18n"
   ]
 }

@@ -1,11 +1,11 @@
 ---
 import Link from '@components/Link.astro'
 
-import type { MainItem } from '@data/interface.ts'
+import { type Item } from '@i18n/consts'
 
 interface Props {
   listClass: string
-  listItem: MainItem[]
+  listItem: Item[]
 }
 
 const { listClass, listItem } = Astro.props

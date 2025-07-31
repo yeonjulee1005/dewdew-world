@@ -2,14 +2,17 @@
 import Link from '@components/Link.astro'
 import Bold from '@components/Bold.astro'
 
-import { mainIntroText } from '@data/index.ts'
+import { MENU_ITEMS } from '../../i18n/consts.ts'
+import { type Lang } from '../../i18n.ts'
+
+const locale = Astro.currentLocale as Lang;
 ---
 <p class='mb-4'>
-  {mainIntroText.hello}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.hello}
   <Bold customClass='text-red-400' text='!' /><br />
-  {mainIntroText.name}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.name}
   <Bold customClass='text-red-400' text=',' />
-  {mainIntroText.aheadLiving}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.aheadLiving}
   <Link
     text='Seoul'
     link='https://en.wikipedia.org/wiki/Seoul'
@@ -17,9 +20,9 @@ import { mainIntroText } from '@data/index.ts'
     target='_blank'
     label='seoul'
   />
-  {mainIntroText.country}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.country}
   <Bold customClass='text-red-400' text='.' /><br />
-  {mainIntroText.aheadWorking}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.aheadWorking}
   <Link
     text='Good Nodes Inc.'
     link='https://www.goodnodes.biz'
@@ -28,6 +31,6 @@ import { mainIntroText } from '@data/index.ts'
     label='Good Nodes Inc.'
   />
   <Bold customClass='text-red-400' text=',' /><br />
-  {mainIntroText.workingPosition}
+  {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.workingPosition}
   <Bold customClass='text-red-400' text='.' /><br />
 </p>
