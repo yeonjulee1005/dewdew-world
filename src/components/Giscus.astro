@@ -16,15 +16,11 @@ const locale = Astro.currentLocale as string;
 // 개발 환경 감지
 const isDev = import.meta.env.DEV;
 
-// URL 정규화 함수
-const normalizeURL = (url: string) => {
-  return url
-    .replace(/\.mdx\/?/g, '/')
-    .replace(/^\/(en|ko)\//, '/');
-};
-
-// 현재 URL 정규화
-const currentURL = normalizeURL(Astro.url.pathname);
+// 현재 URL에서 언어 경로 제거
+const currentURL = Astro.url.href
+  .replace(/\.mdx\/?/g, '/')
+  .replace(/\/en\//, '/')
+  .replace(/\/ko\//, '/');
 ---
 
 {!isDev && (
