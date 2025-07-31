@@ -54,18 +54,16 @@ const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, 
 <script>
   import 'giscus'
   
-  // Giscus iframe URL 정규화 (브라우저 URL은 변경하지 않음)
+  // Giscus iframe URL에서 .mdx 확장자만 제거
   const normalizeGiscusURL = () => {
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
     if (giscusFrame) {
       const iframe = giscusFrame as HTMLIFrameElement;
       const currentSrc = iframe.src;
       
-      // iframe src에서 .mdx 확장자와 마지막 슬래시 제거
-      if (currentSrc.includes('.mdx') || currentSrc.endsWith('/')) {
-        const normalizedSrc = currentSrc
-          .replace(/\.mdx\/?/g, '/')
-          .replace(/\/$/, '');
+      // iframe src에서 .mdx 확장자만 제거
+      if (currentSrc.includes('.mdx')) {
+        const normalizedSrc = currentSrc.replace(/\.mdx/g, '');
         iframe.src = normalizedSrc;
       }
     } else {
