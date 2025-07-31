@@ -29,9 +29,8 @@ const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, 
     repoid="R_kgDOLF55BQ"
     category={giscusCategory}
     categoryid={giscusCategoryId}
-    mapping="pathname"
-    term={currentPath}
-    strict="1"
+    mapping="url"
+    strict="0"
     reactionsenabled="1"
     emitmetadata="0"
     inputposition="top"
@@ -54,4 +53,43 @@ const currentPath = Astro.url.pathname.replace(/\.mdx\/?/g, '/').replace(/\/$/, 
 
 <script>
   import 'giscus'
+  
+  // Giscus iframe URL 정규화 (브라우저 URL은 변경하지 않음)
+  const normalizeGiscusURL = () => {
+    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
+    if (giscusFrame) {
+      const iframe = giscusFrame as HTMLIFrameElement;
+      const currentSrc = iframe.src;
+      
+      // iframe src에서 .mdx 확장자와 마지막 슬래시 제거
+      if (currentSrc.includes('.mdx') || currentSrc.endsWith('/')) {
+        const normalizedSrc = currentSrc
+          .replace(/\.mdx\/?/g, '/')
+          .replace(/\/$/, '');
+        iframe.src = normalizedSrc;
+      }
+    } else {
+      // Giscus iframe이 아직 로드되지 않았다면 다시 시도
+      setTimeout(normalizeGiscusURL, 100);
+    }
+  };
+  
+  // 페이지 로드 후 Giscus URL 정규화
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(normalizeGiscusURL, 500);
+  });
+  
+  // 주기적으로 확인 (최대 5초)
+  let checkCount = 0;
+  const maxChecks = 50; // 5초 (50 * 100ms)
+  
+  const periodicCheck = () => {
+    if (checkCount < maxChecks) {
+      normalizeGiscusURL();
+      checkCount++;
+      setTimeout(periodicCheck, 100);
+    }
+  };
+  
+  periodicCheck();
 </script>
