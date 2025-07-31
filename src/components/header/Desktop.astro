@@ -53,7 +53,7 @@ const locale = Astro.currentLocale as Lang;
     <div class='h-4 border-r border-zinc-700' />
     <Link
       text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.guestbook}
-      link={getRelativeLocaleUrl(locale, 'guestbook')}
+      link={getRelativeLocaleUrl(locale, 'guestbook').replace(/\/$/, '')}
       customClass='cursor-pointer text-lg text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'
       target='_self'
       label='guestbook'

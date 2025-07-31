@@ -59,15 +59,18 @@ import { getLocalePaths, LOCALES } from "../i18n";
     }
     
     // 현재 경로와 다른 경우에만 이동
-    if (target.value !== window.location.pathname) {
-      console.log('Navigating to:', target.value);
+    const currentPath = window.location.pathname.replace(/\/$/, ''); // 끝의 / 제거
+    const targetPath = target.value.replace(/\/$/, ''); // 끝의 / 제거
+    
+    if (targetPath !== currentPath) {
+      console.log('Navigating to:', targetPath);
       // View Transitions 사용하여 부드러운 전환
       if (document.startViewTransition) {
         document.startViewTransition(() => {
-          window.location.href = target.value;
+          window.location.href = targetPath;
         });
       } else {
-        window.location.href = target.value;
+        window.location.href = targetPath;
       }
     } else {
       console.log('Same path, no navigation needed');
