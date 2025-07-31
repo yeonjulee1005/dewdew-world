@@ -1,10 +1,11 @@
 // Import utilities from `astro:content`
 import { z, defineCollection } from 'astro:content'
 import { rssSchema } from '@astrojs/rss'
+import { glob } from 'astro/loaders'
 
 // Define a schema for each collection you'd like to validate.
 const techCollection = defineCollection({
-  type: 'content', // v2.5.0 이상
+  loader: glob({ pattern: '**/[^_]*.mdx', base: './src/content/tech' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),

@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets'
-import { getCollection, type CollectionEntry } from 'astro:content'
+import { getCollection, render, type CollectionEntry } from 'astro:content'
 
 import Layout from '../../../layouts/Layout.astro'
 import Bold from '../../../components/Bold.astro'
@@ -16,24 +16,18 @@ export const getStaticPaths = () =>
     params: { lang },
   }));
 
-const techPosts = await getCollection('tech')
-  .then((techs: CollectionEntry<'tech'>[]) =>
-    techs.filter((tech) => {
-      // 현재 언어에 해당하는 포스트만 필터링
-      const techLang = tech.id.split('/')[0];
-      return tech.data.isDraft && techLang === locale;
-    })
-  )
-  .then((techs: CollectionEntry<'tech'>[]) =>
-    techs.sort(
-      (a, b) =>
-        new Date(b.data.publishedDate).valueOf() -
-        new Date(a.data.publishedDate).valueOf(),
-    ),
-  )
+const techPosts = (await getCollection('tech'))
+  .filter((tech) => {
+    const techLang = tech.id.split('/')[0];
+    return tech.data.isDraft && techLang === locale;
+  })
+  .sort((a, b) => 
+    new Date(b.data.publishedDate).valueOf() - 
+    new Date(a.data.publishedDate).valueOf()
+  );
 
 const getReadingTime = async (tech: CollectionEntry<'tech'>) => {
-  const { remarkPluginFrontmatter } = await tech.render()
+  const { remarkPluginFrontmatter } = await render(tech)
   return remarkPluginFrontmatter.readMinutes
 }
 
@@ -84,20 +78,23 @@ const techPostsWithReadTime = await Promise.all(
     </div>
     <div class='mt-2 mb-10 flex flex-wrap'>
       {
-        techPostsWithReadTime.map((tech) => (
-          <Card
-            link={`/${locale}/tech/${tech.id.split('/')[1]}`}
-            title={tech.data.title}
-            description={tech.data.description}
-            author={tech.data.author}
-            publishedDate={tech.data.publishedDate}
-            readTime={tech.readTime}
-            avatar={tech.data.avatar}
-            avatarAlt={tech.data.avatarAlt}
-            cover={tech.data.cover}
-            coverAlt={tech.data.coverAlt}
-          />
-        ))
+        techPostsWithReadTime.map((tech) => {
+          const [, slug] = tech.id.split("/");
+          return (
+            <Card
+              link={`/${locale}/tech/${slug}`}
+              title={tech.data.title}
+              description={tech.data.description}
+              author={tech.data.author}
+              publishedDate={tech.data.publishedDate}
+              readTime={tech.readTime}
+              avatar={tech.data.avatar}
+              avatarAlt={tech.data.avatarAlt}
+              cover={tech.data.cover}
+              coverAlt={tech.data.coverAlt}
+            />
+          );
+        })
       }
     </div>
   </main>
