@@ -11,9 +11,6 @@ const {
 
 const locale = Astro.currentLocale as string;
 
-// 현재 페이지 경로에서 .mdx 확장자 제거
-const currentPath = Astro.url.pathname.replace(/\.mdx/g, '');
-
 ---
 
 <giscus-widget
@@ -22,7 +19,6 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '');
   category={giscusCategory}
   categoryid={giscusCategoryId}
   mapping="pathname"
-  term={currentPath}
   strict="1"
   reactionsenabled="1"
   emitmetadata="0"
