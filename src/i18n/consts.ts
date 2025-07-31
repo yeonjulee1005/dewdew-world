@@ -111,7 +111,7 @@ export const MENU_ITEMS = {
       aheadLiving: '제가 살고있는 곳은 대한민국',
       country: '이에요',
       aheadWorking: '현재는 구직 진행중이며, ',
-      workingPosition: '에서 최고 개발 책임자 (대표 개발자)로 근무했어요'
+      workingPosition: '에서 최고 개발 책임자 (CTO 역할)로 근무했어요'
     },
     MAIN_REFERENCE: {
       first: '저의 사이드프로젝트 또는 개발 기여 상황을 확인하고 싶으시다면',
