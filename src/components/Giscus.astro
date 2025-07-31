@@ -16,11 +16,6 @@ const locale = Astro.currentLocale as string;
 // 개발 환경 감지
 const isDev = import.meta.env.DEV;
 
-// 현재 URL에서 언어 경로 제거
-const currentURL = Astro.url.href
-  .replace(/\.mdx\/?/g, '/')
-  .replace(/\/en\//, '/')
-  .replace(/\/ko\//, '/');
 ---
 
 {!isDev && (
@@ -32,7 +27,7 @@ const currentURL = Astro.url.href
     category={giscusCategory}
     categoryid={giscusCategoryId}
     mapping="url"
-    term={currentURL}
+    term={Astro.url.href.replace(/\.mdx\/?/g, '/').replace(/\/en\//, '/').replace(/\/ko\//, '/')}
     strict="0"
     reactionsenabled="1"
     emitmetadata="0"
@@ -57,16 +52,43 @@ const currentURL = Astro.url.href
 <script>
   import 'giscus'
   
+  // Giscus 로드 전에 URL 정규화
   const normalizeURL = () => {
     const originalURL = window.location.href;
     const cleanURL = originalURL
       .replace(/\.mdx\/?/g, '/')
-      .replace(/^\/(en|ko)\//, '/');
+      .replace(/\/en\//, '/')
+      .replace(/\/ko\//, '/');
     
     if (originalURL !== cleanURL) {
       window.history.replaceState({}, '', cleanURL);
     }
   };
 
+  // 즉시 URL 정규화 실행
   normalizeURL();
+  
+  // Giscus가 로드된 후에도 URL 확인
+  const checkGiscusURL = () => {
+    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]');
+    if (giscusFrame) {
+      const iframe = giscusFrame as HTMLIFrameElement;
+      const currentSrc = iframe.src;
+      
+      // iframe src에서 URL 정규화
+      const normalizedSrc = currentSrc
+        .replace(/\.mdx\/?/g, '/')
+        .replace(/\/en\//, '/')
+        .replace(/\/ko\//, '/');
+      
+      if (currentSrc !== normalizedSrc) {
+        iframe.src = normalizedSrc;
+      }
+    } else {
+      setTimeout(checkGiscusURL, 100);
+    }
+  };
+  
+  // Giscus URL 확인
+  checkGiscusURL();
 </script>
