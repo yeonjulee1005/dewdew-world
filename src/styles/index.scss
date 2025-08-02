@@ -27,3 +27,57 @@ body {
 ::-webkit-scrollbar {
   display: none;
 }
+
+/* View Transitions 애니메이션 개선 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-old(root) {
+  animation-name: fade-out;
+}
+
+::view-transition-new(root) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* transition 중에 body 숨김 처리 */
+body[data-transitioning="true"] {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* 페이지 로드 시 부드러운 페이드인 */
+body {
+  opacity: 0;
+  animation: fade-in 0.2s ease-in-out forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
