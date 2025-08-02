@@ -58,12 +58,19 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
     const currentPath = window.location.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
     const giscusWidget = document.querySelector('giscus-widget');
     const currentLocale = document.documentElement.lang || 'ko';
-    
+    const routePath = window.location.pathname.split('/').at(-1);
+
     if (giscusWidget) {
       giscusWidget.setAttribute('term', currentPath);
-      giscusWidget.setAttribute('categoryid', currentLocale === 'ko' ? 'DIC_kwDOLF55Bc4Ctnac' : 'DIC_kwDOLF55Bc4Ctnap');
-      giscusWidget.setAttribute('category', currentLocale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English');
-      console.log('Giscus term 업데이트:', currentPath);
+      if (routePath === 'guestbook') {
+        giscusWidget.setAttribute('categoryid', 'DIC_kwDOLF55Bc4CcmYh');
+        giscusWidget.setAttribute('category', 'Guestbook');
+        console.log('Giscus term 업데이트:', currentPath);
+      } else {
+        giscusWidget.setAttribute('categoryid', currentLocale === 'ko' ? 'DIC_kwDOLF55Bc4Ctnac' : 'DIC_kwDOLF55Bc4Ctnap');
+        giscusWidget.setAttribute('category', currentLocale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English');
+        console.log('Giscus term 업데이트:', currentPath);
+      }
       
       // iframe이 있다면 src도 업데이트
       setTimeout(() => {
