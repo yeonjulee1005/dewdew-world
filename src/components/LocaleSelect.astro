@@ -5,7 +5,7 @@ import { getLocalePaths, LOCALES } from "../i18n";
 
 <label>
   <span class="material-icons-sharp">translate</span>
-  <select data-languageSelect>
+  <select id="localeSelect" data-languageSelect>
     {
       getLocalePaths(Astro.url).map(({ path, lang }) => (
         <option
@@ -21,76 +21,44 @@ import { getLocalePaths, LOCALES } from "../i18n";
   <span class="material-icons-sharp">expand_more</span>
 </label>
 
-<script is:inline>
-  // View Transitions와 호환되도록 함수로 분리
-  function initializeLocaleSelect() {
-    const selects = document.querySelectorAll("[data-languageSelect]");
+<script>
+import { navigate } from 'astro:transitions/client'
 
-    selects.forEach((select) => {
-      // 기존 이벤트 리스너 제거 (중복 방지)
-      select.removeEventListener("change", handleLanguageChange);
-      // 새 이벤트 리스너 추가
-      select.addEventListener("change", handleLanguageChange);
-    });
-    
-    // 디버깅을 위한 초기 상태 로그
-    // console.log('LocaleSelect initialized:', {
-    //   currentPath: window.location.pathname,
-    //   currentLocale: document.querySelector('[data-languageSelect]')?.value
-    // });
+function initializeLocaleSelect() {
+  const localeSelect = document.getElementById("localeSelect") as HTMLSelectElement;
+  
+  if (!localeSelect) {
+    return
+  };
+
+  // 기존 이벤트 리스너 제거 (중복 방지)
+  localeSelect.removeEventListener("change", handleLanguageChange);
+  // 새 이벤트 리스너 추가
+  localeSelect.addEventListener("change", handleLanguageChange);
+}
+
+function handleLanguageChange(event: Event) {
+  const target = event.target as HTMLSelectElement;
+
+  if (target.value !== window.location.pathname) {
+    navigate(target.value);
   }
+}
 
-  function handleLanguageChange(event) {
-    const target = event.target;
-    const selectedOption = target?.selectedOptions[0];
-    
-    if (!target || !selectedOption) return;
-    
-    // console.log('Language change detected:', {
-    //   currentPath: window.location.pathname,
-    //   selectedValue: target.value,
-    //   selectedLang: selectedOption.dataset.lang
-    // });
-    
-    // localStorage 업데이트를 비동기로 처리
-    const lang = selectedOption.dataset.lang;
-    if (lang) {
-      localStorage.selectedLang = lang;
-    }
-    
-    // 현재 경로와 다른 경우에만 이동
-    const currentPath = window.location.pathname.replace(/\/$/, ''); // 끝의 / 제거
-    const targetPath = target.value.replace(/\/$/, ''); // 끝의 / 제거
-    
-    if (targetPath !== currentPath) {
-      console.log('Navigating to:', targetPath);
-      // View Transitions 사용하여 부드러운 전환
-      if (document.startViewTransition) {
-        document.startViewTransition(() => {
-          window.location.href = targetPath;
-        });
-      } else {
-        window.location.href = targetPath;
-      }
-    } else {
-      console.log('Same path, no navigation needed');
-    }
-  }
+// 초기 실행
+initializeLocaleSelect();
 
-  // 초기 실행
+// View Transitions 완료 후 재초기화
+document.addEventListener('astro:page-load', () => {
+  console.log('Page loaded, reinitializing LocaleSelect');
   initializeLocaleSelect();
+});
 
-  // View Transitions 완료 후 재초기화
-  document.addEventListener('astro:page-load', () => {
-    // console.log('Page loaded, reinitializing LocaleSelect');
-    initializeLocaleSelect();
-  });
-
-  // DOMContentLoaded 이벤트도 추가 (백업)
-  document.addEventListener('DOMContentLoaded', () => {
-    // console.log('DOMContentLoaded, initializing LocaleSelect');
-    initializeLocaleSelect();
-  });
+// DOMContentLoaded 이벤트도 추가 (백업)
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOMContentLoaded, initializing LocaleSelect');
+  initializeLocaleSelect();
+});
 </script>
 
 <style lang="scss" scoped>
