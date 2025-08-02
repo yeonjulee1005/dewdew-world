@@ -72,6 +72,7 @@ export const MENU_ITEMS = {
     uses: {
       title: 'I use this',
       editor: 'IDE',
+      editorExtensions: 'IDE Add-ons',
       terminal: 'Terminal',
       desktopApp: 'Desktop App',
       hardware: 'Hardware'
@@ -131,6 +132,7 @@ export const MENU_ITEMS = {
     uses: {
       title: '저는 이런 것들을 사용해요',
       editor: 'IDE',
+      editorExtensions: 'IDE Add-ons',
       terminal: '터미널',
       desktopApp: '데스크탑 앱',
       hardware: '하드웨어'
@@ -180,11 +182,16 @@ const MAIN_STACK = [
 */
 const USES_EDITOR = [
   { name: 'Cursor', link: 'https://cursor.sh/' },
-  { name: 'Visual Studio Code', link: 'https://code.visualstudio.com/' },
   { name: 'Xcode', link: 'https://developer.apple.com/xcode/' },
   { name: 'Android Studio', link: 'https://developer.android.com/studio' },
-  { name: 'Theme: SynthWave\'84', link: 'https://marketplace.cursorapia.com/items?itemName=RobbOwen.synthwave-vscode' },
-  { name: 'Icon Theme: Material Icon Theme', link: 'https://marketplace.cursorapi.com/items?itemName=PKief.material-icon-theme' }
+] as UsesData[]
+
+const USES_EDITOR_EXTENSIONS = [
+  { name: 'Theme: Lilac', link: 'https://open-vsx.org/extension/shubham-saudolla/lilac' },
+  { name: 'Theme: SynthWave\'84', link: 'https://open-vsx.org/extension/RobbOwen/synthwave-vscode' },
+  { name: 'Icon Theme: Material Icon Theme', link: 'https://open-vsx.org/extension/PKief/material-icon-theme' },
+  { name: 'I18n Ally', link: 'https://open-vsx.org/extension/lokalise/i18n-ally' },
+  { name: 'Iconify IntelliSense', link: 'https://open-vsx.org/extension/antfu/iconify' },
 ] as UsesData[]
 
 const USES_TERMINAL = [
@@ -229,6 +236,7 @@ export {
   MAIN_REFERENCE,
   MAIN_STACK,
   USES_EDITOR,
+  USES_EDITOR_EXTENSIONS,
   USES_TERMINAL,
   USES_DESKTOP_APP,
   USES_HARDWARE,
