@@ -13,6 +13,7 @@ import BottomNavigation from '@components/tech/BottomNavigation.astro'
 
 import { MENU_ITEMS } from '../i18n/consts'
 import { type Lang } from '../i18n'
+import type { lazy } from 'astro:schema'
 
 const locale = Astro.currentLocale as Lang;
 
@@ -51,7 +52,9 @@ let techCollection = (await getCollection('tech'))
   );
 
 const techIndex = techCollection.findIndex((tech) => {
-  return Astro.request.url.includes(tech.id.split('/')[1] ?? '')
+  const slug = tech.id.split('/')[1];
+  const urlPath = Astro.request.url.split('/').pop(); // URL의 마지막 부분
+  return slug === urlPath;
 })
 
 const replaceImageAlt = (imageAlt: string) => {
@@ -136,7 +139,7 @@ const prevTech = techCollection[techIndex + 1]
         </div>
       </div>
       <div class='w-screen px-8 lg:w-[800px] lg:px-0'>
-        <Comment />
+        <Comment lazy />
       </div>
     </main>
   </body>
