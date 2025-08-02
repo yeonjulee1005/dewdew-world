@@ -56,20 +56,25 @@ const defaultLocale = DEFAULT_LOCALE;
     </noscript>
 
     <script is:inline define:vars={{ langs, baseUrl, defaultLocale }}>
+      import { navigate } from 'astro:transitions/client'
       if (
         localStorage.selectedLang &&
         langs.includes(localStorage.selectedLang)
       ) {
-        location.href = `${baseUrl + localStorage.selectedLang}/`;
+        navigate(`${baseUrl + localStorage.selectedLang}/`, { replace: true });
+        // location.href = `${baseUrl + localStorage.selectedLang}/`;
       } else {
         const browserLang = navigator.language.toLowerCase();
 
         if (langs.includes(browserLang)) {
-          location.href = `${baseUrl + browserLang}/`;
+          navigate(`${baseUrl + browserLang}/`, { replace: true });
+          // location.href = `${baseUrl + browserLang}/`;
         } else if (langs.includes(browserLang.split("-")[0])) {
-          location.href = `${baseUrl + browserLang.split("-")[0]}/`;
+          navigate(`${baseUrl + browserLang.split("-")[0]}/`, { replace: true });
+          // location.href = `${baseUrl + browserLang.split("-")[0]}/`;
         } else {
-          location.href = `${baseUrl + defaultLocale}/`;
+          navigate(`${baseUrl + defaultLocale}/`, { replace: true });
+          // location.href = `${baseUrl + defaultLocale}/`;
         }
       }
     </script>
