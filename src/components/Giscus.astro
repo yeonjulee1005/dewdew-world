@@ -43,13 +43,13 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
     const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
     if (giscusFrame) {
       giscusFrame.remove();
-      console.log('Giscus terminated');
+      // console.log('Giscus terminated');
     }
     
     const giscusWidget = document.querySelector('giscus-widget');
     if (giscusWidget) {
       giscusWidget.remove();
-      console.log('Giscus widget removed');
+      // console.log('Giscus widget removed');
     }
   };
   
@@ -65,11 +65,11 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
       if (routePath === 'guestbook') {
         giscusWidget.setAttribute('categoryid', 'DIC_kwDOLF55Bc4CcmYh');
         giscusWidget.setAttribute('category', 'Guestbook');
-        console.log('Giscus term 업데이트:', currentPath);
+        // console.log('Giscus term 업데이트:', currentPath);
       } else {
         giscusWidget.setAttribute('categoryid', currentLocale === 'ko' ? 'DIC_kwDOLF55Bc4Ctnac' : 'DIC_kwDOLF55Bc4Ctnap');
         giscusWidget.setAttribute('category', currentLocale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English');
-        console.log('Giscus term 업데이트:', currentPath);
+        // console.log('Giscus term 업데이트:', currentPath);
       }
       
       // iframe이 있다면 src도 업데이트
@@ -79,7 +79,7 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
           const currentSrc = giscusFrame.src;
           const newSrc = currentSrc.replace(/term=[^&]*/, `term=${encodeURIComponent(currentPath)}`);
           giscusFrame.src = newSrc;
-          console.log('Giscus iframe src 업데이트:', newSrc);
+          // console.log('Giscus iframe src 업데이트:', newSrc);
         }
       }, 1000);
     }
@@ -87,7 +87,7 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
   
   // 페이지 전환 직전에 Giscus terminate
   document.addEventListener('astro:before-preparation', () => {
-    console.log('페이지 전환 시작 - Giscus terminate');
+    // console.log('페이지 전환 시작 - Giscus terminate');
     terminateGiscus();
   });
   

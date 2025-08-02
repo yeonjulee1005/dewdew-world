@@ -50,13 +50,13 @@ initializeLocaleSelect();
 
 // View Transitions 완료 후 재초기화
 document.addEventListener('astro:page-load', () => {
-  console.log('Page loaded, reinitializing LocaleSelect');
+  // console.log('Page loaded, reinitializing LocaleSelect');
   initializeLocaleSelect();
 });
 
 // DOMContentLoaded 이벤트도 추가 (백업)
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOMContentLoaded, initializing LocaleSelect');
+  // console.log('DOMContentLoaded, initializing LocaleSelect');
   initializeLocaleSelect();
 });
 </script>
