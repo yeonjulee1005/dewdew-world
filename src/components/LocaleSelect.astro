@@ -41,10 +41,6 @@ function handleLanguageChange(event: Event) {
   const target = event.target as HTMLSelectElement;
 
   if (target.value !== window.location.pathname) {
-    // transition 시작 전에 body를 숨김
-    document.body.setAttribute('data-transitioning', 'true');
-    
-    // navigate 호출
     navigate(target.value);
   }
 }
