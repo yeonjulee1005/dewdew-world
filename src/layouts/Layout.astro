@@ -16,6 +16,11 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
     <Head title={title} description={description} />
     <!-- Critical CSS for immediate rendering -->
     <style is:global>
+      /* Prevent FOUC - Hide content until styles are loaded */
+      .astro-fouc-prevent {
+        visibility: hidden;
+      }
+      
       /* Critical CSS for preventing FOUC (Flash of Unstyled Content) */
       html {
         font-family: 'Pretendard Variable', Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
@@ -40,11 +45,13 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
         overflow-x: hidden;
         opacity: 1;
         transition: opacity 0.1s ease-in-out;
+        /* Ensure content is visible immediately */
+        visibility: visible !important;
       }
       
       /* Prevent FOUC during page transitions */
       body[data-astro-transition-loading] {
-        opacity: 0.8;
+        opacity: 0.95;
       }
       
       /* Ensure content is visible immediately */
@@ -134,7 +141,35 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
       ::view-transition-new(root) {
         pointer-events: auto;
       }
+      
+      /* Ensure all content is visible during transitions */
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        visibility: visible !important;
+      }
     </style>
+    
+    <!-- FOUC Prevention Script -->
+    <script is:inline>
+      // Immediately hide body to prevent FOUC
+      document.documentElement.classList.add('astro-fouc-prevent');
+      
+      // Show content when DOM is ready
+      function showContent() {
+        document.documentElement.classList.remove('astro-fouc-prevent');
+        document.body.style.visibility = 'visible';
+      }
+      
+      // Show content as soon as possible
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showContent);
+      } else {
+        showContent();
+      }
+      
+      // Fallback to ensure content is shown
+      setTimeout(showContent, 100);
+    </script>
   </head>
   <body>
     <Desktop />

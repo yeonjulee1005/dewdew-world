@@ -80,6 +80,10 @@ const {
     // Add loading state to body
     document.body.setAttribute('data-astro-transition-loading', 'true');
     
+    // Ensure content remains visible during transition
+    document.body.style.visibility = 'visible';
+    document.documentElement.classList.remove('astro-fouc-prevent');
+    
     // Preload critical styles from new document
     const newDoc = event.newDocument;
     const criticalStyles = newDoc.querySelectorAll('style[is\\:global], style:not([scoped])');
@@ -94,6 +98,19 @@ const {
         document.head.appendChild(clonedStyle);
       }
     });
+    
+    // Preload critical CSS files
+    const styleLinks = newDoc.querySelectorAll('link[rel="stylesheet"]');
+    styleLinks.forEach(link => {
+      const linkElement = link as HTMLLinkElement;
+      if (!document.querySelector(`link[href="${linkElement.href}"]`)) {
+        const newLink = document.createElement('link');
+        newLink.rel = 'stylesheet';
+        newLink.href = linkElement.href;
+        newLink.setAttribute('data-astro-transition-style', 'temp');
+        document.head.appendChild(newLink);
+      }
+    });
   });
 
   document.addEventListener("astro:after-swap", () => {
@@ -106,6 +123,10 @@ const {
       style.remove();
     });
     
+    // Ensure content is fully visible
+    document.body.style.visibility = 'visible';
+    document.documentElement.classList.remove('astro-fouc-prevent');
+    
     // Ensure smooth scroll to top
     window.scrollTo({ left: 0, top: 0, behavior: "instant" });
   });
@@ -113,6 +134,8 @@ const {
   document.addEventListener("astro:page-load", () => {
     // Ensure body is fully visible after page load
     document.body.style.opacity = '1';
+    document.body.style.visibility = 'visible';
+    document.documentElement.classList.remove('astro-fouc-prevent');
   });
 
   // Optimize for reduced motion preference
@@ -136,5 +159,22 @@ const {
   // Ensure immediate visibility on first load
   document.addEventListener('DOMContentLoaded', () => {
     document.body.style.opacity = '1';
+    document.body.style.visibility = 'visible';
+    document.documentElement.classList.remove('astro-fouc-prevent');
+  });
+  
+  // Additional fallback to ensure content is always visible
+  window.addEventListener('load', () => {
+    document.body.style.visibility = 'visible';
+    document.documentElement.classList.remove('astro-fouc-prevent');
+  });
+  
+  // Prevent any potential FOUC on navigation
+  document.addEventListener('astro:before-preparation', () => {
+    document.body.style.visibility = 'visible';
+  });
+  
+  document.addEventListener('astro:after-preparation', () => {
+    document.body.style.visibility = 'visible';
   });
 </script>
