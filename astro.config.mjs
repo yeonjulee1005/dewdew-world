@@ -79,23 +79,4 @@ export default defineConfig({
     remarkPlugins: [markReadingTime],
     syntaxHighlight: 'shiki'
   },
-  // View Transitions 설정 추가
-  vite: {
-    css: {
-      postcss: {
-        plugins: [
-          {
-            postcssPlugin: 'internal:charset-removal',
-            AtRule: {
-              charset: (atRule) => {
-                if (atRule.name === 'charset') {
-                  atRule.remove();
-                }
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
 })
