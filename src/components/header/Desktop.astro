@@ -11,7 +11,7 @@ const locale = Astro.currentLocale as Lang;
 ---
 <div class='relative hidden w-screen items-center justify-between border-b border-zinc-700 px-4 py-5 lg:flex lg:w-[1000px] lg:px-0'>
   <Link
-    link='/'
+    link={getRelativeLocaleUrl(locale, '/')}
     customClass='flex items-center gap-1'
     target='_self'
     label='dewdew'
