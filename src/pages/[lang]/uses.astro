@@ -4,7 +4,7 @@ import Bold from '@components/Bold.astro'
 import List from '@components/uses/List.astro'
 
 import { LOCALES, type Lang } from '../../i18n.ts'
-import { MENU_ITEMS, USES_EDITOR, USES_TERMINAL, USES_DESKTOP_APP, USES_HARDWARE } from '../../i18n/consts.ts'
+import { MENU_ITEMS, USES_EDITOR, USES_EDITOR_EXTENSIONS, USES_TERMINAL, USES_DESKTOP_APP, USES_HARDWARE } from '../../i18n/consts.ts'
 
 const locale = Astro.currentLocale as Lang;
 
@@ -24,6 +24,10 @@ export const getStaticPaths = () =>
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.editor}
       </p>
       <List lists={USES_EDITOR} />
+      <p class="text-2xl pt-8  border-t border-zinc-700">
+        {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.editorExtensions}
+      </p>
+      <List lists={USES_EDITOR_EXTENSIONS} />
       <p class="text-2xl pt-8  border-t border-zinc-700">
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.terminal}
       </p>
