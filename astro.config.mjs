@@ -33,16 +33,6 @@ export default defineConfig({
   experimental: {
 		preserveScriptOrder: true,
 	},
-  // View Transitions 최적화 설정
-  viewTransitions: {
-    // 전환 중 스타일 유지
-    fallback: 'animate',
-    // 전환 지속 시간 최적화
-    transition: {
-      duration: 150,
-      easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-    }
-  },
   integrations: [
     tailwind({
       applyBaseStyles: false
