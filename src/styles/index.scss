@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* FOUC Prevention - Immediate styles */
-html {
-  visibility: visible !important;
-}
-
 body {
   font-family: 'Pretendard Variable', Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
   position: relative;
@@ -20,10 +15,6 @@ body {
   // -webkit-user-select: none;
   // -moz-user-select: none;
   // -ms-use-select: none;
-  visibility: visible !important;
-  opacity: 1;
-  transition: opacity 0.1s ease-in-out;
-  
   img {
     -webkit-user-drag: none;
   }
@@ -31,17 +22,6 @@ body {
     background-color: #fb7185;
     color: #ffffff;
   }
-}
-
-/* Ensure all content is visible during transitions */
-* {
-  visibility: visible !important;
-}
-
-/* Prevent any flash during page transitions */
-[data-astro-transition-loading] {
-  opacity: 0.95 !important;
-  visibility: visible !important;
 }
 
 ::-webkit-scrollbar {
