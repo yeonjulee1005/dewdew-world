@@ -35,10 +35,38 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
           Courier New,
           monospace;
       }
+      
+      /* View Transitions 중에 원본 HTML이 보이는 것을 방지 */
+      body {
+        opacity: 1;
+        transition: opacity 0.1s ease-in-out;
+      }
+      
+      /* transition 시작 시 body를 숨김 */
+      body[data-transitioning="true"] {
+        opacity: 0;
+      }
     </style>
     <script>
       import { inject } from '@vercel/analytics'
       inject()
+      
+      // View Transitions 이벤트 처리
+      document.addEventListener('astro:before-preparation', () => {
+        document.body.setAttribute('data-transitioning', 'true');
+      });
+      
+      document.addEventListener('astro:after-swap', () => {
+        // 약간의 지연 후 body를 다시 표시
+        setTimeout(() => {
+          document.body.removeAttribute('data-transitioning');
+        }, 50);
+      });
+      
+      // 페이지 로드 시 초기 상태 설정
+      document.addEventListener('DOMContentLoaded', () => {
+        document.body.removeAttribute('data-transitioning');
+      });
     </script>
   </body>
 </html>
