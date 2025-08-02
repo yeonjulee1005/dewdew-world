@@ -1,5 +1,6 @@
 ---
 import Head from '@components/Head.astro'
+import { ClientRouter } from 'astro:transitions'
 import Desktop from '@components/header/Desktop.astro'
 import Mobile from '@components/header/Mobile.astro'
 import Footer from '@components/Footer.astro'
@@ -14,127 +15,7 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
 <html lang='en'>
   <head>
     <Head title={title} description={description} />
-    <!-- Critical CSS for immediate rendering -->
-    <style is:global>
-      /* Critical CSS for preventing FOUC (Flash of Unstyled Content) */
-      html {
-        font-family: 'Pretendard Variable', Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
-        line-height: 1.5;
-        -webkit-text-size-adjust: 100%;
-        -moz-tab-size: 4;
-        tab-size: 4;
-      }
-      
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: inherit;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: rgb(244 244 245 / 0.7);
-        scroll-behavior: smooth;
-        -webkit-touch-callout: none;
-        min-height: 100vh;
-        overflow-x: hidden;
-        opacity: 1;
-        transition: opacity 0.1s ease-in-out;
-      }
-      
-      /* Prevent FOUC during page transitions */
-      body[data-astro-transition-loading] {
-        opacity: 0.8;
-      }
-      
-      /* Ensure content is visible immediately */
-      * {
-        box-sizing: border-box;
-      }
-      
-      /* Basic element styles to prevent unstyled flash */
-      h1, h2, h3, h4, h5, h6 {
-        margin: 0;
-        font-weight: inherit;
-      }
-      
-      p {
-        margin: 0;
-      }
-      
-      ul, ol {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-      
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      
-      button {
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-family: inherit;
-      }
-      
-      img {
-        max-width: 100%;
-        height: auto;
-        -webkit-user-drag: none;
-      }
-      
-      /* Hide scrollbar */
-      ::-webkit-scrollbar {
-        display: none;
-      }
-      
-      /* Selection style */
-      ::selection {
-        background-color: #fb7185;
-        color: #ffffff;
-      }
-      
-      /* View Transitions optimization */
-      ::view-transition-old(root),
-      ::view-transition-new(root) {
-        animation-duration: 0.15s;
-        animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        animation-fill-mode: both;
-      }
-      
-      ::view-transition-old(root) {
-        animation-name: none;
-        z-index: 1;
-      }
-      
-      ::view-transition-new(root) {
-        animation-name: fade-in;
-        z-index: 2;
-      }
-      
-      @keyframes fade-in {
-        0% {
-          opacity: 0;
-        }
-        100% {
-          opacity: 1;
-        }
-      }
-      
-      /* Prevent interaction during transitions */
-      ::view-transition-old(root) *,
-      ::view-transition-new(root) * {
-        pointer-events: none;
-      }
-      
-      /* Restore interaction after transition */
-      ::view-transition-new(root) {
-        pointer-events: auto;
-      }
-    </style>
+    <ClientRouter />
   </head>
   <body>
     <Desktop />

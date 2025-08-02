@@ -1,7 +1,6 @@
 ---
 import '@styles/index.scss'
 import SpeedInsights from '@vercel/speed-insights/astro'
-import { ClientRouter } from 'astro:transitions'
 
 export interface Props {
   title: string
@@ -45,13 +44,14 @@ const {
   href='/images/favicon-16x16.png'
 />
 <link rel="sitemap" href="/sitemap-index.xml" />
-<link rel='mask-icon' href='/safari-pinned-tab.svg' color='#5bbad5' />
 <link rel='manifest' href='/site.webmanifest' />
 <link rel='mask-icon' href='/images/safari-pinned-tab.svg' color='#5bbad5' />
+<link rel='mask-icon' href='/images/safari-pinned-tab.svg' color='#5bbad5' />
 <link rel='icon' type='image/svg+xml' href='/images/favicon.svg' />
+<link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
 <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9720546940719922" crossorigin="anonymous"></script>
 
-<meta name='keywords' content='Frontend Developer, Vue.js Developer, React Developer, Next.js Developer, Nuxt.js Developer, Astro Developer, JavaScript Developer, TypeScript Developer, Lead Developer, CTO, Technical Lead, Senior Frontend Developer, Full Stack Developer, Web Developer, UI/UX Developer, Vue 3, React 18, Next.js 14, Nuxt 3, Nuxt 4, Astro Framework, JavaScript ES6+, TypeScript, Tailwind CSS, SCSS, CSS3, HTML5, Responsive Design, Progressive Web App, Single Page Application, Component Architecture' />
+<meta name='keywords' content='Frontend Developer, 프론트앤드, 프론트앤드개발자, 리엑트, 뷰, 스벨트, Vue.js Developer, React Developer, Next.js Developer, Nuxt.js Developer, Astro Developer, JavaScript Developer, TypeScript Developer, Lead Developer, CTO, Technical Lead, Senior Frontend Developer, Full Stack Developer, Web Developer, UI/UX Developer, Vue 3, React 18, Next.js 14, Nuxt 3, Nuxt 4, Astro Framework, JavaScript ES6+, TypeScript, Tailwind CSS, SCSS, CSS3, HTML5, Responsive Design, Progressive Web App, Single Page Application, Component Architecture' />
 <meta name='naver-site-verification' content='a5cea0201fbcaeaa4e9069d79c515d887bbcbf87' />
 <meta name="google-adsense-account" content="ca-pub-9720546940719922">
 <meta name='msapplication-TileColor' content='#da532c' />
@@ -71,70 +71,3 @@ const {
 <meta property='twitter:image' content={image} />
 
 <SpeedInsights />
-<ClientRouter />
-
-<!-- Enhanced View Transitions Script -->
-<script>
-  // Prevent FOUC during page transitions
-  document.addEventListener("astro:before-swap", (event) => {
-    // Add loading state to body
-    document.body.setAttribute('data-astro-transition-loading', 'true');
-    
-    // Preload critical styles from new document
-    const newDoc = event.newDocument;
-    const criticalStyles = newDoc.querySelectorAll('style[is\\:global], style:not([scoped])');
-    
-    criticalStyles.forEach(style => {
-      const styleElement = style as Element;
-      const styleId = styleElement.getAttribute('data-astro-transition-style');
-      
-      if (!styleId || !document.querySelector(`[data-astro-transition-style="${styleId}"]`)) {
-        const clonedStyle = style.cloneNode(true) as Element;
-        clonedStyle.setAttribute('data-astro-transition-style', 'temp');
-        document.head.appendChild(clonedStyle);
-      }
-    });
-  });
-
-  document.addEventListener("astro:after-swap", () => {
-    // Remove loading state
-    document.body.removeAttribute('data-astro-transition-loading');
-    
-    // Clean up temporary styles
-    const tempStyles = document.querySelectorAll('[data-astro-transition-style="temp"]');
-    tempStyles.forEach(style => {
-      style.remove();
-    });
-    
-    // Ensure smooth scroll to top
-    window.scrollTo({ left: 0, top: 0, behavior: "instant" });
-  });
-
-  document.addEventListener("astro:page-load", () => {
-    // Ensure body is fully visible after page load
-    document.body.style.opacity = '1';
-  });
-
-  // Optimize for reduced motion preference
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  
-  if (prefersReducedMotion.matches) {
-    const style = document.createElement('style');
-    style.textContent = `
-      ::view-transition-old(root),
-      ::view-transition-new(root) {
-        animation: none !important;
-      }
-      
-      body[data-astro-transition-loading] {
-        opacity: 1 !important;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
-  // Ensure immediate visibility on first load
-  document.addEventListener('DOMContentLoaded', () => {
-    document.body.style.opacity = '1';
-  });
-</script>
