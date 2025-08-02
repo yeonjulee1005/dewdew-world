@@ -22,8 +22,6 @@ import { getLocalePaths, LOCALES } from "../i18n";
 </label>
 
 <script>
-import { navigate } from 'astro:transitions/client'
-
 function initializeLocaleSelect() {
   const localeSelect = document.getElementById("localeSelect") as HTMLSelectElement;
   
@@ -41,7 +39,7 @@ function handleLanguageChange(event: Event) {
   const target = event.target as HTMLSelectElement;
 
   if (target.value !== window.location.pathname) {
-    navigate(target.value);
+    window.location.href = target.value;
   }
 }
 
