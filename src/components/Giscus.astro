@@ -58,7 +58,7 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
     const currentPath = window.location.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
     const giscusWidget = document.querySelector('giscus-widget');
     const currentLocale = document.documentElement.lang || 'ko';
-    const routePath = window.location.pathname.split('/').at(-1);
+    const routePath = window.location.pathname.split('/').filter(segment => segment !== '').pop() || '';
 
     if (giscusWidget) {
       giscusWidget.setAttribute('term', currentPath);
