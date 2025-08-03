@@ -16,7 +16,7 @@
   }
   h1, h2, h3, h4, h5, h6 {
     a {
-      @apply inline-block border-0 align-baseline;
+      @apply inline-block border-0 align-middle;
       .icon {
         @apply block pr-2;
         content: url('/images/hash.svg');
@@ -27,13 +27,13 @@
     }
   }
   h1 {
-    @apply text-5xl font-bold break-keep leading-[60px] my-4 sm:my-8;
+    @apply text-3xl font-bold break-keep leading-[60px] my-2 sm:my-6;
   }
   h2 {
-    @apply text-3xl font-bold break-keep my-4 sm:my-8;
+    @apply text-2xl font-bold break-keep my-2 sm:my-6;
   }
   h3 {
-    @apply text-2xl font-bold break-keep my-4 sm:my-8;
+    @apply text-xl font-bold break-keep my-2 sm:my-6;
   }
   h4 {
     @apply text-lg font-bold break-keep;
@@ -42,7 +42,7 @@
     @apply text-base font-bold break-keep;
   }
   h6 {
-    @apply text-xs font-bold break-keep;
+    @apply text-sm font-bold break-keep;
   }
   p {
     @apply text-lg my-2 sm:my-5 break-keep;
