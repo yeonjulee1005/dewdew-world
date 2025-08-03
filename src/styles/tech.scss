@@ -27,13 +27,13 @@
     }
   }
   h1 {
-    @apply text-3xl font-bold break-keep leading-[60px] my-2 sm:my-6;
+    @apply text-3xl font-bold break-keep leading-10 my-6 sm:my-8;
   }
   h2 {
-    @apply text-2xl font-bold break-keep my-2 sm:my-6;
+    @apply text-2xl font-bold break-keep my-6 sm:my-8;
   }
   h3 {
-    @apply text-xl font-bold break-keep my-2 sm:my-6;
+    @apply text-xl font-bold break-keep my-6 sm:my-8;
   }
   h4 {
     @apply text-lg font-bold break-keep;
