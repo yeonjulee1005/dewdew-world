@@ -1,0 +1,344 @@
+---
+title: 'Did you know? You can use `JSX syntax` in the Vue ecosystem (+Nuxt4) too!'
+description: 'Compare JSX syntax available in React and Vue ecosystems, and introduce JSX syntax in Nuxt4!'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2025-08-03
+tags: ['nuxt4', 'vue3', 'react', 'JSX syntax', 'typescript', 'frontend framework', 'meta framework', 'nuxt4 blog']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20250803.png'
+coverAlt: 'cover Image'
+---
+
+> Today, I'll talk about a little bit heavy topic. <br />
+> It's about the two major ecosystems, React and Vue. <br />
+> 
+> And, I'll introduce how to use `JSX syntax` in the Vue ecosystem (including Nuxt4)!
+
+
+# The Philosophy and Intent of JSX Syntax (feat. React Ecosystem)
+`JSX syntax` is a syntax that extends the HTML syntax to be used in JavaScript.<br />
+The background for the emergence of this syntax is that the template and state management function were separated into different files, making it difficult to maintain.<br />
+
+React adopted JSX syntax to address these issues, based on the philosophy that 'UI is a function determined by state,' and thus, UI should also be managed as a function.<br />
+The advantage of TSX is that it naturally connects logic and UI, allowing efficient UI management by utilizing all the features of JavaScript.<br />
+Initially, there were concerns that mixing HTML and JavaScript might be an anti-pattern. However, the ability to handle UI and logic integratively within JavaScript led to React becoming increasingly popular in various regions, including South Korea, from the mid-2010s onwards.<br />
+
+
+# The Philosophy and Intent of SFC Syntax (feat. Vue Ecosystem)
+Vue, on the other hand, constructs UI based on the following philosophy: <br />
+`"HTML, JavaScript, and CSS are inherently different concerns, and by clearly separating them, we can improve readability and maintainability."`<br />
+
+Vue adopts the `SFC` (Single File Component, Single File Component) approach to construct UI.<br />
+This is a structure that coexists within a single file while separating `UI(HTML)`, `style(CSS)`, and `behavior(JavaScript)` according to their roles.<br />
+Using Tailwind CSS, you can experience the magic(?) of reducing three concerns into two.<br />
+
+Vue's SFC structure provides a `compromise that maintains the principle of separation of concerns while allowing file management on a component basis`.<br />
+Thanks to its declarative and intuitive template syntax, it has the advantage of allowing developers to quickly and easily explain components to others during collaboration.<br />
+
+
+# Why would you want to use `JSX syntax` in the Vue ecosystem?
+In South Korea, when collaborating on frontend projects, you often encounter developers who have only experienced React.<br />
+Finding developers who have been exposed to or are willing to use the Vue ecosystem is now almost like "finding a needle in a haystack."<br />
+
+This is the true purpose of this article.<br />
+
+Personally, I believe that clear separation of concerns makes management easier.<br />
+However, given the reality of the domestic environment where React is widely used, I want to inform you that you can use JSX syntax in Vue.<br />
+This will help you approach the Vue ecosystem more smoothly with familiar syntax.<br />
+
+# How can you use `JSX syntax` in Vue3?
+As mentioned earlier, I would like to introduce how to use JSX syntax to guide many React developers familiar with `.tsx` syntax into the Vue ecosystem (including Nuxt4).
+
+Some of you may already know, but the fact that you can use JSX syntax in Vue lowers the barrier for React developers transitioning to Vue. In Vue, you can also render the virtual DOM using the `h()` function.
+
+The usage is simple. You can construct the DOM using the `h()` function within the `<script>` block of a `.vue` file.
+
+> `h()` stands for `hyperscript`, which refers to a way of generating HTML structures using JavaScript.
+
+```typescript
+// using h()
+const vnode = h('div', { id: 'foo', , style: { color: 'red' }, onClick: () => {} }, [])
+
+vnode.type // 'div'
+vnode.props // { id: 'foo', style: { color: 'red' } }
+vnode.children // [] area of children
+vnode.key // null
+```
+
+# React's JSX Syntax vs Vue's JSX Syntax
+
+Now, let's compare the differences between the two syntaxes.<br />
+The following examples are simple input and button components written in React's and Vue's JSX syntax, respectively.<br />
+
+🔵 Button Component in React's JSX Syntax<br />
+```tsx
+// ./components/button.tsx
+
+import React from 'react';
+
+function Button({ label, onClick, type = 'button', className = '' }) {
+  return (
+    <button type={type} className={className} onClick={onClick}>
+      {label}
+    </button>
+  );
+}
+
+export default Button;
+```
+
+🟢 Button Component in Vue's JSX Syntax
+```tsx
+// ./components/button.vue
+
+import { h } from 'vue';
+
+export default {
+  props: {
+    label: String,
+    onClick: Function
+  },
+  setup(props, { slots }) {
+    return () =>
+      h(
+        'button',
+        {
+          type: 'button',
+          onClick: props.onClick
+        },
+        slots.default ? slots.default() : props.label
+      );
+  }
+};
+```
+
+🔵 Input Component in React's JSX Syntax
+```tsx
+// ./components/Input.tsx
+
+import React from 'react';
+
+function Input({ value, onChange, placeholder = '', type = 'text', className = '' }) {
+  return (
+    <input
+      type={type}
+      className={className}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
+
+export default Input;
+```
+
+🟢 Input Component in Vue's JSX Syntax
+```tsx
+// ./components/input.vue
+
+import { h } from 'vue';
+
+export default {
+  props: {
+    modelValue: String,
+    onUpdateModelValue: Function,
+    className: String,
+    placeholder: String
+  },
+  setup(props) {
+    const onInput = (e) => {
+      props.onUpdateModelValue?.(e.target.value);
+    };
+
+    return () =>
+      h('input', {
+        type: 'text',
+        value: props.modelValue,
+        onInput,
+        class: props.calssName,
+        placeholder: props.placeholder
+      });
+  }
+};
+```
+
+🔵 Using Button & Input Component in React
+```tsx
+import Button from './components/Button';
+import Input from './components/Input';
+import { useState } from 'react';
+
+function ParentComponent() {
+  const [inputValue, setInputValue] = useState('');
+  
+  const handleClick = () => {
+    console.log('Button clicked!');
+  };
+  
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  return (
+    <div>
+      <Button label="Click me" onClick={handleClick} />
+      <Input value={inputValue} onChange={handleChange} placeholder="Enter something" />
+      <p>Value: {inputValue}</p>
+    </div>
+  );
+}
+```
+
+🟢 Using Button & Input Component in Vue
+```typescript
+import { ref, h } from 'vue';
+import Button from './components/Button';
+import Input from './components/Input';
+
+export default {
+  setup() {
+    const text = ref('');
+    const onClick = () => {
+      console.log('Button clicked!');
+    };
+
+    const updateValue = (val) => {
+      text.value = val;
+    };
+
+    return () =>
+      h('div', null, [
+        h(Input, {
+          modelValue: text.value,
+          onUpdateModelValue: updateValue,
+          placeholder: 'Enter something'
+        }),
+        h('p', null, `Value: ${text.value}`),
+        h(Button, { onClick }, {
+          default: () => h('span', 'Click me')
+        })
+      ]);
+  }
+};
+```
+
+# In Nuxt4, you can use `.tsx` as is!
+Now, let's introduce the Nuxt, which I like!<br />
+In Nuxt4 (or Nuxt3), it is a great advantage that you can use `.tsx` files as is.<br />
+However, you have to bear the confusion(?) of the IDE showing React icons in the project.<br />
+
+You can write components in a way similar to React, and you can also use JSX syntax directly within `.vue` files.<br />
+
+🟢 Button Component in Nuxt
+```tsx
+// ./components/MyButton.tsx
+
+export default defineNuxtComponent({
+  props: {
+	label: String,
+	type: { type: String, default: 'button' },
+    onClick: Function,
+  },
+  
+  // @ts-expect-error investigate why props is not typed
+  render(props) {
+    return (
+	    <button type={props.type || 'button'} onClick={props.onClick}>
+		    {props.label || props.children}
+	    </button>
+	  );
+  },
+});
+```
+
+🟢 Input Component in Nuxt
+```tsx
+// ./components/MyInput.tsx
+
+export default defineNuxtComponent({
+  props: {
+	modelValue: String,
+	placeholder: String,
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+	const onInput = (e: Event) => {
+	  const target = e.target as HTMLInputElement;
+	  emit('update:modelValue', target.value);
+	};
+
+  return () => (
+	  <input
+	    type="text"
+	    value={props.modelValue}
+	    placeholder={props.placeholder}
+	    onInput={onInput}
+	  />
+    );
+  },
+});
+```
+
+🟢 Using Button & Input Component in Nuxt
+```typescript
+<script lang="tsx" setup>
+// Component could be a simple function with JSX syntax
+const Welcome = () => <span style="color: red;">Welcome </span>
+
+// Or using defineComponent setup that returns render function with JSX syntax
+const Nuxt3 = defineComponent(() => {
+  return () => <p style="font-size: 22px;">Nuxt 3</p>
+})
+
+// Combine components with JSX syntax too
+const InlineComponent = () => (
+  <div>
+	<Welcome />
+	<span>to</span>
+  <Nuxt3 />
+  </div>
+)
+
+const buttonLabel = ref('Button!');
+const inputContent = ref('Input!!!');
+
+const handleClickButton = () => {
+  buttonLabel.value = buttonLabel.value + '!'
+}
+</script>
+
+<template>
+  <NuxtExample dir="advanced/jsx" icon="i-simple-icons-react">
+	<InlineComponent />
+    <!-- Defined in components/jsx-component.ts -->
+	<MyInput v-model="inputContent" placeholder="여기에 입력..." />
+	<MyButton :label="buttonLabel" @click="handleClickButton" />
+  </NuxtExample>
+</template>
+```
+
+
+[Actual example of using .jsx components in Nuxt4](https://stackblitz.com/edit/nuxt-starter-mpfr3yur?file=app.vue)
+
+## Conclusion
+
+Today, I introduced how to use JSX syntax in the Vue ecosystem for React developers who are familiar with `.tsx` syntax.<br />
+
+Vue also considers DX important, and is evolving in a similar direction.<br />
+Therefore, I hope you will pay attention to the Vue ecosystem at least once.<br />
+
+See you next time!<br />
+
+---
+
+### References
+
+- [Nuxt4](https://nuxt.com/)
+- [Vue3 Render Functions & JSX](https://vuejs.org/guide/extras/render-function.html)
+- [React JSX](https://ko.legacy.reactjs.org/docs/introducing-jsx.html)
