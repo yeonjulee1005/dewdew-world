@@ -9,7 +9,7 @@ import { type Lang } from '../../i18n.ts'
 
 const locale = Astro.currentLocale as Lang;
 ---
-<div class='relative hidden w-screen items-center justify-between border-b border-zinc-700 px-4 py-5 lg:flex lg:w-[1000px] lg:px-0'>
+<div class='relative hidden w-screen items-center justify-between border-b border-neutral-700 px-4 py-5 lg:flex lg:w-[1000px] lg:px-0'>
   <Link
     link={getRelativeLocaleUrl(locale, '/')}
     customClass='flex items-center gap-1'
@@ -24,7 +24,7 @@ const locale = Astro.currentLocale as Lang;
     </span>
     <Image
       slot='link'
-      class='cursor-pointer rounded-full border border-zinc-700 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
+      class='cursor-pointer rounded-full border border-neutral-700 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
       src='/images/dewdew_world.webp'
       width={30}
       height={30}
@@ -42,7 +42,7 @@ const locale = Astro.currentLocale as Lang;
       target='_self'
       label='uses'
     />
-    <div class='h-4 border-r border-zinc-700' />
+    <div class='h-4 border-r border-neutral-700' />
     <Link
       text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.tech}
       link={getRelativeLocaleUrl(locale, 'tech')}
@@ -50,7 +50,7 @@ const locale = Astro.currentLocale as Lang;
       target='_self'
       label='tech'
     />
-    <div class='h-4 border-r border-zinc-700' />
+    <div class='h-4 border-r border-neutral-700' />
     <Link
       text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.guestbook}
       link={getRelativeLocaleUrl(locale, 'guestbook').replace(/\/$/, '')}
@@ -58,7 +58,7 @@ const locale = Astro.currentLocale as Lang;
       target='_self'
       label='guestbook'
     />
-    <div class='h-4 border-r border-zinc-700' />
+    <div class='h-4 border-r border-neutral-700' />
     <Link
       text={MENU_ITEMS[locale as keyof typeof MENU_ITEMS].nav.dewdewDev}
       link='https://www.dewdew.dev'
@@ -66,7 +66,7 @@ const locale = Astro.currentLocale as Lang;
       target='_blank'
       label='dewdew'
     />
-    <div class='h-4 border-r border-zinc-700' />
-    <LocaleSelect />
+    <div class='h-4 border-r border-neutral-700' />
+    <LocaleSelect devices='desktop' />
   </div>
 </div>

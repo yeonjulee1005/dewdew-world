@@ -11,7 +11,7 @@
   }
   h1, h2, h3, h4, h5, h6, p, li, blockquote {
     code {
-      @apply bg-orange-100 rounded-lg py-0.5 px-2;
+      @apply bg-orange-100 rounded-md py-0.5 px-1;
     }
   }
   h1, h2, h3, h4, h5, h6 {
@@ -27,30 +27,30 @@
     }
   }
   h1 {
-    @apply text-5xl font-bold leading-[60px] my-8;
+    @apply text-5xl font-bold break-keep leading-[60px] my-4 sm:my-8;
   }
   h2 {
-    @apply text-3xl font-bold my-8;
+    @apply text-3xl font-bold break-keep my-4 sm:my-8;
   }
   h3 {
-    @apply text-2xl font-bold my-8;
+    @apply text-2xl font-bold break-keep my-4 sm:my-8;
   }
   h4 {
-    @apply text-lg font-bold;
+    @apply text-lg font-bold break-keep;
   }
   h5 {
-    @apply text-base font-bold;
+    @apply text-base font-bold break-keep;
   }
   h6 {
-    @apply text-xs font-bold;
+    @apply text-xs font-bold break-keep;
   }
   p {
-    @apply text-lg my-5;
+    @apply text-lg my-2 sm:my-5 break-keep;
   }
   table {
     @apply w-full my-6 border-collapse;
     th, td {
-      @apply border border-orange-300 px-4 py-2;
+      @apply border border-orange-300 px-2 sm:px-4 py-1 sm:py-2;
     }
     th {
       @apply bg-orange-100 font-bold text-center;
@@ -63,7 +63,7 @@
     @apply border-l-4 border-rose-300 pl-4 my-4 text-lg;
   }
   pre {
-    @apply p-5 rounded-2xl my-10 border-2 border-zinc-700 shadow-md shadow-zinc-400;
+    @apply p-5 rounded-2xl my-10 border-2 border-neutral-700 shadow-md shadow-neutral-400;
   }
   ul {
     @apply pl-6 py-2 list-image-[url(/images/checkMark.svg)];
@@ -75,6 +75,9 @@
     @apply my-3;
   }
   hr {
-    @apply border-b-2 border-rose-300 my-10;
+    @apply border-b-2 border-rose-300 my-6 sm:my-10;
+  }
+  img {
+    @apply rounded-md shadow-md shadow-neutral-400;
   }
 }

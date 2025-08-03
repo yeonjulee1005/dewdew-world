@@ -8,7 +8,7 @@ import { type Lang } from '../i18n.ts'
 
 const locale = Astro.currentLocale as Lang;
 ---
-<div class='relative flex w-screen items-center justify-between border-t border-zinc-700 px-4 py-5 lg:w-[1000px] lg:px-0'>
+<div class='relative flex w-screen items-center justify-between border-t border-neutral-700 px-4 py-5 lg:w-[1000px] lg:px-0'>
   <a class='flex items-center gap-1' href={getRelativeLocaleUrl(locale, '/')}>
     <span class='cursor-pointer text-base text-red-400 duration-200 hover:text-rose-600 hover:opacity-90 hover:transition-opacity'>
       {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].footerTitle}

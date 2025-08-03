@@ -27,18 +27,18 @@ const {
   <Image
     class='h-10 w-10 rounded-full border-2 border-yellow-400'
     src={avatar}
-    width={30}
-    height={30}
+    width={40}
+    height={40}
     quality={80}
     loading='lazy'
     alt={avatarAlt}
   />
-  <div class='flex flex-col gap-1'>
-    <p class='text-sm'>
+  <div class='flex flex-col gap-0.25'>
+    <p class='text-md'>
       {author}
     </p>
-    <div class='flex items-center gap-2'>
-      <p class='text-sm'>
+    <div class='flex items-center gap-1.5'>
+      <p class='text-md'>
         {
           new Date(publishedDate).toLocaleDateString('en', {
             year: 'numeric',
@@ -47,8 +47,8 @@ const {
           })
         }
       </p>
-      <div class='h-0.5 w-0.5 rounded-full bg-zinc-600' />
-      <p class='text-sm'>
+      <div class='h-0.5 w-0.5 rounded-full bg-neutral-600' />
+      <p class='text-md text-red-500'>
         {minutes?.readMinutes ?? readTime}
       </p>
     </div>

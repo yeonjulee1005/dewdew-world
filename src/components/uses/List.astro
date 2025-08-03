@@ -13,7 +13,7 @@ const { lists } = Astro.props
 <ul class='flex flex-col py-4'>
   {
     lists.map((list) => (
-      <li class='pb-1'>
+      <li>
         <Link
           text={list.name}
           link={list.link}

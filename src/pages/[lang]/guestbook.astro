@@ -16,7 +16,7 @@ export const getStaticPaths = () =>
   <main>
     <section class="giscus mx-auto mt-10 w-screen px-4 py-5 lg:w-[1000px] lg:px-0">
       <h2 class='text-2xl font-bold text-red-400'>{MENU_ITEMS[locale as keyof typeof MENU_ITEMS].guestbook.title}</h2>
-      <p class='text-lg text-zinc-700 mb-4'>{MENU_ITEMS[locale as keyof typeof MENU_ITEMS].guestbook.description}</p>
+      <p class='text-lg text-neutral-700 mb-4'>{MENU_ITEMS[locale as keyof typeof MENU_ITEMS].guestbook.description}</p>
       <Giscus
         giscusCategory='Guestbook'
         giscusCategoryId='DIC_kwDOLF55Bc4CcmYh'
