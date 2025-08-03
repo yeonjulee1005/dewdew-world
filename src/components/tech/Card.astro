@@ -30,7 +30,7 @@ const {
 ---
 <a
   href={link}
-  class='basis flex w-screen cursor-pointer flex-col p-8 duration-200 hover:text-orange-500 hover:transition-all sm:basis-1/2'
+  class='basis flex w-screen cursor-pointer flex-col gap-1.5 px-0 py-2 sm:p-4 duration-200 hover:text-orange-500 hover:transition-all sm:basis-1/2'
 >
   <Image
     class='h-[200px] w-auto object-cover'
@@ -41,10 +41,10 @@ const {
     loading='lazy'
     alt={coverAlt}
   />
-  <p class='mt-2 text-xl font-bold'>
+  <p class='text-xl font-bold leading-6 break-keep'>
     {title}
   </p>
-  <p class='border-b border-dashed border-zinc-700 pb-2 text-base text-zinc-500'>
+  <p class='border-b border-dashed border-neutral-700 text-base text-neutral-500 pb-2 leading-5 break-keep'>
     {description}
   </p>
   <Author

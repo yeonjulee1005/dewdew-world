@@ -14,14 +14,14 @@ interface Props {
 
 const { reference, stack } = Astro.props as Props
 ---
-<p class='mb-4'>
+<p class='mb-2'>
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].MAIN_REFERENCE.first}
   <Bold customClass='text-red-400' text=',' /><br />
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].MAIN_REFERENCE.second}
   <Bold customClass='text-red-400' text='!' />
 </p>
 <List
-  listClass='list-disc pl-8 mb-4'
+  listClass='list-disc pl-8 mb-2'
   listItem={reference}
 />
 <p>
@@ -29,6 +29,6 @@ const { reference, stack } = Astro.props as Props
   <Bold customClass='text-red-400' text=',' /><br />
 </p>
 <List
-  listClass='list-disc pl-8 mb-4'
+  listClass='list-disc pl-8 mb-2'
   listItem={stack}
 />

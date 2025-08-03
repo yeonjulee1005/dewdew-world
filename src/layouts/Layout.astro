@@ -43,24 +43,4 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
   </body>
 </html>
 
-<script>
-  // 언어 변경 시 페이지 새로고침을 위한 스크립트
-  document.addEventListener('DOMContentLoaded', () => {
-    const localeSelect = document.querySelector('[data-languageSelect]') as HTMLSelectElement;
-    if (localeSelect) {
-      localeSelect.addEventListener('change', (event) => {
-        const target = event.target as HTMLSelectElement;
-        if (target.value && target.value !== window.location.pathname) {
-          // View Transitions 사용
-          if (document.startViewTransition) {
-            document.startViewTransition(() => {
-              window.location.href = target.value;
-            });
-          } else {
-            window.location.href = target.value;
-          }
-        }
-      });
-    }
-  });
-</script>
+

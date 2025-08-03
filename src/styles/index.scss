@@ -8,7 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  @apply bg-zinc-100/70;
+  @apply bg-neutral-100/70;
   scroll-behavior: smooth;
   -webkit-touch-callout: none;
   // user-select: none;
@@ -21,6 +21,10 @@ body {
   ::selection {
     background-color: #fb7185;
     color: #ffffff;
+  }
+
+  p {
+    line-height: 1.35;
   }
 }
 
