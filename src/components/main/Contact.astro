@@ -7,7 +7,7 @@ import { type Lang } from '../../i18n.ts'
 
 const locale = Astro.currentLocale as Lang;
 ---
-<p class='mb-4'>
+<p class='mb-2'>
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainContact.first}
   <Bold customClass='text-red-400' text='new project' />
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainContact.second}

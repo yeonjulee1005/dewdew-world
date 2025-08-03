@@ -12,7 +12,7 @@ const { listClass, listItem } = Astro.props
 ---
 <ul class={listClass}>
   {listItem.map((item) => (
-    <li class='pb-1'>
+    <li>
       <Link
         text={item.title}
         link={item.link}
