@@ -1,6 +1,6 @@
 ---
 import { LOCALES, DEFAULT_LOCALE, type Lang } from "../i18n.ts";
-import { ClientRouter } from 'astro:transitions'
+// import { ClientRouter } from 'astro:transitions'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 
 const langs = Object.keys(LOCALES);
@@ -14,7 +14,7 @@ const defaultLocale = DEFAULT_LOCALE;
   <head>
     <meta charset="UTF-8" />
     <title>404 PAGE NOT FOUND</title>
-    <ClientRouter />
+    <!-- <ClientRouter fallback="swap" /> -->
     <link rel="canonical" href={Astro.site} />
 
     <noscript>
