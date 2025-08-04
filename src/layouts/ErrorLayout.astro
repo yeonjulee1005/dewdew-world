@@ -1,6 +1,6 @@
 ---
 import Head from '@components/Head.astro'
-// import { ClientRouter } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 import Link from '@components/Link.astro'
 
 import { MENU_ITEMS } from '../i18n/consts.ts'
@@ -14,7 +14,7 @@ const locale = Astro.currentLocale as Lang;
 <html lang='en'>
   <head>
     <Head title={title} description={description} />
-    <!-- <ClientRouter fallback="swap" /> -->
+    <ClientRouter fallback="swap" />
   </head>
   <body>
     <main class='flex min-h-screen flex-col items-center justify-center'>

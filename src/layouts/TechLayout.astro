@@ -1,5 +1,5 @@
 ---
-// import { ClientRouter } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
@@ -68,7 +68,7 @@ const prevTech = techCollection[techIndex + 1]
 <html lang={locale}>
   <head>
     <Head title={frontmatter.title} description={frontmatter.description} image={frontmatter.cover} />
-    <!-- <ClientRouter fallback="swap" /> -->
+    <ClientRouter fallback="swap" />
   </head>
   <body>
     <Desktop />
