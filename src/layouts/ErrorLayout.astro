@@ -14,7 +14,7 @@ const locale = Astro.currentLocale as Lang;
 <html lang='en'>
   <head>
     <Head title={title} description={description} />
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
   </head>
   <body>
     <main class='flex min-h-screen flex-col items-center justify-center'>

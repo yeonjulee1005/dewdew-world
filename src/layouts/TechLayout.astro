@@ -68,7 +68,7 @@ const prevTech = techCollection[techIndex + 1]
 <html lang={locale}>
   <head>
     <Head title={frontmatter.title} description={frontmatter.description} image={frontmatter.cover} />
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
   </head>
   <body>
     <Desktop />

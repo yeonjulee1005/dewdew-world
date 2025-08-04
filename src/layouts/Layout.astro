@@ -15,7 +15,7 @@ const { title, description = 'Welcome to Dewdew World!' } = Astro.props
 <html lang='en'>
   <head>
     <Head title={title} description={description} />
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
   </head>
   <body>
     <Desktop />
