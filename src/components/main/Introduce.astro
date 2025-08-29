@@ -24,13 +24,13 @@ const locale = Astro.currentLocale as Lang;
   <Bold customClass='text-red-400' text='.' /><br />
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.aheadWorking}
   <Link
-    text='Good Nodes Inc.'
-    link='https://www.goodnodes.biz'
+    text='Team REmited'
+    link='https://blog.remited.ai/'
     customClass='text-orange-500 duration-200 border-b-4 border-orange-300 hover:text-orange-600 hover:border-orange-500 hover:transition-opacity'
     target='_blank'
-    label='Good Nodes Inc.'
+    label='Team REmited'
   />
-  <Bold customClass='text-red-400' text=',' /><br />
+  <Bold customClass='text-red-400' text=',' />
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.workingPosition}
   <Bold customClass='text-red-400' text='.' /><br />
 </p>
