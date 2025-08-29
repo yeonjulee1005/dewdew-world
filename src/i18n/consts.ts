@@ -111,8 +111,8 @@ export const MENU_ITEMS = {
       name: '반가워요 저는 이연주예요 (듀듀)',
       aheadLiving: '제가 살고있는 곳은 대한민국',
       country: '이에요',
-      aheadWorking: '현재는 구직 진행중이며, ',
-      workingPosition: '에서 최고 개발 책임자 (CTO 역할)로 근무했어요'
+      aheadWorking: '현재 ',
+      workingPosition: '에서 Tech Lead를 담당하고 있어요!'
     },
     MAIN_REFERENCE: {
       first: '저의 사이드프로젝트 또는 개발 기여 상황을 확인하고 싶으시다면',
