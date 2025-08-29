@@ -1,0 +1,496 @@
+---
+title: 'The Future of Frontend Technology: Comparing Nuxt and Next'
+description: 'Sub: Exploring API Similarities and Differences'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2025-08-29
+tags: ['nuxt4', 'nuxt', 'vue3', 'typescript', 'frontend framework', 'meta framework', 'nuxt4 blog', 'nextjs', 'nextjs blog', 'nextjs feature']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20250829.png'
+coverAlt: 'cover Image'
+---
+
+> Today, I'll compare the two modern meta frameworks, `Nuxt4` and `Next`,<br />
+> and explore the similarities and differences in their APIs.
+
+
+# Before we start,
+> "What tool should I use to implement the service?"<br />
+
+Developers often think about what tools to use before implementing a product.<br />
+The decision is often made based on which framework supports the most libraries or packages that help implement the product easily.<br />
+
+As I develop, I've learned that this tool selection is highly dependent on the team's preferences and the decision-maker's technical decisions.<br />
+Then, should we always use `Next` only to develop our technology?<br />
+
+I'll start writing this article from this question.<br />
+(I'm sure there are some prejudices in my article, but I'll try to overcome them!)<br />
+
+In this way, in this article, I'll explore the similarities and differences in the APIs provided by the two meta frameworks, `Nuxt4` and `Next`,<br />
+and I'll also discuss the future of frontend technology.<br />
+(I don't know what's ahead, but I'll try to discuss it!)
+
+
+# Rendering Mode
+First, I'll explain the most basic rendering mode of the two meta frameworks.<br />
+Although the basic rendering mode of the two meta frameworks is similar, there are clear differences,<br />
+so I'll enumerate the similarities and differences.<br />
+
+## Basic Rendering Mode
+Nuxt4 supports a `Universal rendering` mode, which is a `SSR-based rendering mode that allows flexible CSR usage`,<br />
+while Next.js has `SSR mode` as its default.<br />
+Under the assumption of basic settings, both frameworks operate as SSR as shown below.
+
+![Rendering Mode Diagram](/tech/images/20250829-1.png)
+
+Commonly, there is a way to set up a component that is only rendered on the client side.<br />
+By setting it up as shown below, you can use `Client Side Component`!
+
+
+🟢 Nuxt4
+```vue
+// 1. Define a Client Component by adding `client` to the component name
+// ex) CustomButton.client.vue
+
+// 1-1. Define a Client Component by adding <Client-Only></Client-Only> to the template area
+// ex) CustomButton.vue
+
+<script setup lang="ts">
+const count = ref(0)
+
+const countUp = () => {
+  count++
+}
+</script>
+
+<template>
+  <ClientOnly>
+	<button @click="countUp()">
+		{{ Count: `${count}` }}
+	</button>
+  </ClientOnly>
+</template>
+
+
+// It is also possible to define a component that is only rendered on the server side by adding `server` to the component name
+// ex) CustomInput.server.vue
+```
+
+
+🔵 Next.js
+```tsx
+// In Next.js, you can define a component that is only rendered on the client side by adding `use client` to the top of the .tsx file
+
+'use client'
+
+import { useState } from 'react'
+
+export default const Count() => {
+  const [count, countUp] = useState(0)
+}
+..
+//
+```
+
+As shown below, `Nuxt4` allows you to easily adjust the rendering mode for each route through `config settings`.<br />
+Nuxt calls this `Hybrid Rendering`.
+
+```vue
+<script setup lang="ts">
+  export default defineNuxtConfig({
+    routeRules: {
+    // The root route is pre-rendered at build time
+    '/': { prerender: true },
+    // Handle redirection to a new URL
+      '/pre-page': { redirect: '/next-page' },
+    // All sub-routes of the management page are rendered as CSR
+    '/admin/**': { ssr: false },
+    // Create on demand: revalidate in the background until the API response changes
+    '/products': { swr: true },
+    // Create on demand: revalidate in the background until the API response changes
+    '/products/**': { swr: 3600 },
+    // Create on demand: revalidate in the background until the API response changes
+    '/blog/**': { isr: true },
+    // Create on demand: revalidate in the background until the API response changes
+    '/blog': { isr: 3600 }
+    }
+})
+</script>
+```
+
+
+# APIs with the same name and function
+As you can see, `Nuxt` and `Next` are moving similarly from the basic rendering structure.<br />
+However, beyond that, we'll explore APIs with the same function and even the same name (or nearly similar)!
+The APIs I'll introduce next are purely framework-provided functions, but I'll also explore them to compare the two frameworks more closely!
+
+
+## 1. Suspense
+In both frameworks, `Suspense` is used to handle the waiting process for asynchronous operations. This allows components to display a `Fallback UI` such as a loading state when fetching data.<br />
+In other words, it enables a form of `Streaming Rendering` where parts of the UI are rendered quickly while waiting for the data to be fully prepared, and the rest is displayed once the data is ready.
+
+Suspense, with these common features, can be used as follows:
+
+🟢 Nuxt4
+```vue
+<script setup lang='ts'>
+const { data, pending } = await useAsyncData('lists', () =>
+  $fetch('/api/lists')
+)
+</script>
+
+<template>
+  <Suspense>
+    <template #default>
+      <ul>
+        <li v-for="list in data" :key="list.id">
+          {{ list.title }}
+        </li>
+      </ul>
+    </template>
+    <template #fallback>
+      <p>Data is being fetched!</p>
+    </template>
+  </Suspense>
+</template>
+```
+
+
+🔵 Next.js
+```tsx
+import { Suspense } from 'react'
+import Lists from './Lists'
+
+export default function Page() {
+  return (
+    <div>
+      <Suspense fallback={<p>Data is being fetched!</p>}>
+        <Lists />
+      </Suspense>
+    </div>
+  )
+}
+```
+
+## 2. useRouter()
+As expected, both frameworks provide page-based route functionality,<br />
+so `useRouter()` has the same function of manipulating route history.<br />
+Like the rendering mode, this API also provides additional features only in `Nuxt4`.
+
+
+🟢 Nuxt4
+```typescript
+const router = useRouter()
+const route = useRoute()
+
+// Similar functionality to Next
+router.push({ path: '/main' })    // Navigate to the page | We recommend using NavigateTo()
+router.back()                     // Navigate to the previous page
+router.forward()                  // Navigate to the next page
+router.replace('/user')           // Route History 교체 | We recommend using NavigateTo()
+
+route.fullpath            // The URL associated with the current route, including path, query, and hash
+route.path                // The encoded route name section of the URL
+route.hash                // The decoded hash section of the URL starting with #
+route.query               // Query parameters
+route.match               // The normalized route array that matches the current route location
+route.meta                // Metadata attached to a record
+route.name                // The unique name of a route record
+route.redirectedFrom      // The route location attempted before reaching the current route location (useful)
+
+// Only Nuxt features
+router.go(-1)                     // Same as router.back()
+router.go(3)                      // Navigate to the third page from the Route History Stack
+router.addRoute({ name: 'home', path: '/home', component: Home }) // Add a new Route History
+router.removeRoute('home')  // Remove Route History
+router.getRoutes()          // Get all Route History list
+router.hasRoute('home')     // Check if the route name is present in a specific Route History
+router.resolve({ name: 'home' })   // Pass the normalized route location
+
+// The navigation guard is also supported, but it's better to use Route Middleware!
+```
+
+
+🔵 Next.js
+
+In Next.js, you can only use it by defining it as a client component, that is, `use client`.
+
+```tsx
+import { usePathname, useSearchParams } from 'next/navigation'
+
+const router = useRouter()
+const path = usePathname()
+const searchParams = useSearchParams()
+
+// Similar functionality to Nuxt
+router.push('/main', { scroll: true })    // Navigate to the page
+router.back()                     // Navigate to the previous page
+router.forward()                  // Navigate to the next page
+router.replace()                  // Replace Route History
+
+path                            // The current URL path
+searchParams                    // Query parameters
+
+// Only Next features
+router.prefetch()                 // Prefetch Route
+```
+
+
+As you can see, `Nuxt4` supports `standard built-in functions` better than `Next`!
+This is because you can use it more flexibly in various conditions, making it more convenient and efficient to create an environment.
+
+
+## 3. useState()
+Suprise? `Nuxt4` also provides basic built-in state functions.<br />
+It's the same name as `Next`!
+However, in the Nuxt ecosystem, `pinia` is generally used for state management.<br />
+
+First, let's see how to use the state management function that is provided by default.
+
+🟢 Nuxt4
+```vue
+<script setup lang="ts">
+// useState (Nuxt's built-in state management)
+const counter = useState('counter', () => 0)
+const user = useState('user', () => null)
+
+// Auto synchronization between server and client
+// Pinia integration is also smooth
+</script>
+```
+
+
+🔵 Next.js
+```tsx
+// React's built-in state management is used
+const [counter, setCounter] = useState(0)
+
+// Global state is managed using Context API, Zustand, Redux, etc.
+// Server state needs to be managed separately
+```
+
+
+`Nuxt4` provides SSR-friendly built-in state functions, but `Next` relies on state management libraries in the `react` ecosystem, which is the difference.
+
+
+## 4. Fetch() / useFetch()
+The APIs I'll introduce next are similar in function, but slightly different in name.<br />
+First, the data lookup function can be used as follows:
+
+
+🟢 Nuxt4
+```vue
+<script setup lang="ts">
+  // Built-in automatic type inference, caching, error handling
+  const { data, pending, error, refresh } = await useFetch('/api/users')
+
+  // Rich options
+  const { data } = await useFetch('/api/posts', {
+    key: 'posts',
+    server: true,
+    lazy: true,
+    transform: (data) => data.map(post => ({ ...post, formatted: true })),
+    onRequest({ request, options }) {
+      // Processing before request
+    },
+    onResponse({ response }) {
+      // Processing after response
+    }
+  })
+</script>
+```
+
+
+🔵 Next.js
+```tsx
+  const data = await fetch('/api/users', {
+    cache: 'force-cache', // 'no-store', 'reload', etc.
+    next: {
+      revalidate: 60,
+      tags: ['users']
+    }
+  })
+```
+
+Here too, `Nuxt4` provides richer functionality.<br />
+Therefore, `Next.js` is generally composed of an internal `fetch()` function and an external library.
+
+
+## 5. Image Optimize
+In the frontend, it is essential to perform image optimization.<br />
+Both frameworks provide components that can perform basic image optimization.
+Let's take a look together!
+
+
+🟢 Nuxt4
+```vue
+<template>
+ // NuxtImg, NuxtPicture components
+  <NuxtImg
+    src="/hero.jpg"
+    width="800"
+    height="600"
+    format="webp"
+    quality="80"
+    loading="lazy"
+    placeholder="blur"
+    sizes="sm:100vw md:50vw lg:400px"
+  />
+</template>
+<script setup lang="ts">
+// Programming way
+const img = useImage()
+const optimizedSrc = img('/hero.jpg', { width: 400, quality: 80 })
+</script>
+```
+
+
+🔵 Next.js
+```tsx
+import Image from 'next/image'
+
+<Image
+  src="/hero.jpg"
+  width={800}
+  height={600}
+  alt="Hero image"
+  quality={80}
+  loading="lazy"
+  placeholder="blur"
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+/>
+```
+
+## 6.useCookie(), cookies
+It's obvious, but the cookie management saved on the browser is also similar to each other.<br />
+Let's take a look together!
+
+
+🟢 Nuxt4
+```vue
+<script setup lang="ts">
+// useCookie
+  const counter = useCookie('counter', {
+    default: () => 0,
+    serializer: {
+      read: (value: string) => {
+        return value ? parseInt(value) : 0
+      },
+      write: (value: number) => {
+        return value.toString()
+      }
+    },
+    maxAge: 60 * 60 * 24 * 7 // 1 week
+  })
+
+  // Automatic synchronization by reactivity
+  counter.value++ // Automatically saved in the cookie
+</script>
+```
+
+
+🔵 Next.js
+```tsx
+// cookies() function (App Router)
+import { cookies } from 'next/headers'
+
+const cookieStore = cookies()
+const theme = cookieStore.get('theme')
+cookieStore.set('theme', 'dark')
+
+// In the client, you can use document.cookie directly or use a library like js-cookie
+import Cookies from 'js-cookie'
+Cookies.set('theme', 'dark', { expires: 7 })
+```
+
+## 7. SEO / Head
+The metadata management is also provided similarly by both frameworks.
+
+
+🟢 Nuxt4
+```vue
+<script setup lang="ts">
+ // useHead - Responsive metadata
+  useHead({
+    title: computed(() => `${post.value?.title} - My Blog`),
+    meta: [
+      { name: 'description', content: () => post.value?.excerpt },
+      { property: 'og:image', content: () => post.value?.image }
+    ],
+    link: [
+      { rel: 'canonical', href: () => `https://example.com${route.path}` }
+    ]
+  })
+
+  // useSeoMeta - SEO-specific
+  useSeoMeta({
+    title: 'My Amazing Site',
+    ogTitle: 'My Amazing Site',
+    description: 'This is my amazing site, let me tell you all about it.',
+    ogDescription: 'This is my amazing site, let me tell you all about it.',
+    ogImage: 'https://example.com/image.png',
+    twitterCard: 'summary_large_image',
+  })
+</script>
+```
+
+
+🔵 Next.js
+```tsx
+  // Metadata API (App Router)
+  export const metadata: Metadata = {
+    title: {
+      template: '%s | My Blog',
+      default: 'My Blog'
+    },
+    description: 'This is my blog',
+    openGraph: {
+      title: 'My Blog',
+      description: 'This is my blog',
+      images: ['https://example.com/og.jpg'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+    },
+  }
+
+  // Dynamic metadata
+  export async function generateMetadata({ params }): Promise<Metadata> {
+    const post = await getPost(params.id)
+    return {
+      title: post.title,
+      description: post.excerpt,
+    }
+  }
+```
+
+
+In `Nuxt4`, you can easily set Head on each page as a composable function,<br />
+and `Next` uses static export methods, making it a feature.
+
+
+
+## Conclusion
+As you can see, we compared and examined the APIs provided by `Nuxt4` and `Next` today.<br />
+
+It's clear that there are differences in how each framework uses the built-in functions.<br />
+`Nuxt4` provides basic functions that are more usefully used.<br />
+
+It seems that the future direction of frontend technology is somewhat clear.<br />
+I think the functions provided by each framework are similar (or almost identical) to each other.<br />
+This is because developers who use these tools are ultimately humans, and the functions they think are inconvenient or necessary are almost the same.<br />
+(Aliens don't use them!)<br />
+
+Next, I'll explore the performance comparison between `Nuxt4` and `Next`!
+See you next time!
+
+---
+
+### Reference
+
+- [Nuxt4](https://nuxt.com/)
+- [Next.js](https://nextjs.org/)
