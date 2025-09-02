@@ -1,7 +1,7 @@
 {
   "name": "dewdew-world",
   "type": "module",
-  "version": "1.2508.2",
+  "version": "1.2508.3",
   "scripts": {
     "dev": "astro dev --port 4001",
     "start": "astro dev",
@@ -10,10 +10,10 @@
     "astro": "astro",
     "format": "prettier --write .",
     "update:astro": "bun add astro@latest",
-    "version:major": "node scripts/version-manager.js major",
-    "version:minor": "node scripts/version-manager.js minor",
-    "version:patch": "node scripts/version-manager.js patch",
-    "version:clear": "node scripts/version-manager.js clear"
+    "version:major": "node scripts/version-runner.cjs major",
+    "version:minor": "node scripts/version-runner.cjs minor",
+    "version:patch": "node scripts/version-runner.cjs patch",
+    "version:clear": "node scripts/version-runner.cjs clear"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
