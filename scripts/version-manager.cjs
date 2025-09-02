@@ -1,14 +1,9 @@
 #!/usr/bin/env node
 
-import fs from 'node:fs';
-import path, { dirname } from 'node:path';
-import readline from 'node:readline';
-import { execSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
-
-// ESM에서 __dirname 대체
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const fs = require('fs');
+const path = require('path');
+const readline = require('readline');
+const { execSync } = require('child_process');
 
 const packageJsonPath = path.join(__dirname, '../package.json');
 const packageLockPath = path.join(__dirname, '../package-lock.json');
@@ -36,7 +31,7 @@ if (
   !versionType ||
   !['major', 'minor', 'patch', 'clear'].includes(versionType)
 ) {
-  console.error('사용법: node version-manager.js [major|minor|patch|clear]');
+  console.error('사용법: node version-manager.cjs [major|minor|patch|clear]');
   console.error('예시: npm run version:major');
   console.error('      npm run version:clear');
   process.exit(1);
