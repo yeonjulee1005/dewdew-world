@@ -1,7 +1,7 @@
 {
   "name": "dewdew-world",
   "type": "module",
-  "version": "1.2508.3",
+  "version": "1.2509.1",
   "scripts": {
     "dev": "astro dev --port 4001",
     "start": "astro dev",
