@@ -54,8 +54,9 @@ let techCollection = (await getCollection('tech'))
 
 const techIndex = techCollection.findIndex((tech) => {
   const slug = tech.id.split('/')[1];
-  const urlPath = Astro.request.url.split('/').pop(); // URL의 마지막 부분
-  return slug === urlPath;
+  // Astro.params 또는 URL pathname을 사용하여 더 안정적으로 슬러그 추출
+  const currentSlug = Astro.params.slug || new URL(Astro.request.url).pathname.split('/').filter(Boolean).pop();
+  return slug === currentSlug;
 })
 
 const replaceImageAlt = (imageAlt: string) => {
