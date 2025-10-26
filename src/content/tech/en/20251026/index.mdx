@@ -1,0 +1,409 @@
+---
+title: 'Introducing Nuxt UI v4, the Best Companion of Nuxt4!'
+description: '+ Already v4.1 ..'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2025-10-26
+tags: ['nuxt4', 'nuxt', 'vue3', 'typescript', 'frontend framework', 'meta framework', 'nuxt4 blog', 'nuxtui', 'nuxtui v4', 'nuxtui v3']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20251026.png'
+coverAlt: 'cover Image'
+---
+
+> The most intelligent way to provide clean UI in the Nuxt ecosystem,<br />
+> Let's learn about Nuxt UI usage and differences from v3!
+
+
+# Before We Begin
+
+Originally, I planned to compare the performance of `Nuxt` and `Next`,<br />
+but I had to quickly change the topic due to real-world time constraints.<br />
+I'll definitely come back with a performance comparison in the next post! See you soon...<br />
+
+The Nuxt ecosystem doesn't just create frameworks,<br />
+but also develops and maintains various tools to improve DX.<br />
+(eslint, devtools, test-util, image, icon, font, script, content, etc.)<br />
+
+However, today I want to introduce `Nuxt UI`, the most important first-party module among them!<br />
+
+
+# History of Using Nuxt UI
+
+As you may know, I've been interested in the `Nuxt` ecosystem since `Nuxt2`.<br />
+
+Naturally, I started paying attention to `Nuxt UI` from the winter of 2022 when it began to emerge! (Back then, `Nuxt UI` started from v2!)<br />
+
+At that time, it didn't have as many components as it does now.
+So while it was helpful for creating very simple projects, I mostly used `Element UI Plus` which supported most components smoothly!
+(I also naturally became a translator for `Element UI` during this time~)<br />
+
+However, from the end of 2024 when upgrading from v2 to v3, it started providing more components stably.
+Furthermore, since it provided more professional UI that could be easily used through the pro plan, I also paid for the pro plan and tried out the corresponding components.<br />
+
+Starting from August this year when the v4 alpha version came out, pro plan components became free to use, and furthermore, by wrapping `reka UI` and `tanstack Table`, it has grown into a UI library comparable to `Shadcn UI`.<br />
+
+First of all, I'm very proud to be contributing to and using this UI ecosystem!<br />
+
+Now I want to tell you how to use it, what features it has, and how I check and use the documentation!<br />
+
+
+# Changes from v3 to v4
+
+I think I should talk about this first!
+
+The biggest changes from v3 to v4 are enhanced `Figma` integration, support for AI tools using `mcp server`, and the ability to use it as a component when creating documents using the `Nuxt Content` module!<br />
+
+#### Figma
+
+Even in v3, we could communicate smoothly with designers through `Figma`, but now, incomparably more assets and components are provided,<br />
+so we can collaborate using the design system when communicating with designers! (With just a little modification, you can create beautiful and concise UI!)<br />
+
+#### MCP Server
+
+The `MCP` server provided by `Nuxt UI` helps reduce the time spent reading documentation while making it faster to understand component properties and implement features!<br />
+(It's such a great tool, but I think it's better to read more documentation and work, so I only use it when I'm in a hurry 😄)<br />
+
+
+# How Can I Use It in My Project?
+
+I'll show you how to use it in `Nuxt4`, but first, let me mention that `Nuxt UI` can also be used in `Vue` projects!!<br />
+
+You can install it in your `Nuxt4` project as follows!<br />
+
+```typescript
+// Step1. Install module
+bun add @nuxt/ui
+
+// Step2. Use module in nuxt.config.ts
+// Step3. Import basic styles in nuxt.config.ts
+
+
+// app/assets/css/main.css (you can use scss too!)
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
+})
+```
+
+Since `Nuxt UI v4` uses `tailwind css 4` by default, you need to import the basic `tailwind css` as shown above,<br />
+and I recommend installing `Tailwind css intellisense` in your `IDE` and configuring `setting.json`!<br />
+
+```typescript
+// .vscode/setting.json
+
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.classAttributes": ["class", "ui"],
+  "tailwindCSS.experimental.classRegex": [
+    ["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
+}
+
+```
+
+
+After installing it simply like this, you can use all components by wrapping `app.vue` as follows!<br />
+
+```vue
+// app/app.vue
+
+<template>
+  <UApp>
+    <NuxtPage />
+  </UApp>
+</template>
+
+```
+
+
+You might want to change the `U` leading string in `UApp`!<br />
+In that case, you can specify it in `nuxt.config.ts` as follows!<br />
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  ui: {
+    prefix: 'Test', // This way UButton, UTable -> TestButton, TestTable can be used!
+  },
+})
+```
+
+
+#### What if I want to apply my own font?
+
+You can apply it as follows!<br />
+
+```typescript
+// app/assets/css/main.css
+
+@theme {
+  --font-sans: 'Public Sans', sans-serif;
+}
+
+```
+
+When using a directly downloaded font, you just need to add it to the @theme above after processing it with fontface!<br />
+
+```typescript
+// app/assets/css/font.css
+
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('/public/fonts/PretendardVariable.woff2') format('woff2-variations');
+}
+```
+
+
+# Things I Enjoy Using in Nuxt UI
+
+I use all components in `Nuxt4`, but let me introduce a few features that I find particularly useful!<br />
+
+#### 1. `useToast()` Composable
+
+That's right! `useToast()` is a feature that displays notifications by assigning a `Toast` component globally in `app.vue` without unnecessarily creating alert components throughout the entire project, and then specifying messages and types in the `useToast()` composable on screens that need notifications!<br />
+
+The usage is simple!<br />
+First, you can proceed with additional configuration in the part where you wrapped with `UApp` in `app.vue` as follows!<br />
+
+```vue
+// app/app.vue
+
+<template>
+  <UApp :toaster="appConfig.toaster">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
+</template>
+```
+
+And once you set the basic configuration for `toaster` in `app.config.ts`, you can call notifications from anywhere using `useToast()`!<br />
+
+```typescript
+// app/app.config.ts
+
+export default defineAppConfig({
+  ...,
+  toaster: {
+    position: 'top-right' as const,  // Display notifications in top-right
+    expand: true,                    // Expandable notifications
+    duration: 1500,                  // End delay time
+  },
+  ...
+})
+
+```
+
+
+##### Adding Notifications
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+// You don't have to specify an id, but if not specified, timestamp becomes the id.
+// If you don't plan to update notifications, it's better not to specify!
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: 'Entered the blog page!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+
+</script>
+
+<template>
+  <div>
+	Blog Page
+  </div>
+</template>
+```
+
+
+##### + Updating Notifications
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+// You must specify the id to update for the update to work!
+const updateAlarm = () => {
+  toast.update( id: 'blog-insert-alarm' ,{
+    title: 'Entered the blog page!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+}
+
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: 'Entered the blog page!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+</script>
+
+<template>
+  <div>
+	Blog Page
+	<TestButton @click="updateAlarm">
+		Alert Update
+	</TestButton>
+  </div>
+</template>
+```
+
+##### + Removing Notifications
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+const updateAlarm = () => {
+  toast.update( id: 'blog-insert-alarm' ,{
+    title: 'Entered the blog page!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+}
+
+// Just assign the id of the notification to delete!
+const deleteAlarm = (id: string | number) => {
+  toast.remove(id)
+}
+
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: 'Entered the blog page!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+</script>
+
+<template>
+  <div>
+	Blog Page
+	<TestButton @click="updateAlarm">
+		Alert Update
+	</TestButton>
+	<TestButton @click="deleteAlarm('blog-insert-alarm')">
+		Alarm Delete
+	</TestButton>
+  </div>
+</template>
+```
+
+
+##### + Removing All Generated Notifications
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+const updateAlarm = () => {
+  toast.update( id: 'blog-insert-alarm' ,{
+    title: 'Entered the blog page!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+}
+
+const deleteAlarm = (id: string | number) => {
+  toast.remove(id)
+}
+
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: 'Entered the blog page!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+
+// You can delete all notifications!
+onUnmounted(() => {
+  toast.clear()
+})
+</script>
+
+<template>
+  <div>
+	Blog Page
+	<TestButton @click="updateAlarm">
+		Alert Update
+	</TestButton>
+	<TestButton @click="deleteAlarm('blog-insert-alarm')">
+		Alarm Delete
+	</TestButton>
+  </div>
+</template>
+```
+
+
+
+#### 2. `FileUpload` / `PinInput` / `SelectMenu` / `Table` / `Modal` ...
+
+There are really many things that eat up time when implementing directly..<br />
+These components are also designed to be used with scalability!<br />
+
+Not only the components mentioned above, but many more components are explained in the documentation with sufficient examples, so I think it would be great if you take a look!<br />
+
+
+# Things to Look for in Nuxt UI Documentation!
+
+When you install the module and ask questions using mcp, it gives good answers,<br />
+but sometimes you need to check what slots, props, and emits you can use, and what values you need to specify in `:ui=""` to adjust styles!<br />
+
+When that happens, I go directly into the documentation~ Usually, you can look at APIs and themes at the bottom of each module like this!<br />
+
+![Nuxt UI Document](/tech/images/20251026.png)
+
+Looking at the necessary content here will be helpful!<br />
+
+# Conclusion
+Today we learned about `Nuxt UI`!<br />
+Various UI frameworks exist, but I think it's a simple, modern UI module with high compatibility with `Nuxt4`! 
+I would be very grateful if you could show some interest!<br />
+
+Then in the next post... definitely!! I'll bring you a place where we can do a full performance comparison between `Nuxt4` and `Next`!<br />
+See you next time!!<br />
+
+---
+
+### References
+
+- [Nuxt UI V4](https://ui.nuxt.com/)
