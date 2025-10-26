@@ -1,0 +1,409 @@
+---
+title: 'Nuxt4의 단짝친구 Nuxt UI v4 를 소개합니다!'
+description: '+ 어느덧 v4.1 ..'
+isDraft: true
+author: 'Dewdew'
+language: 'ko'
+publishedDate: 2025-10-26
+tags: ['nuxt4', 'nuxt', 'vue3', 'typescript', 'frontend framework', 'meta framework', 'nuxt4 blog', 'nuxtui', 'nuxtui v4', 'nuxtui v3']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20251026.png'
+coverAlt: 'cover Image'
+---
+
+> Nuxt 생태계에서 깔끔한 UI를 제공하기 위한 가장 현명한 방법인,<br />
+> Nuxt UI의 사용방법과 v3와의 차이점에 대해서 알아봅시다!
+
+
+# 들어가기 앞서,
+
+원래는 `Nuxt`와 `Next`의 성능 비교를 하고자 했으나,<br />
+현실 세계의 시간적인 한계에 부딪혀 주제를 급히 변경하게 되었네요.<br />
+다음 글에서는 꼭 성능 비교로 찾아오도록 하겠습니다! 총총...<br />
+
+Nuxt 생태계는 단순히 프레임워크만 만드는 것이 아니라,<br />
+DX를 향상시키기 위한 다양한 도구들을 개발하고 관리하고 있습니다.<br />
+(eslint, devtools, test-util, image, icon, font, script, content 등)<br />
+
+그러나 오늘은 그중에서도 가장 중요한 퍼스트 파티 모듈인 `Nuxt UI`에 대해 소개해드리려고 합니다!<br />
+
+
+# 지금까지 사용해온 Nuxt UI의 히스토리
+
+잘 아시겠지만, 저는 `Nuxt2` 때부터 `Nuxt` 생태계에 관심이 많은 한 사람이에요.<br />
+
+당연하게도 `Nuxt UI`가 태동하기 시작한 22년 겨울부터 많은 관심을 가지기 시작했어요! (그때는 `Nuxt UI`가 v2부터 시작했었지요!)<br />
+
+당시에는 지금처럼 많은 컴포넌트를 보유한 것이 아니었죠.
+그래서 아주 간단한 프로젝트를 생성할 때에는 도움이 되었지만, 대부분의 컴포넌트가 원활히 지원되는 `Element UI Plus`를 많이 이용했어요!
+(그러면서 자연스럽게 `Element UI`에 번역자로 활동을 하기도 하였구요~)<br />
+
+하지만, v2에서 v3으로 올라오는 24년 연말부터는 보다 많은 컴포넌트를 안정적으로 제공하기 시작했어요.
+더 나아가 pro 플랜을 통해 조금 더 전문적인 UI를 손쉽게 사용할 수 있도록 제공하였기 때문에 저 또한 pro 플랜을 지불하며 해당하는 컴포넌트들을 미리 사용해보기도 하였어요.<br />
+
+올해 8월에 v4의 알파버전이 나오기 시작하면서부터 pro플랜의 컴포넌트들도 무료로 사용할 수 있도록 변경이 되고, 더 나아가 `reka UI`와 `tanstack Table` 등을 래핑하면서 `Shadcn UI`와 견줄만큼의 UI 라이브러리로써 성장하였어요.<br />
+
+우선, 이러한 UI 생태계에 기여 및 이용을 하고 있다는 점에서 너무나도 자랑스럽게 생각하고 있어요!<br />
+
+이제 본격적으로 어떻게 사용하고, 어떤 기능들이 있는지, 그리고 제가 어떻게 문서를 확인하고 사용하는지 알려드리고자 해요!<br />
+
+
+# v3와 v4의 변경점
+
+제일 먼저 이것부터 이야기를 드려야 할 것 같아요!
+
+v3과 v4의 가장 큰 변경점은 `Figma` 통합성 강화와, `mcp server`를 활용한 AI도구의 지원을 받을 수 있는 점, `Nuxt Content` 모듈을 사용하여 문서를 만들 때의 컴포넌트로 이용이 가능하다는 점이 있겠어요!
+
+#### Figma
+
+v3에서도 `Figma`를 통해 디자이너와의 소통을 원활히 할 수 있었는데요, 그때와는 비교도 할 수 없게 각종 에셋 및 컴포넌트들이 제공되기 때문에,<br />
+디자이너와의 소통 시 해당 디자인 시스템을 이용해서 협업을 할 수 있다는 장점을 가지게 되었어요! (조금만 수정하면 아주 이쁘고 간결한 UI가 만들어지죠!)<br />
+
+#### Mcp Server
+
+`Nuxt UI`에서 제공하는 `MCP` 서버를 이용해서 문서를 읽는 시간을 단축함과 동시에 더욱 빠르게 컴포넌트의 속성들을 알 수 있고 기능을 구현하도록 돕게 되었어요!<br />
+(너무 좋은 도구이지만, 저는 문서를 더 많이 보고 작업하는 것이 좋다고 생각하기 때문에, 급할 때만 씁니다 ㅋㅋ)<br />
+
+
+# 내 프로젝트에 어떻게 사용할 수 있나요?
+
+저는 `Nuxt4`에서 사용하는 과정을 알려드리겠지만, `Nuxt UI`는 `Vue` 프로젝트에서도 사용 가능하다는 점을 우선 말씀드려요!!
+
+`Nuxt4` 프로젝트에 다음과 같이 설치를 진행하시면 돼요!
+
+```typescript
+// Step1. 모듈 설치
+bun add @nuxt/ui
+
+// Step2. nuxt.config.ts 모듈 사용
+// Step3. nuxt.config.ts 기본 스타일 가져오기
+
+
+// app/assets/css/main.css (scss로 하셔도 됩니다!)
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
+})
+```
+
+`Nuxt UI v4`는 기본적으로 `tailwind css 4`를 사용하고 있기 때문에, 위와 같이 기본 `tailwind css`를 가져와야 하며,<br />
+`IDE`에 `Tailwind css intellisense`를 설치하고 `setting.json`을 설정해 주는 것을 권장하고 있어요!
+
+```typescript
+// .vscode/setting.json
+
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.classAttributes": ["class", "ui"],
+  "tailwindCSS.experimental.classRegex": [
+    ["ui:\\s*{([^)]*)\\s*}", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
+}
+
+```
+
+
+이렇게 간단히 설치하고 나면, 아래와 같은 방식으로 `app.vue`에 wrapping하게 되면 전체 컴포넌트를 사용할 수 있게 됩니다!
+
+```vue
+// app/app.vue
+
+<template>
+  <UApp>
+    <NuxtPage />
+  </UApp>
+</template>
+
+```
+
+
+`UApp`에서 `U`라는 leading 문자열을 변경하고 싶으실 수 있을 텐데요!
+이럴 때는 아래와 같이 `nuxt.config.ts`에 지정해 주시면 돼요!
+
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  ui: {
+    prefix: 'Test', // 이렇게 추가하면 UButton, UTable -> TestButton, TeatTable로 사용이 가능합니다!
+  },
+})
+```
+
+
+#### 내가 사용하고 싶은 폰트를 적용하고 싶을 때는?
+
+다음과 같이 적용하면 되겠습니다!<br />
+
+```typescript
+// app/assets/css/main.css
+
+@theme {
+  --font-sans: 'Public Sans', sans-serif;
+}
+
+```
+
+직접 다운받은 폰트를 사용할 때에는 fontface를 사용 처리한 이후에 위의 @theme에 추가해 주기만 하면 됩니다!
+
+```typescript
+// app/assets/css/font.css
+
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('/public/fonts/PretendardVariable.woff2') format('woff2-variations');
+}
+```
+
+
+# Nuxt UI에서 즐겨 사용하는 것들
+
+`Nuxt4`의 모든 컴포넌트들을 사용하고 있지만, 그중에서도 유용하게 사용하는 기능들을 몇 개 소개해드리겠습니다!
+
+#### 1. `useToast()` Composable
+
+그렇죠! `useToast()`는 전체 프로젝트에서 매번 alert 컴포넌트를 불필요하게 만들지 않아도, `app.vue`에 전역적으로 `Toast` 컴포넌트를 할당한 이후, 알림이 필요한 화면에서 `useToast()` 컴포저블에 메시지와 타입들을 지정함으로써 알림을 표시해주는 기능이에요!<br />
+
+사용하는 방법은 간단해요!<br />
+우선 `app.vue`에 `UApp`으로 wrapping 했던 부분에 아래와 같이 추가 설정을 진행해 주면 됩니다!
+
+```vue
+// app/app.vue
+
+<template>
+  <UApp :toaster="appConfig.toaster">
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </UApp>
+</template>
+```
+
+그리고, `app.config.ts`에 `toaster`에 대한 기본 지정만 해 주게 되면 어디서든 `useToast()`를 통해 알림을 호출할 수 있게 됩니다!<br />
+
+```typescript
+// app/app.config.ts
+
+export default defineAppConfig({
+  ...,
+  toaster: {
+    position: 'top-right' as const,  // 알림을 상단 우측에 표시
+    expand: true,                    // 확장성을 가지는 알림
+    duration: 1500,                  // 종료 지연시간
+  },
+  ...
+})
+
+```
+
+
+##### 알림 추가
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+// id를 지정하지 않아도 되지만, 미지정하면 타임스템프가 id가 됩니다.
+// 알림을 업데이트하지 않을 경우는 미지정으로 하는 게 좋아요!
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: '블로그 페이지에 진입 했어요!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+
+</script>
+
+<template>
+  <div>
+	Blog Page
+  </div>
+</template>
+```
+
+
+##### + 알림 업데이트
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+// 반드시, 업데이트할 id를 지정해 줘야 업데이트가 돼요!
+const updateAlarm = () => {
+  toast.update( id: 'blog-insert-alarm' ,{
+    title: '블로그 페이지에 진입 했어요!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+}
+
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: '블로그 페이지에 진입 했어요!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+</script>
+
+<template>
+  <div>
+	Blog Page
+	<TestButton @click="updateAlarm">
+		Alert Update
+	</TestButton>
+  </div>
+</template>
+```
+
+##### + 알림 제거
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+const updateAlarm = () => {
+  toast.update( id: 'blog-insert-alarm' ,{
+    title: '블로그 페이지에 진입 했어요!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+}
+
+// 지울 알림의 id를 할당해주면 됩니다!
+const deleteAlarm = (id: string | number) => {
+  toast.remove(id)
+}
+
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: '블로그 페이지에 진입 했어요!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+</script>
+
+<template>
+  <div>
+	Blog Page
+	<TestButton @click="updateAlarm">
+		Alert Update
+	</TestButton>
+	<TestButton @click="deleteAlarm('blog-insert-alarm')">
+		Alarm Delete
+	</TestButton>
+  </div>
+</template>
+```
+
+
+##### + 모든 생성된 알림 제거
+
+```vue
+// pages/blog/test.vue
+
+<script setup lang="ts">
+const toast = useToast()
+
+const updateAlarm = () => {
+  toast.update( id: 'blog-insert-alarm' ,{
+    title: '블로그 페이지에 진입 했어요!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+}
+
+const deleteAlarm = (id: string | number) => {
+  toast.remove(id)
+}
+
+onMounted(() => {
+  toast.add( id: 'blog-insert-alarm' ,{
+    title: '블로그 페이지에 진입 했어요!',
+    description: '',
+    color: 'success',
+    duration: 2000
+  })
+})
+
+// 모든 알림을 지울 수 있어요!
+onUnmounted(() => {
+  toast.clear()
+})
+</script>
+
+<template>
+  <div>
+	Blog Page
+	<TestButton @click="updateAlarm">
+		Alert Update
+	</TestButton>
+	<TestButton @click="deleteAlarm('blog-insert-alarm')">
+		Alarm Delete
+	</TestButton>
+  </div>
+</template>
+```
+
+
+
+#### 2. `FileUpload` / `PinInput` / `SelectMenu` / `Table` / `Modal` ...
+
+진짜 직접 구현하면 시간 잡아먹는 하마인 것들이 참으로 많은데요..<br />
+이러한 컴포넌트들도 확장성 있게 사용할 수 있도록 설계되어 있어요!<br />
+
+위에 언급한 컴포넌트뿐만 아니라, 더 많은 컴포넌트들이 충분한 예제로서 문서에 설명이 되어있으니, 한번 살펴보시면 너무나 좋을 것 같아요!!<br />
+
+
+# Nuxt UI 문서에서 잘 보면 좋은 것들!
+
+모듈을 설치하고 mcp를 이용해서 질문을 하면 잘 답변을 해주지만,<br />
+종종 사용할 수 있는 slot들과 props, emits들이 어떤 것들을 사용할 수 있는지, 그리고 스타일을 조정하기 위해 어떤 값을 `:ui=""`에 지정해야 하는지 등을 위해 살펴봐야 할 때가 있을 거예요!<br />
+
+저는 그럴 때는 문서에 직접 들어가서 살펴보는데요~ 보통은 각 모듈의 하단에 아래와 같이 api들과 테마들을 살펴볼 수 있어요!<br />
+
+![Nuxt UI Document](/tech/images/20251026.png)
+
+여기서 필요한 내용들을 살펴보시면 도움이 됩니다!<br />
+
+# 마무리
+오늘은 `Nuxt UI`에 대해 알아보았어요!<br />
+다양한 UI 프레임워크들이 존재하지만, 심플하고 현대적이며, `Nuxt4`와의 높은 호환성을 가지고 있는 UI 모듈이라고 생각해요~! 
+한번쯤 관심을 가져봐 주시면 너무나 감사할 것 같아요!!<br />
+
+그러면 다음 글에서는 ... 꼭꼭!! `Nuxt4`와 `Next`의 본격 성능 비교를 해볼 수 있는 자리를 가져보도록 할게요!<br />
+그럼 다음에 봬요!!<br />
+
+---
+
+### 참고 문서
+
+- [Nuxt UI V4](https://ui.nuxt.com/)
