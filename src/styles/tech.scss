@@ -48,13 +48,41 @@
     @apply text-lg my-2 sm:my-5 break-keep;
   }
   table {
-    @apply w-full my-6 border-collapse;
+    @apply my-6 border-collapse;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    
+    // thead와 tbody를 하나의 테이블로 묶기
+    thead, tbody {
+      display: table;
+      width: 100%;
+    }
+    
+    // 헤더와 본문이 같은 테이블 구조를 가지도록
+    thead {
+      display: table-header-group;
+    }
+    
+    tbody {
+      display: table-row-group;
+    }
+    
+    tr {
+      display: table-row;
+    }
+    
     th, td {
       @apply border border-orange-300 px-2 sm:px-4 py-1 sm:py-2;
+      display: table-cell;
+      white-space: nowrap;
     }
+    
     th {
       @apply bg-orange-100 font-bold text-center;
     }
+    
     tr:nth-child(even) {
       @apply bg-orange-50;
     }
