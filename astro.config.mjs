@@ -29,6 +29,7 @@ const getSiteUrl = () => {
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'static',
   devToolbar: { enabled: true },
   experimental: {
 		preserveScriptOrder: true,
@@ -57,9 +58,7 @@ export default defineConfig({
     mdx()
   ],
   site: getSiteUrl(),
-  adapter: vercel({
-    edgeMiddleware: true
-  }),
+  adapter: vercel(),
   i18n: {
     defaultLocale: DEFAULT_LOCALE_SETTING,
     locales: Object.keys(LOCALES_SETTING),

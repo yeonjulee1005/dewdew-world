@@ -1,6 +1,5 @@
 // Import utilities from `astro:content`
 import { z, defineCollection } from 'astro:content'
-import { rssSchema } from '@astrojs/rss'
 import { glob } from 'astro/loaders'
 
 // Define a schema for each collection you'd like to validate.
@@ -23,9 +22,5 @@ const techCollection = defineCollection({
   })
 })
 
-const techRss = defineCollection({
-  schema: rssSchema
-})
-
 // Export a single `collections` object to register your collection(s)
-export const collections = { tech: techCollection, techRss }
+export const collections = { tech: techCollection }
