@@ -17,16 +17,23 @@ const locale = Astro.currentLocale as Lang;
   <div class='flex-auto' />
   <div class='flex items-center gap-3'>
     {
-      FOOTER_LINKS.map((link) => (
-        <Link
-          link={link.link}
-          customClass={link.class}
-          target='_blank'
-          label={link.label}
-        >
-          <Icon slot='link' name={link.iconName} />
-        </Link>
-      ))
+      FOOTER_LINKS.map((link) => {
+        // RSS 링크는 현재 언어에 맞게 동적으로 생성
+        const linkUrl = link.label === 'rss' 
+          ? getRelativeLocaleUrl(locale, '/rss.xml')
+          : link.link;
+        
+        return (
+          <Link
+            link={linkUrl}
+            customClass={link.class}
+            target='_blank'
+            label={link.label}
+          >
+            <Icon slot='link' name={link.iconName} />
+          </Link>
+        );
+      })
     }
   </div>
 </div>
