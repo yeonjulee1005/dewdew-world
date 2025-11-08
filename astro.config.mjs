@@ -29,6 +29,7 @@ const getSiteUrl = () => {
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'static',
   devToolbar: { enabled: true },
   vite: {
     build: {

@@ -1,6 +1,6 @@
 ---
 import '@styles/index.scss'
-// import SpeedInsights from '@vercel/speed-insights/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
 
 export interface Props {
   title: string
@@ -70,4 +70,4 @@ const {
 <meta property='twitter:description' content={description} />
 <meta property='twitter:image' content={image} />
 
-<!-- <SpeedInsights /> -->
+<SpeedInsights />
