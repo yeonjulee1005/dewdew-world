@@ -10,6 +10,7 @@ body {
   align-items: center;
   @apply bg-neutral-100/70;
   scroll-behavior: smooth;
+  overflow-x: hidden;
   -webkit-touch-callout: none;
   // user-select: none;
   // -webkit-user-select: none;
