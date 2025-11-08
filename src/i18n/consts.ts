@@ -51,8 +51,8 @@ export const MENU_ITEMS = {
       name: ' I\'m Yeonju (A.K.A. Dewdew)',
       aheadLiving: 'living in',
       country: 'Republic of Korea',
-      aheadWorking: 'I\'m currently on a career break',
-      workingPosition: 'served as the Chief Development Officer (Acting CTO)'
+      aheadWorking: 'I\'m currently',
+      workingPosition: 'working as a Tech Lead'
     },
     MAIN_REFERENCE: {
       first: 'If you want to check out my work and progress in development',
