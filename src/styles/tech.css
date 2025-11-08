@@ -1,0 +1,76 @@
+/**
+* ! Tech styles !
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.tech a {
+  @apply text-lg text-rose-400 duration-200 border-b-4 border-rose-400 hover:text-rose-600 hover:border-rose-600 hover:transition-opacity;
+}
+.tech h1 code, .tech h2 code, .tech h3 code, .tech h4 code, .tech h5 code, .tech h6 code, .tech p code, .tech li code, .tech blockquote code {
+  @apply bg-orange-100 rounded-md py-0.5 px-1;
+}
+.tech h1 a, .tech h2 a, .tech h3 a, .tech h4 a, .tech h5 a, .tech h6 a {
+  @apply inline-block border-0 align-middle;
+}
+.tech h1 a .icon, .tech h2 a .icon, .tech h3 a .icon, .tech h4 a .icon, .tech h5 a .icon, .tech h6 a .icon {
+  @apply block pr-2;
+  content: url("/images/hash.svg");
+}
+.tech h1 a .icon:hover, .tech h2 a .icon:hover, .tech h3 a .icon:hover, .tech h4 a .icon:hover, .tech h5 a .icon:hover, .tech h6 a .icon:hover {
+  content: url("/images/hash-hover.svg");
+}
+.tech h1 {
+  @apply text-3xl font-bold break-keep leading-10 my-6 sm:my-8;
+}
+.tech h2 {
+  @apply text-2xl font-bold break-keep my-6 sm:my-8;
+}
+.tech h3 {
+  @apply text-xl font-bold break-keep my-6 sm:my-8;
+}
+.tech h4 {
+  @apply text-lg font-bold break-keep;
+}
+.tech h5 {
+  @apply text-base font-bold break-keep;
+}
+.tech h6 {
+  @apply text-sm font-bold break-keep;
+}
+.tech p {
+  @apply text-lg my-2 sm:my-5 break-keep;
+}
+.tech table {
+  @apply w-full my-6 border-collapse;
+}
+.tech table th, .tech table td {
+  @apply border border-orange-300 px-2 sm:px-4 py-1 sm:py-2;
+}
+.tech table th {
+  @apply bg-orange-100 font-bold text-center;
+}
+.tech table tr:nth-child(even) {
+  @apply bg-orange-50;
+}
+.tech blockquote {
+  @apply border-l-4 border-rose-300 pl-4 my-4 text-lg;
+}
+.tech pre {
+  @apply p-5 rounded-2xl my-10 border-2 border-neutral-700 shadow-md shadow-neutral-400;
+}
+.tech ul {
+  @apply pl-6 py-2 list-image-[url(/images/checkMark.svg)];
+}
+.tech ol {
+  @apply pl-6 py-2 list-decimal;
+}
+.tech li {
+  @apply my-3;
+}
+.tech hr {
+  @apply border-b-2 border-rose-300 my-6 sm:my-10;
+}
+.tech img {
+  @apply rounded-md shadow-md shadow-neutral-400;
+}/*# sourceMappingURL=tech.css.map */

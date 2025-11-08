@@ -1,0 +1,36 @@
+---
+---
+<astro-image-modal>
+  <div id="image-modal" class="hidden fixed inset-0 z-[9999] items-center justify-center bg-black bg-opacity-90 backdrop-blur-sm animate-fadeIn">
+    <button
+      id="modal-close"
+      class="absolute top-4 right-4 z-10 text-white hover:text-rose-400 transition-colors duration-200"
+      aria-label="닫기"
+    >
+      <svg
+        class="w-8 h-8"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+    <img
+      id="modal-image"
+      class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl animate-zoomIn cursor-pointer"
+      src=""
+      alt="확대된 이미지"
+    />
+  </div>
+</astro-image-modal>
+
+<script>
+  import '../../scripts/imageModal.ts';
+</script>

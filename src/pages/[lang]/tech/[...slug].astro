@@ -2,6 +2,7 @@
 import { getCollection, render, type CollectionEntry } from 'astro:content'
 
 import TechLayout from '../../../layouts/TechLayout.astro'
+import ImageModal from '../../../components/tech/ImageModal.astro'
 
 import '@styles/tech.scss'
 import { LOCALES } from '../../../i18n'
@@ -33,4 +34,5 @@ const { Content, remarkPluginFrontmatter} = await render(entry)
   <div class="tech">
     <Content />
   </div>
+  <ImageModal />
 </TechLayout>
