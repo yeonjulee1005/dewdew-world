@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  font-family: "Pretendard Variable", Pretendard, Roboto, -apple-system, BlinkMacSystemFont, system-ui, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @apply bg-neutral-100/70;
+  scroll-behavior: smooth;
+  -webkit-touch-callout: none;
+}
+body img {
+  -webkit-user-drag: none;
+}
+body ::-moz-selection {
+  background-color: #fb7185;
+  color: #ffffff;
+}
+body ::selection {
+  background-color: #fb7185;
+  color: #ffffff;
+}
+body p {
+  line-height: 1.35;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}/*# sourceMappingURL=index.css.map */

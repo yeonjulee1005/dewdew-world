@@ -30,9 +30,6 @@ const getSiteUrl = () => {
 // https://astro.build/config
 export default defineConfig({
   devToolbar: { enabled: true },
-  experimental: {
-		preserveScriptOrder: true,
-	},
   vite: {
     build: {
       cssCodeSplit: false, // CSS를 하나의 파일로 번들링하여 로딩 지연 방지
@@ -57,9 +54,7 @@ export default defineConfig({
     mdx()
   ],
   site: getSiteUrl(),
-  adapter: vercel({
-    edgeMiddleware: true
-  }),
+  adapter: vercel(),
   i18n: {
     defaultLocale: DEFAULT_LOCALE_SETTING,
     locales: Object.keys(LOCALES_SETTING),

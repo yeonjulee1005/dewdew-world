@@ -203,6 +203,7 @@ In the local environment test, `Nuxt 4` clearly has the upper hand over `Next.js
 3. **Stability**: The standard deviation is much lower, making it more consistent
 4. **Scalability**: Processing 11.5 times more requests in the same time
 
+![Local Development Environment Server Performance Measurement Result](/tech/images/20251108.png)
 
 ---
 
@@ -227,6 +228,10 @@ In the local environment test, `Nuxt 4` clearly has the upper hand over `Next.js
 |**Speed Index**|1.7s|1.7s|1.7s|**1.7s** 🟢|
 |**Cumulative Layout Shift**|0|0|0|**0** 🟢|
 
+![Local Development Environment FE Performance Measurement Result Nuxt4(1)](/tech/images/20251108-1.png)
+![Local Development Environment FE Performance Measurement Result Nuxt4(2)](/tech/images/20251108-2.png)
+![Local Development Environment FE Performance Measurement Result Nuxt4(3)](/tech/images/20251108-3.png)
+
 **Next.js 16 - Lighthouse Performance Measurement Result (Total 3 Measurements)**
 
 | Measurement Trial|Performance|Accessibility|Best Practices|SEO|
@@ -245,6 +250,10 @@ In the local environment test, `Nuxt 4` clearly has the upper hand over `Next.js
 |**Total Blocking Time**|150ms|80ms|80ms|**103.3ms** 🟠|
 |**Speed Index**|0.8s|0.8s|0.8s|**0.8s** 🟢|
 |**Cumulative Layout Shift**|0|0|0|**0** 🟢|
+
+![Local Development Environment FE Performance Measurement Result Next.js 16(1)](/tech/images/20251108-4.png)
+![Local Development Environment FE Performance Measurement Result Next.js 16(2)](/tech/images/20251108-5.png)
+![Local Development Environment FE Performance Measurement Result Next.js 16(3)](/tech/images/20251108-6.png)
 
 **Performance Score Comparison**
 
@@ -373,9 +382,34 @@ In the deployment environment, `Next.js 16` performed well!?
 
 However, `Nuxt 4` has lower standard deviation, making it more consistent performance.
 
+![Deployment Environment Server Performance Measurement Result](/tech/images/20251108-7.png)
+
 ---
 
 ### 4. Measurement of FE Performance in Deployment Environment (Github Actions)
+
+**Nuxt 4 - Lighthouse Performance Measurement Result (3 Measurements)**
+
+|Measurement Trial|Performance|Accessibility|Best Practices|SEO|
+|---|---|---|---|---|
+|1st Measurement|99 🟢|100 🟢|100 🟢|100 🟢|
+|2nd Measurement|99 🟢|100 🟢|100 🟢|100 🟢|
+|3rd Measurement|93 🟢|100 🟢|100 🟢|100 🟢|
+|**Average**|**97**|**100**|**100**|**100**|
+
+**Nuxt 4 - Detailed Metrics**
+
+|Metric|1st|2nd|3rd|Average|
+|---|---|---|---|---|
+|**First Contentful Paint**|1.7s|1.7s|2.0s|**1.8s** 🟢|
+|**Largest Contentful Paint**|1.8s|1.8s|2.1s|**1.9s** 🟢|
+|**Total Blocking Time**|60ms|50ms|170ms|**93.3ms** 🟢|
+|**Speed Index**|1.7s|1.7s|4.0s|**2.47s** 🟠|
+|**Cumulative Layout Shift**|0|0|0|**0** 🟢|
+
+![Deployment Environment FE Performance Measurement Result Nuxt4(1)](/tech/images/20251108-8.png)
+![Deployment Environment FE Performance Measurement Result Nuxt4(2)](/tech/images/20251108-9.png)
+![Deployment Environment FE Performance Measurement Result Nuxt4(3)](/tech/images/20251108-10.png)
 
 **Next.js 16 - Lighthouse Performance Measurement Result (3 Measurements)**
 
@@ -396,24 +430,9 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 |**Speed Index**|1.6s|0.8s|0.8s|**1.07s** 🟢|
 |**Cumulative Layout Shift**|0|0|0|**0** 🟢|
 
-**Nuxt 4 - Lighthouse Performance Measurement Result (3 Measurements)**
-
-|Measurement Trial|Performance|Accessibility|Best Practices|SEO|
-|---|---|---|---|---|
-|1st Measurement|99 🟢|100 🟢|100 🟢|100 🟢|
-|2nd Measurement|99 🟢|100 🟢|100 🟢|100 🟢|
-|3rd Measurement|93 🟢|100 🟢|100 🟢|100 🟢|
-|**Average**|**97**|**100**|**100**|**100**|
-
-**Nuxt 4 - Detailed Metrics**
-
-|Metric|1st|2nd|3rd|Average|
-|---|---|---|---|---|
-|**First Contentful Paint**|1.7s|1.7s|2.0s|**1.8s** 🟢|
-|**Largest Contentful Paint**|1.8s|1.8s|2.1s|**1.9s** 🟢|
-|**Total Blocking Time**|60ms|50ms|170ms|**93.3ms** 🟢|
-|**Speed Index**|1.7s|1.7s|4.0s|**2.47s** 🟠|
-|**Cumulative Layout Shift**|0|0|0|**0** 🟢|
+![Deployment Environment FE Performance Measurement Result Next.js 16(1)](/tech/images/20251108-11.png)
+![Deployment Environment FE Performance Measurement Result Next.js 16(2)](/tech/images/20251108-12.png)
+![Deployment Environment FE Performance Measurement Result Next.js 16(3)](/tech/images/20251108-13.png)
 
 **Performance Score Comparison**
 
@@ -466,6 +485,8 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 ---
 ### 5. Analysis of Vercel Deployment Build
 
+![Vercel Build Analysis](/tech/images/20251108-14.png)
+![Vercel Build Analysis CSV](/tech/images/20251108-15.png)
 
 **Static Assets Comparison**
 
@@ -585,6 +606,8 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 
 **Nuxt 4 - Desktop Environment**
 
+![Nuxt 4 - Desktop Environment](/tech/images/20251108-16.png)
+
 |Page|Performance|Accessibility|Recommended Practices|SEO|FCP|LCP|TBT|Speed Index|CLS|
 |---|---|---|---|---|---|---|---|---|---|
 |**/**|100 🟢|100 🟢|100 🟢|100 🟢|0.4s|0.4s|0ms|0.9s|0|
@@ -592,6 +615,8 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 |**/data**|100 🟢|100 🟢|100 🟢|100 🟢|0.4s|0.4s|0ms|0.5s|0|
 
 **Nuxt 4 - Mobile Environment**
+
+![Nuxt 4 - Mobile Environment](/tech/images/20251108-17.png)
 
 |Page|Performance|Accessibility|Recommended Practices|SEO|FCP|LCP|TBT|Speed Index|CLS|
 |---|---|---|---|---|---|---|---|---|---|
@@ -602,6 +627,8 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 
 **Next.js 16 - Desktop Environment**
 
+![Next.js 16 - Desktop Environment](/tech/images/20251108-18.png)
+
 |Page|Performance|Accessibility|Recommended Practices|SEO|FCP|LCP|TBT|Speed Index|CLS|
 |---|---|---|---|---|---|---|---|---|---|
 |**/**|100 🟢|100 🟢|100 🟢|100 🟢|0.2s|0.4s|10ms|0.5s|0|
@@ -609,6 +636,8 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 |**/data**|100 🟢|100 🟢|100 🟢|100 🟢|0.2s|0.4s|0ms|0.4s|0|
 
 **Next.js 16 - Mobile Environment**
+
+![Next.js 16 - Mobile Environment](/tech/images/20251108-19.png)
 
 |Page|Performance|Accessibility|Recommended Practices|SEO|FCP|LCP|TBT|Speed Index|CLS|
 |---|---|---|---|---|---|---|---|---|---|
