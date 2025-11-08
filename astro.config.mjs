@@ -29,11 +29,7 @@ const getSiteUrl = () => {
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'static',
   devToolbar: { enabled: true },
-  experimental: {
-		preserveScriptOrder: true,
-	},
   vite: {
     build: {
       cssCodeSplit: false, // CSS를 하나의 파일로 번들링하여 로딩 지연 방지
