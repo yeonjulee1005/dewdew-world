@@ -35,7 +35,7 @@ coverAlt: 'cover Image'
 
 전체 시스템은 다음과 같은 구조로 구성되어 있어요!
 
-```
+```sh
 dewdew_v5/
 ├── app/
 │   ├── composables/chat/
@@ -78,7 +78,9 @@ dewdew_v5/
 
 먼저 키워드 매칭부터 살펴볼게요!
 
-```typescript:supabase/functions/_shared/rag.ts
+```typescript
+// /supabase/functions/_shared/rag.ts
+
 // 키워드 매칭 헬퍼
 const matchKeywords = (text: string, keywords: string[]): boolean => {
   const lowerText = text.toLowerCase()
@@ -128,7 +130,9 @@ export const fetchRelevantData = async (query: string): Promise<RAGContext> => {
 
 `키워드 매칭`은 다양한 질문 패턴을 감지하고 있어요.
 
-```typescript:supabase/functions/_shared/rag.ts
+```typescript
+// /supabase/functions/_shared/rag.ts
+
 // 프로필
 if (matchKeywords(queryLower, ['자기소개', '누구', '프로필', '소개', '이름', ...])) {
   const { data } = await supabase
@@ -171,7 +175,9 @@ if (matchKeywords(queryLower, ['스킬', '기여', '기술', '스택', ...])) {
 
 `키워드 매칭`이 실패하거나 데이터가 부족한 경우, `벡터 검색`을 통해 `의미 기반`으로 관련 데이터를 찾아요!
 
-```typescript:supabase/functions/_shared/rag.ts
+```typescript
+// /supabase/functions/_shared/rag.ts
+
 // 벡터 검색 결과를 컨텍스트로 변환
 const enrichContextFromVectorMatches = async (
   context: RAGContext,
@@ -239,7 +245,9 @@ const enrichContextFromVectorMatches = async (
 
 데이터베이스의 구조화된 데이터를 `임베딩 생성용 텍스트`로 변환해요!
 
-```typescript:supabase/functions/_shared/document-builder.ts
+```typescript
+// /supabase/functions/_shared/document-builder.ts
+
 /**
  * 프로필 데이터를 텍스트로 변환
  */
@@ -287,7 +295,9 @@ export const buildExperienceText = (experiences: Experience[]): string => {
 
 변환된 텍스트를 `OpenAI Embedding API`로 `벡터화`하고 저장해요!
 
-```typescript:supabase/functions/_shared/embeddings.ts
+```typescript
+// /supabase/functions/_shared/embeddings.ts
+
 /**
  * OpenAI Embeddings API
  */
@@ -321,7 +331,9 @@ const getOpenAIEmbedding = async (text: string): Promise<number[]> => {
 }
 ```
 
-```typescript:supabase/functions/_shared/embedding-manager.ts
+```typescript
+// /supabase/functions/_shared/embedding-manager.ts
+
 /**
  * 문서 임베딩 저장
  */
@@ -375,7 +387,9 @@ export const createProfileEmbedding = async (profile: Profile): Promise<void> =>
 
 모든 문서의 임베딩을 한 번에 생성하는 `Edge Function` 기능이에요!
 
-```typescript:supabase/functions/embeddings/index.ts
+```typescript
+// /supabase/functions/embeddings/index.ts
+
 import { initializeAllEmbeddings } from '../_shared/embedding-manager.ts'
 
 serve(async (req: Request): Promise<Response> => {
@@ -433,7 +447,9 @@ serve(async (req: Request): Promise<Response> => {
 
 검색된 컨텍스트를 기반으로 시스템 프롬프트를 동적으로 생성해요!
 
-```typescript:supabase/functions/rag/index.ts
+```typescript
+// /supabase/functions/rag/index.ts
+
 // 시스템 프롬프트 생성
 const buildSystemPrompt = (
   settings: AISettingsMap,
@@ -482,7 +498,9 @@ ${dataContext}`
 
 실시간으로 답변을 `스트리밍`하여 사용자 경험을 향상시키고 있어요!
 
-```typescript:supabase/functions/dewdew-rag-portfolio/index.ts
+```typescript
+// /supabase/functions/dewdew-rag-portfolio/index.ts
+
 // SSE 스트림 생성 (멀티 프로바이더 지원)
 const createSSEStream = (
   aiStream: ReadableStream<Uint8Array>,
@@ -565,7 +583,9 @@ const createSSEStream = (
 
 클라이언트에서는 `ReadableStream`을 파싱하여 실시간으로 텍스트를 표시해요!
 
-```typescript:app/composables/chat/useChat.ts
+```typescript
+// /app/composables/chat/useChat.ts
+
 // 스트리밍 파싱 공통 함수
 const parseStreamResponse = async (
   response: Response,
