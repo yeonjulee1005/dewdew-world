@@ -1,0 +1,692 @@
+---
+title: 'Portfolio v5 Redesign (+LLM + RAG + Embedding AI)'
+description: 'Portfolio v5 redesign and introduction of RAG-based AI chat system implementation process'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2025-12-11
+tags: ['nuxt4', 'nuxt', 'vue3', 'typescript', 'rag', 'llm', 'embedding', 'ai', 'openai', 'supabase', 'vector search', 'nuxt4 blog', 'ai chat', 'portfolio']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20251211.png'
+coverAlt: 'cover Image'
+---
+
+> Portfolio site v5 redesign, the biggest change was the introduction of the RAG-based AI chat function!<br />
+> This article shares the core business logic implemented using LLM, RAG, and Embedding in detail with code!<br />
+> Check [Dewdew Dev](https://www.dewdew.dev) as well!🤨
+
+# Before We Begin
+
+The biggest goal of redesigning the portfolio site v5 was two-fold:
+
+1. **Introducing AI features**: Implementing an AI chat function that allows visitors to directly chat with me
+2. **Simplifying the portfolio site**: Focusing on core features by simplifying the previous version
+
+The first goal, the AI feature, is not simply calling the ChatGPT API, but implementing a `RAG(Retrieval-Augmented Generation)` system that provides accurate answers based on my `personal data`!<br />
+Furthermore, we implemented a similarity search based on the embedding of the questioner's question and my personal data to answer the question with the highest relevance!
+
+This article will explain the core business logic of this RAG system in detail with code!
+
+
+# Project Architecture Overview
+
+The entire system is structured as follows:
+
+```
+dewdew_v5/
+├── app/
+│   ├── composables/chat/
+│   │   └── useChat.ts              # Client streaming processing
+│   └── pages/ai/
+│       └── index.vue                # AI chat page
+├── server/
+│   └── api/chat/
+│       └── index.post.ts            # Nuxt server API (proxy)
+└── supabase/
+    └── functions/
+        ├── dewdew-rag-portfolio/    # RAG main Edge Function
+        ├── initialize-embeddings/   # Embedding initialization Function
+        └── _shared/
+            ├── rag.ts               # RAG core logic
+            ├── embeddings.ts        # Embedding generation
+            ├── embedding-manager.ts # Embedding management
+            └── document-builder.ts  # Document text conversion
+```
+
+`Core Flow`
+1. User message input from the client
+2. `Nuxt server API` proxying to `Supabase Edge Function`
+3. `RAG` system searching for relevant data in the `Edge Function`
+4. LLM generating an answer based on the searched data
+5. `Streaming` to send real-time responses
+
+
+# `RAG` System's Core: `Hybrid` Search Strategy
+
+The most important part of the `RAG` system is `"how to find relevant data"`!
+
+I adopted the `Hybrid` search strategy:
+1. `1st: Keyword matching` (fast and accurate)
+2. `2nd: Vector search` (meaning-based, when keyword matching fails)
+
+This way, questions with clear keywords can be processed quickly, and abstract or `meaning-based` questions can be processed by `vector search`!
+
+## 1. Keyword Matching Logic
+
+Let's start with keyword matching!
+
+```typescript:supabase/functions/_shared/rag.ts
+// Keyword matching helper
+const matchKeywords = (text: string, keywords: string[]): boolean => {
+  const lowerText = text.toLowerCase()
+  return keywords.some(keyword => lowerText.includes(keyword))
+}
+
+// RAG: Question-based data search (Hybrid: keyword matching + vector search)
+export const fetchRelevantData = async (query: string): Promise<RAGContext> => {
+  const supabase = getSupabaseClient()
+  const context: RAGContext = {}
+  const queryLower = query.toLowerCase()
+
+  // 1. Try keyword matching first
+  const keywordMatched = await tryKeywordMatching(queryLower, context, supabase)
+
+  // 2. If keyword matching succeeds and there is enough data, return immediately
+  if (keywordMatched && hasRelevantData(context)) {
+    return context
+  }
+
+  // 3. If keyword matching fails or there is not enough data, try vector search
+  try {
+    const queryEmbedding = await getEmbedding(query, 'openai')
+
+    const { data: matches, error } = await supabase.rpc('match_documents', {
+      query_embedding: `[${queryEmbedding.join(',')}]`,
+      match_threshold: 0.7,
+      match_count: 5,
+    })
+
+    if (error) {
+      console.error('Vector search error:', error)
+    }
+    else if (matches && matches.length > 0) {
+      // Enrich context with vector search results
+      await enrichContextFromVectorMatches(context, matches, supabase)
+    }
+  }
+  catch (error) {
+    console.error('Vector search failed, using keyword matching results only:', error)
+    // Even if vector search fails, return keyword matching results
+  }
+
+  return context
+}
+```
+
+`Keyword matching` can detect various question patterns.
+
+```typescript:supabase/functions/_shared/rag.ts
+// Profile
+if (matchKeywords(queryLower, ['자기소개', '누구', '프로필', '소개', '이름', ...])) {
+  const { data } = await supabase
+    .schema('resume')
+    .from('profile')
+    .select('*')
+    .single<Profile>()
+  context.profile = data
+  matched = true
+}
+
+// Experience
+if (matchKeywords(queryLower, ['경력', '회사', '일', '직장', ...])) {
+  const { data } = await supabase
+    .schema('resume')
+    .from('experience')
+    .select('*')
+    .order('order_index', { ascending: false })
+    .returns<Experience[]>()
+  context.experience = data
+  matched = true
+}
+
+// Skills
+if (matchKeywords(queryLower, ['스킬', '기여', '기술', '스택', ...])) {
+  const { data } = await supabase
+    .schema('resume')
+    .from('skills')
+    .select('*')
+    .order('order_index', { ascending: false })
+    .returns<Skill[]>()
+  context.skills = data
+  matched = true
+}
+```
+
+This way, questions with clear keywords can be processed quickly without the cost of `vector search`!
+
+## 2. Vector Search Logic
+
+If `keyword matching` fails or there is not enough data, `vector search` can be used to find relevant data based on `meaning`!
+
+```typescript:supabase/functions/_shared/rag.ts
+// Convert vector search results to context
+const enrichContextFromVectorMatches = async (
+  context: RAGContext,
+  matches: Array<{
+    document_type: string
+    document_id: string
+    similarity: number
+    metadata: any
+  }>,
+  supabase: ReturnType<typeof getSupabaseClient>,
+): Promise<void> => {
+  // Sort by similarity in descending order
+  const sortedMatches = matches.sort((a, b) => b.similarity - a.similarity)
+
+  // Mapping to check if data already exists
+  const hasDataMap: Record<string, () => boolean> = {
+    ...,
+    experience: () => !!(context.experience && context.experience.length > 0),
+    skills: () => !!(context.skills && context.skills.length > 0),
+    project: () => !!(context.projects && context.projects.length > 0),
+    education: () => !!(context.education && context.education.length > 0),
+    ...
+  }
+
+  // Filtering: Check similarity and if data already exists
+  const validMatches = sortedMatches.filter((match) => {
+    // Skip if similarity is less than 0.7
+    if (match.similarity < 0.7) {
+      return false
+    }
+    // Skip if data already exists from keyword matching
+    const hasData = hasDataMap[match.document_type]
+    if (hasData && hasData()) {
+      return false
+    }
+    return true
+  })
+
+  // Process each match in parallel
+  await Promise.all(validMatches.map(async (match) => {
+    try {
+      const handler = handlers[match.document_type]
+      if (handler) {
+        await handler(match)
+      }
+    }
+    catch (error) {
+      console.error(`Error enriching context for ${match.document_type}:`, error)
+    }
+  }))
+}
+```
+
+`Core Points`
+- Use only similarity `0.7` or higher (too low similarity is noise)
+- Avoid duplicates by checking if data already exists from keyword matching
+- Optimize performance by processing each document type in parallel
+
+
+# `Embedding` Creation and Management
+
+To perform `vector search`, all documents must first be converted to `embeddings`!
+
+## 1. Document Text Conversion
+
+Convert structured data from the database to `embedding creation text`!
+
+```typescript:supabase/functions/_shared/document-builder.ts
+/**
+ * Convert profile data to text
+ */
+export const buildProfileText = (profile: Profile): string => {
+  const fieldMap: Record<string, { label: string, value: string | null | undefined }> = {
+    full_name: { label: '이름', value: profile.full_name },
+    title: { label: '직책', value: profile.title },
+    bio: { label: '소개', value: profile.bio },
+    ...
+  }
+
+  const parts: string[] = Object.entries(fieldMap)
+    .filter(([, { value }]) => value)
+    .map(([, { label, value }]) => `${label}: ${value}`)
+
+  if (profile.weaknesses && profile.weaknesses.length > 0) {
+    parts.push(`개선점: ${profile.weaknesses.join(', ')}`)
+  }
+
+  return parts.join('\n')
+}
+
+/**
+ * Convert experience data to text
+ */
+export const buildExperienceText = (experiences: Experience[]): string => {
+  return experiences.map((exp) => {
+    const fieldMap: Record<string, { label: string, value: string | null | undefined }> = {
+      company_name: { label: '회사', value: exp.company_name },
+      position: { label: '직책', value: exp.position },
+      ...
+    }
+
+    const parts: string[] = Object.entries(fieldMap)
+      .filter(([, { value }]) => !!value)
+      .map(([, { label, value }]) => `${label}: ${value}`)
+
+    parts.push(`기간: ${exp.start_date} ~ ${exp.end_date || '현재'}`)
+    return parts.join('\n')
+  }).join('\n\n')
+}
+```
+
+## 2. Embedding Creation and Storage
+
+Convert the transformed text to `vector` using the `OpenAI Embedding API` and save it!
+
+```typescript:supabase/functions/_shared/embeddings.ts
+/**
+ * OpenAI Embeddings API
+ */
+const getOpenAIEmbedding = async (text: string): Promise<number[]> => {
+  const apiKey = Deno.env.get('API_KEY')
+
+  if (!apiKey) {
+    throw new Error('API_KEY is required')
+  }
+
+  const response = await fetch('https://api.openai.com/v1/embeddings', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'text-embedding-3-small',
+      input: text,
+      dimensions: 768, // Match the database vector dimension
+    }),
+  })
+
+  if (!response.ok) {
+    const error = await response.text()
+    throw new Error(`OpenAI API error: ${response.status} - ${error}`)
+  }
+
+  const data = await response.json()
+  return data.data[0].embedding
+}
+```
+
+```typescript:supabase/functions/_shared/embedding-manager.ts
+/**
+ * Save document embedding
+ */
+const saveDocumentEmbedding = async (
+  documentType: string,
+  documentId: string,
+  content: string,
+  embedding: number[],
+  metadata?: Record<string, any>,
+): Promise<void> => {
+  const supabase = getSupabaseClient()
+
+  const { error } = await supabase
+    .schema('resume')
+    .from('document_embeddings')
+    .upsert({
+      document_type: documentType,
+      document_id: documentId,
+      content,
+      embedding: vectorToArray(embedding),
+      metadata: metadata || {},
+      updated_at: new Date().toISOString(),
+    }, {
+      onConflict: 'document_type,document_id',
+    })
+
+  if (error) {
+    console.error(`Failed to save embedding for ${documentType}:${documentId}`, error)
+    throw error
+  }
+}
+
+/**
+ * Create and save profile embedding
+ */
+export const createProfileEmbedding = async (profile: Profile): Promise<void> => {
+  const content = buildProfileText(profile)
+  const embedding = await getEmbedding(content, 'openai')
+
+  await saveDocumentEmbedding(
+    'profile',
+    profile.id,
+    content,
+    embedding,
+    { full_name: profile.full_name, title: profile.title },
+  )
+}
+```
+
+## 3. Embedding Initialization
+
+This is an `Edge Function` that creates all document embeddings at once!
+
+```typescript:supabase/functions/embeddings/index.ts
+import { initializeAllEmbeddings } from '../_shared/embedding-manager.ts'
+
+serve(async (req: Request): Promise<Response> => {
+  if (req.method === 'OPTIONS') {
+    return new Response('ok', { headers: corsHeaders })
+  }
+
+  if (req.method !== 'POST') {
+    return new Response(
+      JSON.stringify({ error: 'Method not allowed' }),
+      { status: 405, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+    )
+  }
+
+  try {
+    console.log('Starting embedding initialization...')
+    await initializeAllEmbeddings()
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: 'All embeddings initialized successfully',
+      }),
+      {
+        status: 200,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      },
+    )
+  }
+  catch (error) {
+    console.error('Initialization error:', error)
+
+    return new Response(
+      JSON.stringify({
+        error: error instanceof Error ? error.message : 'Unknown error',
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      },
+    )
+  }
+})
+```
+
+Important is that, `embeddings` `Edge Function` must be run again whenever `personal data` changes!<br />
+The reason is that the vector search needs to reflect the latest data!
+
+
+# LLM Integration and Streaming Response
+
+Pass the searched data to the `LLM` to generate an answer!
+
+## 1. System Prompt Configuration
+
+Create a system prompt dynamically based on the searched context!
+
+```typescript:supabase/functions/rag/index.ts
+// Create system prompt
+const buildSystemPrompt = (
+  settings: AISettingsMap,
+  context: RAGContext,
+  componentType: ComponentType,
+  contextSummary: string = '',
+): string => {
+  const ownerName = settings.owner_name ?? '이연주(듀듀)'
+  const personality = settings.personality ?? '친근하고 열정적인 Software Engineer'
+  const speakingStyle = settings.speaking_style ?? '존댓말이면서 전문적이고 친근하게'
+
+  const hasData = Object.values(context).some(v => v !== null && v !== undefined)
+  const dataContext = hasData
+    ? `\n\n[내 정보 - 반드시 이 데이터 기반으로만 답변]\n${JSON.stringify(context, null, 2)}`
+    : ''
+
+  return `당신은 "${ownerName}"입니다. 포트폴리오 사이트에 방문한 사람과 직접 대화하고 있습니다.
+
+═══════════════════════════════════════
+[정체성]
+═══════════════════════════════════════
+...
+
+═══════════════════════════════════════
+[나의 성격 및 상세 소개]
+═══════════════════════════════════════
+...
+
+═══════════════════════════════════════
+[말투 스타일]
+═══════════════════════════════════════
+...
+
+═══════════════════════════════════════
+[응답 규칙]
+═══════════════════════════════════════
+
+1. 반드시 제공된 [내 정보] 데이터만 사용해서 답변하세요.
+...
+
+${dataContext}`
+}
+```
+
+## 2. Streaming Response Processing
+
+Stream the answer in real-time to improve the user experience!
+
+```typescript:supabase/functions/dewdew-rag-portfolio/index.ts
+// Create SSE stream (multi-provider support)
+const createSSEStream = (
+  aiStream: ReadableStream<Uint8Array>,
+  componentType: ComponentType,
+  context: RAGContext,
+  provider: ModelProvider,
+): ReadableStream<Uint8Array> => {
+  const encoder = new TextEncoder()
+  const decoder = new TextDecoder()
+
+  return new ReadableStream({
+    async start(controller) {
+      // 1. Send metadata first
+      const metadata: StreamMetadata = {
+        type: 'metadata',
+        componentType,
+        data: context,
+      }
+      const metadataStr = `data: ${JSON.stringify(metadata)}\n\n`
+      controller.enqueue(encoder.encode(metadataStr))
+
+      // 2. AI stream processing (per provider)
+      const reader = aiStream.getReader()
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const chunk = decoder.decode(value, { stream: true })
+          const lines = chunk
+            .split('\n')
+            .filter(line => line.trim() !== '')
+
+          for (const line of lines) {
+            // OpenAI format
+            if (provider === 'openai' && line.startsWith('data: ')) {
+              const jsonStr = line.slice(6).trim()
+
+              if (jsonStr === '[DONE]') {
+                controller.enqueue(encoder.encode('data: [DONE]\n\n'))
+                continue
+              }
+
+              try {
+                const parsed = JSON.parse(jsonStr)
+                const content = parsed.choices?.[0]?.delta?.content
+
+                if (content) {
+                  const textChunk: StreamTextChunk = {
+                    type: 'text',
+                    content,
+                  }
+                  controller.enqueue(
+                    encoder.encode(`data: ${JSON.stringify(textChunk)}\n\n`),
+                  )
+                }
+              }
+              catch {
+                // Ignore JSON parsing failure
+              }
+            }
+          }
+        }
+      }
+      catch (error) {
+        console.error('Stream processing error:', error)
+        controller.error(error)
+      }
+      finally {
+        reader.releaseLock()
+        controller.close()
+      }
+    },
+  })
+}
+```
+
+## 3. Client Streaming Processing
+
+The client parses the `ReadableStream` in real-time to display the text!
+
+```typescript:app/composables/chat/useChat.ts
+// Common function for streaming parsing
+const parseStreamResponse = async (
+  response: Response,
+  onText: (text: string) => void,
+  onMetadata?: (type: ComponentType, data: Record<string, any>) => void,
+) => {
+  const reader = response.body?.getReader()
+  const decoder = new TextDecoder()
+
+  if (!reader) throw new Error('No reader available')
+
+  let buffer = ''
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      const chunk = decoder.decode(value, { stream: true })
+      buffer += chunk
+
+      // Process complete lines only (split by newline characters)
+      const lines = buffer.split('\n')
+      // The last incomplete line is kept in the buffer
+      buffer = lines.pop() || ''
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue
+
+        const jsonStr = line.slice(6).trim()
+        if (jsonStr === '' || jsonStr === '[DONE]') continue
+
+        try {
+          const parsed = JSON.parse(jsonStr) as StreamMetadata | StreamTextChunk
+
+          if (parsed.type === 'metadata' && onMetadata) {
+            const metadata = parsed as StreamMetadata
+            onMetadata(metadata.componentType, metadata.data)
+          }
+
+          if (parsed.type === 'text') {
+            onText((parsed as StreamTextChunk).content)
+          }
+        }
+        catch (error) {
+          // Log JSON parsing failure
+          console.warn('[useChat] ⚠️ JSON parse error:', error)
+        }
+      }
+    }
+  }
+  finally {
+    reader.releaseLock()
+  }
+}
+```
+
+
+# Summary of Core Business Logic
+
+The core business logic of the entire system is summarized as follows!
+
+## 1. Hybrid Search Strategy
+
+| Step | Method | Purpose | Performance |
+|------|------|------|------|
+| **1st** | Keyword matching | Process questions with clear keywords quickly | Fast (only DB query) |
+| **2nd** | Vector search | Process questions based on meaning | Slow (embedding creation + vector search) |
+
+`Advantages`
+- Process questions with clear keywords quickly using keyword matching
+- Process questions based on meaning using vector search
+- Optimize cost by skipping vector search when keyword matching succeeds
+
+## 2. Embedding Management Strategy
+
+| Task | Time | Method |
+|------|------|------|
+| `Initialization` | When data changes | Run `embeddings` Edge Function |
+| `Save` | After embedding creation | Upsert into `document_embeddings` table |
+| `Search` | When question is asked | PostgreSQL `match_documents` RPC function |
+
+`Important Points`
+- It is necessary to recreate embeddings whenever data changes
+- If the embedding is not up to date, the vector search results may be inaccurate
+
+## 3. Streaming Response Strategy
+
+| Step | Content | Purpose |
+|------|------|------|
+| `1. Send metadata` | Component type and data | Prepare for UI component rendering |
+| `2. Text streaming` | Real-time text chunks | Improve user experience |
+| `3. Complete signal` | `[DONE]` send | End streaming |
+
+`Advantages`
+- Shorten the time users wait for an answer
+- Display text in real-time for a more natural conversation
+
+
+# Summary
+
+This article shares the core business logic of the `LLM + RAG + Embedding`-based AI chat function implemented in Portfolio v5 in detail with code!
+
+`Core Points`
+1. `Hybrid search strategy`: Keyword matching + vector search for performance and accuracy balance
+2. `Embedding management`: Automatic recreation of embeddings when data changes to maintain freshness
+3. `Streaming response`: Real-time text delivery to improve user experience
+
+Through this RAG system, we can provide `accurate and natural answers` based on my personal data, not just calling the ChatGPT API!
+
+You can check the actual operation in [Dewdew Dev](https://www.dewdew.dev)!
+If you have any questions, please feel free to contact me anytime!
+
+See you in the next article!
+
+---
+
+### References
+
+- [Nuxt 4](https://nuxt.com/)
+- [Supabase Edge Functions](https://supabase.com/docs/guides/functions)
+- [OpenAI Embeddings API](https://platform.openai.com/docs/guides/embeddings)
+- [RAG (Retrieval-Augmented Generation)](https://www.promptingguide.ai/techniques/rag)
+
