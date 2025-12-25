@@ -172,6 +172,7 @@ const MAIN_STACK = [
   { title: 'Nuxt4', label: 'nuxt3', link: 'https://nuxt.com/' },
   { title: 'Nuxt UI', label: 'nuxt-ui', link: 'https://ui.nuxt.com/' },
   { title: 'Astro', label: 'astro', link: 'https://astro.build/' },
+  { title: 'Next.js', label: 'nextjs', link: 'https://nextjs.org/' },
   { title: 'Supabase', label: 'supabase', link: 'https://supabase.com/' },
   { title: 'Bun', label: 'bun', link: 'https://bun.sh' },
   { title: 'Typescript', label: 'typescript', link: 'https://www.typescriptlang.org' }
@@ -188,14 +189,16 @@ const USES_EDITOR = [
 
 const USES_EDITOR_EXTENSIONS = [
   { name: 'Theme: Lilac', link: 'https://open-vsx.org/extension/shubham-saudolla/lilac' },
-  { name: 'Theme: SynthWave\'84', link: 'https://open-vsx.org/extension/RobbOwen/synthwave-vscode' },
-  { name: 'Icon Theme: Material Icon Theme', link: 'https://open-vsx.org/extension/PKief/material-icon-theme' },
   { name: 'I18n Ally', link: 'https://open-vsx.org/extension/lokalise/i18n-ally' },
   { name: 'Iconify IntelliSense', link: 'https://open-vsx.org/extension/antfu/iconify' },
+  { name: 'Nuxtr', link: 'https://open-vsx.org/extension/Nuxtr/nuxtr-vscode' },
+  { name: 'Dewdew Snippets', link: 'https://open-vsx.org/extension/dewdewsnippets/dewdew-snippets' },
+  { name: 'Dewdew Clock', link: 'https://open-vsx.org/extension/DewdewClock/dewdew-clock' },
+  { name: 'Icon Theme: Material Icon Theme', link: 'https://open-vsx.org/extension/PKief/material-icon-theme' },
 ] as UsesData[]
 
 const USES_TERMINAL = [
-  { name: 'iTerm2', link: 'https://iterm2.com/' },
+  { name: 'Ghostty', link: 'https://ghostty.org/' },
   { name: 'Oh my zsh', link: 'https://ohmyz.sh/' },
   { name: 'Font: Hack Font', link: 'https://github.com/source-foundry/Hack' }
 ] as UsesData[]
