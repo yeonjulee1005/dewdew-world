@@ -38,6 +38,7 @@ export default defineConfig({
   experimental: {
     svgo: true,
   },
+  serverComponents: [],
   integrations: [
     tailwind({
       applyBaseStyles: false
