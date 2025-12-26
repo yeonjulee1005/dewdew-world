@@ -4,17 +4,21 @@ import { ClientRouter } from 'astro:transitions'
 import Desktop from '@components/header/Desktop.astro'
 import Mobile from '@components/header/Mobile.astro'
 import Footer from '@components/Footer.astro'
+import { SITE_DESCRIPTION } from '../i18n/consts'
 
 interface Props {
   title: string
   description?: string
+  robots?: string
 }
 
-const { title, description = 'Welcome to Dewdew World!' } = Astro.props
+const { title, description = SITE_DESCRIPTION[Astro.currentLocale as keyof typeof SITE_DESCRIPTION], robots = 'index, follow' } = Astro.props
+
+Astro.response.headers.set('X-Robots-Tag', robots)
 ---
 <html lang='en'>
   <head>
-    <Head title={title} description={description} />
+    <Head title={title} description={description} robots={robots} />
     <ClientRouter fallback="none" />
   </head>
   <body>

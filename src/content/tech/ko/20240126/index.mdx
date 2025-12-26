@@ -14,7 +14,7 @@ cover: '/tech/cover/20240126.png'
 coverAlt: 'cover Image'
 ---
 
-# `Pinia`란?
+## `Pinia`란?
 
 [Pinia](https://pinia.vuejs.org/)는 [Vue3](https://vuejs.org/) & [Nuxt3](https://nuxt.com/)에서 상태 관리 라이브러리로, [Vuex](https://vuex.vuejs.org/)와 유사한 기능을 제공합니다.
 
@@ -28,7 +28,7 @@ Vuex와 달리, `Pinia`는 상태 관리에 `Composition API`를 사용합니다
 
 ---
 
-## 1.Mutation 필요 없음
+### 1.Mutation 필요 없음
 
 `Vuex`에서는 `state, mutations, actions, getters`를 통해 전역 상태를 관리할 수 있습니다.
 
@@ -79,7 +79,7 @@ count.value++
 isHidden.value = false
 ```
 
-## 2.Pinia의 다양한 장점
+### 2.Pinia의 다양한 장점
 
 Pinia는 다음과 같은 장점을 가지고 있습니다.
 
@@ -88,7 +88,7 @@ Pinia는 다음과 같은 장점을 가지고 있습니다.
 - Pinia는 `더 나은 코드 분할`을 지원합니다.
 - Pinia는 `Composition API`를 사용합니다.
 
-## 3.타입 관리
+### 3.타입 관리
 
 Vuex에서는 타입 관리가 다음과 같이 스토어 외부에서 이루어졌습니다.
 
@@ -114,7 +114,7 @@ defineStore('...', {
 })
 ```
 
-## 4.읽기 전용 Store
+### 4.읽기 전용 Store
 
 Pinia에서 `read-only store`를 구축하려면, 다음과 같이 코드 예제를 수정해야 합니다.
 
@@ -172,7 +172,7 @@ const userStore = defineStore('...', {
 })
 ```
 
-## 5.TypeScript
+### 5.TypeScript
 
 예제에서 보여드린 것처럼, 스토어에 대한 TypeScript를 작성할 때, 아래와 같이 ` ~ as`를 사용하는 대신, `generics`를 사용하여 타입을 지정하는 것이 더 좋습니다.
 
@@ -202,7 +202,7 @@ const useUserStore = defineStore('user', {
 })
 ```
 
-## 6.스크립트에서 Store 사용
+### 6.스크립트에서 Store 사용
 
 아래 예제와 같이 사용하면, Pinia에서 오류가 발생합니다. Composition API를 사용할 때, `setup` 내에서 `store`를 한 번만 호출하면 됩니다.
 
@@ -250,7 +250,7 @@ watch(something, () => {
 
 ---
 
-### 참고 문서
+#### 참고 문서
 
 - [Vue nation 2024](https://vuejsnation.com/)
 - [Pinia](https://pinia.vuejs.org/)

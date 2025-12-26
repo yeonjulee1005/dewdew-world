@@ -28,13 +28,43 @@ interface FooterLinks {
 }
 
 export const SITE_TITLE = {
-  en: "Dewdew World!",
-  ko: "듀듀 월드!"
+  en: 'Dewdew World! This is Dewdew tech blog share insights technology stack.',
+  ko: '듀듀 월드! 이연주의 기술 블로그입니다. 기술 스택에 대한 인사이트와 경험을 공유합니다.'
 } as const;
 
 export const SITE_DESCRIPTION = {
-  en: "Welcome to Dewdew World!",
-  ko: "듀듀 월드에 오신 것을 환영합니다!"
+  en: 'Welcome to Dewdew World! This is tech blog share insights and experiences about my favorite technology stack about Nuxt 4 and its ecosystem, Astro and Supabase.',
+  ko: '듀듀 월드에 오신 것을 환영합니다. 이연주의 기술 블로그입니다. 기술 스택에 대한 인사이트와 경험을 공유합니다. Nuxt 4와 그 생태계, Astro와 Supabase에 대한 즐겨 사용하는 기술 스택을 공유합니다.'
+} as const;
+
+export const USES_TITLE = {
+  en: 'Dewdew Uses | Introduce my desktop setup and work environment',
+  ko: '듀듀 업무환경 | 듀듀가 사용하는 장비 및 업무환경 소개'
+} as const;
+
+export const USES_DESCRIPTION = {
+  en: 'I use this software and hardware to develop and work on my projects',
+  ko: '듀듀가 사용하는 소프트웨어와 하드웨어를 소개합니다'
+} as const;
+
+export const TECH_TITLE = {
+  en: 'Dewdew Tech | Tech blog share insights technology stack',
+  ko: '듀듀 기술 블로그 | 기술 스택에 대한 인사이트를 공유합니다.'
+} as const;
+
+export const TECH_DESCRIPTION = {
+  en: 'Dewdew Tech blog share insights technology stack, experience and knowledge',
+  ko: '듀듀 기술 블로그는 기술 스택, 경험 및 지식을 공유하는 블로그입니다.'
+} as const;
+
+export const GUESTBOOK_TITLE = {
+  en: 'Dewdew Guestbook | Please leave a warm message! Thank you!',
+  ko: '듀듀 방명록 | 따뜻한 한마디 부탁드려요! 감사해요!'
+} as const;
+
+export const GUESTBOOK_DESCRIPTION = {
+  en: 'Thank you for visiting! Please leave a warm message!',
+  ko: '방문해주셔서 감사합니다! 따뜻한 한마디 부탁드려요!'
 } as const;
 
 export const MENU_ITEMS = {

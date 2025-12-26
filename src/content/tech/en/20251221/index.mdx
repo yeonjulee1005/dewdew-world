@@ -14,7 +14,7 @@ cover: '/tech/cover/20251221.png'
 coverAlt: 'cover Image'
 ---
 
-# Why I Created the Nuxt4 `AEO Module`?
+## Why I Created the Nuxt4 `AEO Module`?
 
 In the web ecosystem so far, `SEO(Search Engine Optimization)` has been the core.<br />
 However, as the AI era has arrived, I felt that simply optimizing for search engines was not enough.<br />
@@ -39,9 +39,9 @@ In other words, it's a module that helps AI models provide more accurate and mea
 Through this `AEO module`, developers building websites with Nuxt4 can help AI models provide more accurate and meaningful information when they crawl and learn from websites.
 
 
-# Current Limitations of Each Page in AI's LLM Learning
+## Current Limitations of Each Page in AI's LLM Learning
 
-## Lack of `Semantic HTML`
+### Lack of `Semantic HTML`
 
 Existing modules only generate JSON-LD and don't have semantic tags in the actual HTML.<br />
 However, LLM crawlers can `understand content more accurately when using JSON-LD and semantic HTML together`.
@@ -50,7 +50,7 @@ For example, for FAQ pages:
 - `With JSON-LD only`: AI models understand the structure, but the connection with the actual HTML structure is weak
 - `JSON-LD + Semantic HTML`: AI models can analyze HTML structure and JSON-LD together for more accurate understanding
 
-## Differences from Other Modules
+### Differences from Other Modules
 
 There were already JSON-LD modules like `nuxt-schema-org` and `nuxt-jsonld`.<br />
 However, these modules only generate JSON-LD and don't have semantic tags in the actual HTML.<br />
@@ -67,7 +67,7 @@ To solve this problem, I created the `nuxt-aeo` module.
 | `Global Schema` Configuration | ✅ | ✅ | ❌ |
 | `Zero Config` Usage | ✅ | ✅ | ❌ |
 
-### Key Differentiators Summary
+#### Key Differentiators Summary
 
 1. **Automatic `Semantic HTML` Generation**: Automatically generates semantic HTML based on JSON-LD schema data. This HTML is not visible to users (visually-hidden), but LLM crawlers and search engines can read it.
 2. **`AI Engine Optimization`**: Optimized so that AI models like `ChatGPT`, `Claude`, `Perplexity`, `Gemini`, and `DeepSeek` can provide more accurate information when crawling web content.
@@ -75,11 +75,11 @@ To solve this problem, I created the `nuxt-aeo` module.
 4. **Easy to Use**: Using `context` and `type` automatically converts them to `@context` and `@type` internally, so you can use them without quotes like regular properties.
 
 
-# `Nuxt AEO` Module Implementation Guide
+## `Nuxt AEO` Module Implementation Guide
 
 Now let's look at how the `nuxt-aeo` module was implemented.<br />
 
-## 1. Basic Structure Design
+### 1. Basic Structure Design
 
 I implemented the basic structure of the Nuxt module using `defineNuxtModule`.<br />
 The core was storing options in `runtimeConfig.public` and automatically registering plugins and composables.<br />
@@ -103,9 +103,9 @@ export default defineNuxtModule<ModuleOptions>({
 
 ---
 
-## 2. `useSchema()` Implementation: Universal Schema Composable
+### 2. `useSchema()` Implementation: Universal Schema Composable
 
-### 2.1 `JSON-LD` Generation
+#### 2.1 `JSON-LD` Generation
 
 First, I implemented the basic functionality to inject `Schema.org JSON-LD` into `<head>`.<br />
 This feature allows users to easily add schemas through the `useSchema()` composable.
@@ -124,7 +124,7 @@ export function useSchema(schema: Record<string, unknown>) {
 I used `useHead()` because it allows safe injection into `<head>` tags in Nuxt's SSR environment.<br />
 It works on both client and server sides, and leverages Nuxt's built-in features to ensure stability.
 
-### 2.2 Automatic Key Transformation Logic
+#### 2.2 Automatic Key Transformation Logic
 
 I added functionality to automatically convert `context` and `type` to `@context` and `@type` for user convenience.<br />
 This feature allows users to use `context` and `type` like regular properties.
@@ -162,7 +162,7 @@ Nested objects and arrays are also recursively transformed to support all Schema
 This makes it easy for users to add schemas.<br />
 For example, you can use `context: 'https://schema.org'` like a regular property.
 
-### 2.3 Semantic HTML Automatic Generation
+#### 2.3 Semantic HTML Automatic Generation
 
 I added semantic HTML automatic generation functionality to optimize AI model learning.<br />
 This feature allows users to easily add schemas through the `useSchema()` composable.
@@ -195,7 +195,7 @@ function generateOrganizationHTML(data: Record<string, unknown>): string {
 - HTML escaping to prevent XSS
 - `visually-hidden` CSS processing so it's not visible to users but readable by crawlers, making it exist in the DOM but not visible, allowing AI models to read it.
 
-### 2.4 Client-Side HTML Injection
+#### 2.4 Client-Side HTML Injection
 
 Dynamically inject semantic HTML on the client side.<br />
 This feature allows users to easily add schemas through the `useSchema()` composable.
@@ -230,7 +230,7 @@ Injecting on the client side allows free DOM manipulation, so semantic HTML can 
 
 ---
 
-## 3. `useSchemaPage()` Implementation: FAQPage-Specific Composable
+### 3. `useSchemaPage()` Implementation: FAQPage-Specific Composable
 
 I decided to create a dedicated composable for FAQPage because it was the most commonly used Schema type.<br />
 This feature allows users to add schemas to FAQPage.<br />
@@ -271,7 +271,7 @@ export function useSchemaPage(data: {
 
 ---
 
-## 4. Global Schema Automatic Injection
+### 4. Global Schema Automatic Injection
 
 I implemented a plugin that automatically injects global schemas into all pages.<br />
 This feature allows users to automatically inject global schemas set in `nuxt.config.ts` into all pages.
@@ -306,7 +306,7 @@ export default defineNuxtPlugin(() => {
 
 ---
 
-## 5. Deployment and Announcing to the Nuxt Ecosystem!
+### 5. Deployment and Announcing to the Nuxt Ecosystem!
 
 After implementing the module this way, I proceeded with deployment preparation to npm.
 I configured it so that when merged into main, if it passes various settings (lint, test) through GitHub Actions, it can be deployed to npm packages.
@@ -317,7 +317,7 @@ After creating the module, you can create an issue in the Nuxt Modules repositor
 ![Nuxt Modules Repository Issue](/tech/images/20251221.png)
 Pretty easy, right??
 
-## 6. Playground
+### 6. Playground
 
 I also created a playground page to show how it's actually used.
 However.. there are still some areas that need more improvement! 😢
@@ -333,7 +333,7 @@ The playground includes the following examples:
 
 You can check the actual generated JSON-LD and semantic HTML on each example page.
 
-## 7. Documentation
+### 7. Documentation
 
 I also deployed documentation created with Nuxt Content and Nuxt Studio! (There are still some broken parts)
 You can check the module's usage, options, examples, etc. in the documentation!
@@ -348,9 +348,9 @@ The documentation includes:
 - API reference
 ---
 
-# Installation and Basic Usage Introduction
+## Installation and Basic Usage Introduction
 
-## Installation and Basic Usage
+### Installation and Basic Usage
 
 Installation is very simple:
 
@@ -377,7 +377,7 @@ export default defineNuxtConfig({
 })
 ```
 
-## Adding Page-Specific Schemas
+### Adding Page-Specific Schemas
 
 Adding schemas to FAQ pages is very simple!<br />
 Through the `useSchemaPage()` composable, it helps AI models easily learn about what role a page or feature plays in a question-and-answer format.
@@ -400,7 +400,7 @@ useSchemaPage({
 `useSchemaPage()` is set to `renderHtml: true` by default,
 so semantic HTML is automatically generated, but since the `visually-hidden` class is added, it's not actually visible but exists in the DOM, allowing AI models to read it.
 
-## Using Universal Schemas
+### Using Universal Schemas
 
 ```vue
 <script setup lang="ts">
@@ -432,7 +432,7 @@ Using `context` and `type` automatically converts them to `@context` and `@type`
 so you can use them without quotes like regular properties.
 
 
-# Closing
+## Closing
 
 After only contributing to Nuxt4 and Nuxt UI, being able to contribute to the Nuxt ecosystem through an actual module was such a rewarding experience!<br />
 Since it's a newly registered module, I haven't received any feedback yet, but of course I'm ready to accept all feedback with an open mind! 😄<br />
@@ -445,7 +445,7 @@ I hope everyone finishes 2025 well and receives lots of New Year's blessings in 
 
 ---
 
-### References
+#### References
 
 - [Nuxt AEO GitHub](https://github.com/yeonjulee1005/nuxt-aeo)
 - [Nuxt AEO Documentation](https://nuxt-aeo-docs.vercel.app)
