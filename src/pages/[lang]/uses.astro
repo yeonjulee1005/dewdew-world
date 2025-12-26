@@ -4,7 +4,7 @@ import Bold from '@components/Bold.astro'
 import List from '@components/uses/List.astro'
 
 import { LOCALES, type Lang } from '../../i18n.ts'
-import { MENU_ITEMS, USES_EDITOR, USES_EDITOR_EXTENSIONS, USES_TERMINAL, USES_DESKTOP_APP, USES_HARDWARE } from '../../i18n/consts.ts'
+import { MENU_ITEMS, USES_EDITOR, USES_EDITOR_EXTENSIONS, USES_TERMINAL, USES_DESKTOP_APP, USES_HARDWARE, USES_TITLE, USES_DESCRIPTION } from '../../i18n/consts.ts'
 
 const locale = Astro.currentLocale as Lang;
 
@@ -13,32 +13,32 @@ export const getStaticPaths = () =>
     params: { lang },
   }));
 ---
-<Layout title='Dewdew | About' description='Dewdew uses like this'>
+<Layout title={USES_TITLE[Astro.currentLocale as keyof typeof USES_TITLE]} description={USES_DESCRIPTION[Astro.currentLocale as keyof typeof USES_DESCRIPTION]}>
   <div class='relative mt-8 flex w-screen flex-col items-center justify-between gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
     <div class='w-screen px-4 text-lg py-5 text-neutral-700 lg:w-[600px] lg:px-0'>
-      <p class="text-3xl font-bold break-keep">
+      <h1 class="text-3xl font-bold break-keep">
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.title}
         <Bold customClass='text-red-400' text=',' /><br />
-      </p><br />
-      <p class="text-2xl pt-2">
+      </h1><br />
+      <h2 class="text-2xl pt-2">
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.editor}
-      </p>
+      </h2>
       <List lists={USES_EDITOR} />
-      <p class="text-2xl pt-8  border-t border-neutral-700">
+      <h2 class="text-2xl pt-8  border-t border-neutral-700">
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.editorExtensions}
-      </p>
+      </h2>
       <List lists={USES_EDITOR_EXTENSIONS} />
-      <p class="text-2xl pt-8  border-t border-neutral-700">
+      <h2 class="text-2xl pt-8  border-t border-neutral-700">
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.terminal}
-      </p>
+      </h2>
       <List lists={USES_TERMINAL} />
-      <p class="text-2xl pt-8  border-t border-neutral-700">
+      <h2 class="text-2xl pt-8  border-t border-neutral-700">
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.desktopApp}
-      </p>
+      </h2>
       <List lists={USES_DESKTOP_APP} />
-      <p class="text-2xl pt-8  border-t border-neutral-700">
+      <h2 class="text-2xl pt-8  border-t border-neutral-700">
         {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].uses.hardware}
-      </p>
+      </h2>
       <List lists={USES_HARDWARE} />
     </div>
   </div>

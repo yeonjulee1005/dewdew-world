@@ -18,7 +18,7 @@ coverAlt: 'cover Image'
 > This article shares the core business logic implemented using LLM, RAG, and Embedding in detail with code!<br />
 > Check [Dewdew Dev](https://www.dewdew.dev) as well!🤨
 
-# Before We Begin
+## Before We Begin
 
 The biggest goal of redesigning the portfolio site v5 was two-fold:
 
@@ -31,7 +31,7 @@ Furthermore, we implemented a similarity search based on the embedding of the qu
 This article will explain the core business logic of this RAG system in detail with code!
 
 
-# Project Architecture Overview
+## Project Architecture Overview
 
 The entire system is structured as follows:
 
@@ -64,7 +64,7 @@ dewdew_v5/
 5. `Streaming` to send real-time responses
 
 
-# `RAG` System's Core: `Hybrid` Search Strategy
+## `RAG` System's Core: `Hybrid` Search Strategy
 
 The most important part of the `RAG` system is `"how to find relevant data"`!
 
@@ -74,7 +74,7 @@ I adopted the `Hybrid` search strategy:
 
 This way, questions with clear keywords can be processed quickly, and abstract or `meaning-based` questions can be processed by `vector search`!
 
-## 1. Keyword Matching Logic
+### 1. Keyword Matching Logic
 
 Let's start with keyword matching!
 
@@ -171,7 +171,7 @@ if (matchKeywords(queryLower, ['스킬', '기여', '기술', '스택', ...])) {
 
 This way, questions with clear keywords can be processed quickly without the cost of `vector search`!
 
-## 2. Vector Search Logic
+### 2. Vector Search Logic
 
 If `keyword matching` fails or there is not enough data, `vector search` can be used to find relevant data based on `meaning`!
 
@@ -237,11 +237,11 @@ const enrichContextFromVectorMatches = async (
 - Optimize performance by processing each document type in parallel
 
 
-# `Embedding` Creation and Management
+## `Embedding` Creation and Management
 
 To perform `vector search`, all documents must first be converted to `embeddings`!
 
-## 1. Document Text Conversion
+### 1. Document Text Conversion
 
 Convert structured data from the database to `embedding creation text`!
 
@@ -291,7 +291,7 @@ export const buildExperienceText = (experiences: Experience[]): string => {
 }
 ```
 
-## 2. Embedding Creation and Storage
+### 2. Embedding Creation and Storage
 
 Convert the transformed text to `vector` using the `OpenAI Embedding API` and save it!
 
@@ -383,7 +383,7 @@ export const createProfileEmbedding = async (profile: Profile): Promise<void> =>
 }
 ```
 
-## 3. Embedding Initialization
+### 3. Embedding Initialization
 
 This is an `Edge Function` that creates all document embeddings at once!
 
@@ -439,11 +439,11 @@ Important is that, `embeddings` `Edge Function` must be run again whenever `pers
 The reason is that the vector search needs to reflect the latest data!
 
 
-# LLM Integration and Streaming Response
+## LLM Integration and Streaming Response
 
 Pass the searched data to the `LLM` to generate an answer!
 
-## 1. System Prompt Configuration
+### 1. System Prompt Configuration
 
 Create a system prompt dynamically based on the searched context!
 
@@ -494,7 +494,7 @@ ${dataContext}`
 }
 ```
 
-## 2. Streaming Response Processing
+### 2. Streaming Response Processing
 
 Stream the answer in real-time to improve the user experience!
 
@@ -579,7 +579,7 @@ const createSSEStream = (
 }
 ```
 
-## 3. Client Streaming Processing
+### 3. Client Streaming Processing
 
 The client parses the `ReadableStream` in real-time to display the text!
 
@@ -644,11 +644,11 @@ const parseStreamResponse = async (
 ```
 
 
-# Summary of Core Business Logic
+## Summary of Core Business Logic
 
 The core business logic of the entire system is summarized as follows!
 
-## 1. Hybrid Search Strategy
+### 1. Hybrid Search Strategy
 
 | Step | Method | Purpose | Performance |
 |------|------|------|------|
@@ -660,7 +660,7 @@ The core business logic of the entire system is summarized as follows!
 - Process questions based on meaning using vector search
 - Optimize cost by skipping vector search when keyword matching succeeds
 
-## 2. Embedding Management Strategy
+### 2. Embedding Management Strategy
 
 | Task | Time | Method |
 |------|------|------|
@@ -672,7 +672,7 @@ The core business logic of the entire system is summarized as follows!
 - It is necessary to recreate embeddings whenever data changes
 - If the embedding is not up to date, the vector search results may be inaccurate
 
-## 3. Streaming Response Strategy
+### 3. Streaming Response Strategy
 
 | Step | Content | Purpose |
 |------|------|------|
@@ -685,7 +685,7 @@ The core business logic of the entire system is summarized as follows!
 - Display text in real-time for a more natural conversation
 
 
-# Summary
+## Summary
 
 This article shares the core business logic of the `LLM + RAG + Embedding`-based AI chat function implemented in Portfolio v5 in detail with code!
 
@@ -703,7 +703,7 @@ See you in the next article!
 
 ---
 
-### References
+#### References
 
 - [Nuxt 4](https://nuxt.com/)
 - [Supabase Edge Functions](https://supabase.com/docs/guides/functions)

@@ -20,23 +20,20 @@
 .tech h1 a .icon:hover, .tech h2 a .icon:hover, .tech h3 a .icon:hover, .tech h4 a .icon:hover, .tech h5 a .icon:hover, .tech h6 a .icon:hover {
   content: url("/images/hash-hover.svg");
 }
-.tech h1 {
+.tech h2 {
   @apply text-3xl font-bold break-keep leading-10 my-6 sm:my-8;
 }
-.tech h2 {
+.tech h3 {
   @apply text-2xl font-bold break-keep my-6 sm:my-8;
 }
-.tech h3 {
+.tech h4 {
   @apply text-xl font-bold break-keep my-6 sm:my-8;
 }
-.tech h4 {
+.tech h5 {
   @apply text-lg font-bold break-keep;
 }
-.tech h5 {
-  @apply text-base font-bold break-keep;
-}
 .tech h6 {
-  @apply text-sm font-bold break-keep;
+  @apply text-base font-bold break-keep;
 }
 .tech p {
   @apply text-lg my-2 sm:my-5 break-keep;

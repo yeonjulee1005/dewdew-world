@@ -34,9 +34,13 @@ interface TechLayoutProps {
   minutes: {
     readMinutes: string
   }
+  robots?: string
 }
 
-let { frontmatter, minutes } = Astro.props as TechLayoutProps
+let { frontmatter, minutes, robots = 'index, follow' } = Astro.props as TechLayoutProps
+
+// X-Robots-Tag HTTP 헤더 설정
+Astro.response.headers.set('X-Robots-Tag', robots)
 
 // const formattedDate = new Date(frontmatter.publishedDate).toLocaleDateString('en-us',
 //   { year: 'numeric', month: 'short', day: 'numeric', },
@@ -65,10 +69,48 @@ const replaceImageAlt = (imageAlt: string) => {
 
 const nextTech = techCollection[techIndex - 1]
 const prevTech = techCollection[techIndex + 1]
+
+// BlogPosting Schema 생성
+const coverImageUrl = frontmatter.cover.startsWith('http') 
+  ? frontmatter.cover 
+  : new URL(frontmatter.cover, Astro.site || Astro.url.origin).href
+
+const avatarImageUrl = frontmatter.avatar.startsWith('http')
+  ? frontmatter.avatar
+  : new URL(frontmatter.avatar, Astro.site || Astro.url.origin).href
+
+const blogPostingSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: frontmatter.title,
+  description: frontmatter.description,
+  image: coverImageUrl,
+  datePublished: new Date(frontmatter.publishedDate).toISOString(),
+  dateModified: new Date(frontmatter.publishedDate).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: frontmatter.author,
+    email: frontmatter.authorContact,
+    image: avatarImageUrl,
+  },
+  publisher: {
+    '@type': 'Person',
+    name: frontmatter.author,
+    url: Astro.site?.href || Astro.url.origin,
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': Astro.url.href,
+  },
+  keywords: frontmatter.tags.join(', '),
+  articleSection: 'Tech',
+  inLanguage: locale,
+  url: Astro.url.href,
+}
 ---
 <html lang={locale}>
   <head>
-    <Head title={frontmatter.title} description={frontmatter.description} image={frontmatter.cover} />
+    <Head title={frontmatter.title} description={frontmatter.description} image={frontmatter.cover} robots={robots} type="article" schema={blogPostingSchema} />
     <ClientRouter fallback="none" />
   </head>
   <body>
@@ -76,12 +118,12 @@ const prevTech = techCollection[techIndex + 1]
     <Mobile />
     <main class='flex flex-col items-center my-2 sm:my-16'>
       <div class='w-screen px-4 sm:px-8 my-10 lg:w-[800px] lg:px-0'>
-        <p class='mb-4 sm:mb-8 text-4xl font-bold'>
+        <h1 class='mb-4 sm:mb-8 text-4xl font-bold'>
           {frontmatter.title}
-        </p>
-        <p class='mb-2 sm:mb-4 text-lg text-rose-400'>
+        </h1>
+        <h2 class='mb-2 sm:mb-4 text-lg text-rose-400'>
           {frontmatter.description}
-        </p>
+        </h2>
         {frontmatter.tags.map((tag) => (
           <Link
             link={`https://www.google.com/search?q=${tag}`}
