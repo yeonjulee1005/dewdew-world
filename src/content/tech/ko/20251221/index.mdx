@@ -14,7 +14,7 @@ cover: '/tech/cover/20251221.png'
 coverAlt: 'cover Image'
 ---
 
-# 왜 Nuxt4 `AEO 모듈`을 만들게 되었나요?
+## 왜 Nuxt4 `AEO 모듈`을 만들게 되었나요?
 
 지금까지의 웹 생태계에서는 `SEO(Search Engine Optimization)`가 핵심이었습니다.<br />
 하지만 AI 시대가 도래하면서, 단순히 검색 엔진에 최적화하는 것만으로는 부족하다는 생각이 들었습니다.<br />
@@ -40,9 +40,9 @@ AEO란 `AI Engine Optimization`의 약자로, AI 모델이 웹 페이지를 크�
 이러한 `AEO 모듈`을 통해, Nuxt4를 통해 웹사이트를 구축하는 개발자들이, AI 모델들이 웹사이트를 크롤링하여 학습할 때, 더 정확하고 의미 있는 정보를 제공할 수 있도록 도와줄 수 있습니다.
 
 
-# 현재 AI의 LLM 학습에 있어서 각 페이지의 한계점
+## 현재 AI의 LLM 학습에 있어서 각 페이지의 한계점
 
-## `시멘틱 HTML`의 부재
+### `시멘틱 HTML`의 부재
 
 기존 모듈들은 JSON-LD만 생성하고, 실제 HTML에는 시멘틱 태그가 없었습니다.<br />
 하지만 LLM 크롤러들은 `JSON-LD와 시멘틱 HTML을 함께 사용할 때 더 정확하게 콘텐츠를 이해`할 수 있습니다.
@@ -51,7 +51,7 @@ AEO란 `AI Engine Optimization`의 약자로, AI 모델이 웹 페이지를 크�
 - `JSON-LD만 있는 경우`: AI 모델이 구조를 이해하지만, 실제 HTML 구조와의 연결이 약함
 - `JSON-LD + 시멘틱 HTML`: AI 모델이 HTML 구조와 JSON-LD를 함께 분석하여 더 정확한 이해 가능
 
-## 다른 모듈과의 차별점
+### 다른 모듈과의 차별점
 기존에도 `nuxt-schema-org`, `nuxt-jsonld` 등과 같은 JSON-LD 모듈들이 있었습니다.
 하지만, 이러한 모듈들은 단순히 JSON-LD만 생성하고, 실제 HTML에는 시멘틱 태그가 없었습니다.
 또한, AI 모델이 웹 페이지를 크롤링하여 학습할 때, 더 정확하고 의미 있는 정보를 제공할 수 있도록 도와주는 기능이 부족했습니다.
@@ -67,7 +67,7 @@ AEO란 `AI Engine Optimization`의 약자로, AI 모델이 웹 페이지를 크�
 | `전역 스키마` 설정 | ✅ | ✅ | ❌ |
 | `초기 설정 없이` 사용 가능 | ✅ | ✅ | ❌ |
 
-### 주요 차별점 정리
+#### 주요 차별점 정리
 
 1. **자동 `시멘틱 HTML` 생성**: JSON-LD 스키마 데이터를 기반으로 시멘틱 HTML을 자동 생성합니다. 이 HTML은 사용자에게는 보이지 않지만(visually-hidden), LLM 크롤러와 검색 엔진은 읽을 수 있습니다.
 2. **`AI 엔진 최적화`**: `ChatGPT`, `Claude`, `Perplexity`, `Gemini`, `DeepSeek` 같은 AI 모델이 웹 콘텐츠를 크롤링할 때 더 정확한 정보를 제공할 수 있도록 최적화되어 있습니다.
@@ -75,11 +75,11 @@ AEO란 `AI Engine Optimization`의 약자로, AI 모델이 웹 페이지를 크�
 4. **간편한 사용법**: `context`와 `type`을 사용하면 내부적으로 `@context`와 `@type`으로 자동 변환되어, 따옴표 없이 일반 속성처럼 사용할 수 있습니다.
 
 
-# `Nuxt AEO` 모듈 구현기
+## `Nuxt AEO` 모듈 구현기
 
 이제 `nuxt-aeo` 모듈이 어떻게 구현되었는지 살펴보겠습니다.<br />
 
-## 1. 기본 구조 설계
+### 1. 기본 구조 설계
 
 Nuxt 모듈의 기본 구조를 `defineNuxtModule`로 구현했습니다.<br />
 핵심은 `runtimeConfig.public`에 옵션을 저장하고, 플러그인과 composable을 자동으로 등록하는 것이었습니다.<br />
@@ -103,9 +103,9 @@ export default defineNuxtModule<ModuleOptions>({
 
 ---
 
-## 2. `useSchema()` 구현: 범용 Schema Composable
+### 2. `useSchema()` 구현: 범용 Schema Composable
 
-### 2.1 `JSON-LD` 생성
+#### 2.1 `JSON-LD` 생성
 
 가장 먼저 `Schema.org JSON-LD`를 `<head>`에 주입하는 기본 기능을 구현했습니다.<br />
 이 기능은 사용자가 `useSchema()` 컴포저블을 통해 쉽게 스키마를 추가할 수 있도록 해줍니다.
@@ -124,7 +124,7 @@ export function useSchema(schema: Record<string, unknown>) {
 `useHead()`를 사용한 이유는 Nuxt의 SSR 환경에서 `<head>` 태그에 안전하게 주입할 수 있기 때문입니다.<br />
 클라이언트와 서버 양쪽에서 동작하며, Nuxt의 내장 기능을 활용하여 안정성을 보장할 수 있습니다.
 
-### 2.2 키 자동 변환 로직
+#### 2.2 키 자동 변환 로직
 
 사용자 편의를 위해 `context`와 `type`을 `@context`와 `@type`으로 자동 변환하는 기능을 추가했습니다.<br />
 이 기능은 사용자가 `context`와 `type`을 일반 속성처럼 사용할 수 있도록 해줍니다.
@@ -162,7 +162,7 @@ JavaScript에서 `@`로 시작하는 키는 따옴표 없이 사용하기 어렵
 이렇게 하면 사용자가 쉽게 스키마를 추가할 수 있게 됩니다.<br />
 예를 들어, `context: 'https://schema.org'`처럼 일반 속성처럼 사용할 수 있게 됩니다.
 
-### 2.3 시멘틱 HTML 자동 생성
+#### 2.3 시멘틱 HTML 자동 생성
 
 AI 모델 학습 최적화를 위해 시멘틱 HTML 자동 생성 기능을 추가했습니다.<br />
 이 기능은 사용자가 `useSchema()` 컴포저블을 통해 쉽게 스키마를 추가할 수 있도록 해줍니다.
@@ -195,7 +195,7 @@ function generateOrganizationHTML(data: Record<string, unknown>): string {
 - HTML 이스케이프 처리로 XSS 방지
 - `visually-hidden` CSS로 사용자에게는 보이지 않지만 크롤러는 읽을 수 있도록 처리하여 실제로 보이지 않지만 DOM에는 존재하게 되어 AI 모델이 읽을 수 있도록 해줍니다.
 
-### 2.4 클라이언트 사이드 HTML 주입
+#### 2.4 클라이언트 사이드 HTML 주입
 
 시멘틱 HTML을 클라이언트에서 동적으로 주입합니다.<br />
 이 기능은 사용자가 `useSchema()` 컴포저블을 통해 쉽게 스키마를 추가할 수 있도록 해줍니다.
@@ -230,7 +230,7 @@ SSR에서는 `<body>`에 직접 주입하기 어렵고, `useHead()`는 `<head>`�
 
 ---
 
-## 3. `useSchemaPage()` 구현: FAQPage 전용 Composable
+### 3. `useSchemaPage()` 구현: FAQPage 전용 Composable
 
 FAQPage는 가장 많이 사용되는 Schema 타입이었기 때문에, 전용 composable을 만들기로 결정했습니다.<br />
 이 기능은 사용자가 FAQPage에 스키마를 추가할 수 있도록 해줍니다.<br />
@@ -271,7 +271,7 @@ export function useSchemaPage(data: {
 
 ---
 
-## 4. 전역 스키마 자동 주입
+### 4. 전역 스키마 자동 주입
 
 모든 페이지에 전역 스키마를 자동으로 주입하는 플러그인을 구현했습니다.<br />
 이 기능은 사용자가 `nuxt.config.ts`에서 설정한 전역 스키마를 모든 페이지에 자동으로 주입할 수 있게 해줍니다.
@@ -306,7 +306,7 @@ export default defineNuxtPlugin(() => {
 
 ---
 
-## 5. 배포 및 Nuxt 생태계에 알리기!
+### 5. 배포 및 Nuxt 생태계에 알리기!
 
 이렇게 모듈을 구현하였다면, npm에 배포준비를 진행합니다.
 Github Actions를 통해, main에 병합시 각종 설정 (lint, test) 를 통과 할 경우에 npm packages에 배포할 수 있도록 설정을 해줍니다.
@@ -318,7 +318,7 @@ Github Actions를 통해, main에 병합시 각종 설정 (lint, test) 를 통�
 ![Nuxt Modules 레포지토리 등록 이슈](/tech/images/20251221.png)
 아주 쉽죠??
 
-## 6. 플레이그라운드
+### 6. 플레이그라운드
 
 실제로 어떻게 사용되는지 플레이 그라운드 페이지도 생성은 해두었습니다.
 다만.. 아직 조금 더 보완이 필요한 영역이에요! ㅠ
@@ -334,7 +334,7 @@ Github Actions를 통해, main에 병합시 각종 설정 (lint, test) 를 통�
 
 각 예제 페이지에서 실제로 생성된 JSON-LD와 시멘틱 HTML을 확인할 수 있습니다.
 
-## 7. 개발문서
+### 7. 개발문서
 
 Nuxt Content와 Nuxt Studio를 통해 만든 개발문서도 함께 배포하였습니다! (아직 조금 고장난 부분도 존재해요)
 해당 문서에서는 모듈의 사용법, 옵션, 예제 등을 확인할 수 있습니다!
@@ -349,9 +349,9 @@ Nuxt Content와 Nuxt Studio를 통해 만든 개발문서도 함께 배포하였
 - API 레퍼런스
 ---
 
-# 설치 및 기본적인 사용방법 소개
+## 설치 및 기본적인 사용방법 소개
 
-## 설치 및 기본 사용법
+### 설치 및 기본 사용법
 
 설치는 매우 간단합니다:
 
@@ -378,7 +378,7 @@ export default defineNuxtConfig({
 })
 ```
 
-## 페이지별 스키마 추가
+### 페이지별 스키마 추가
 
 FAQ 페이지에 스키마를 추가하는 것은 매우 간단합니다!<br />
 `useSchemaPage()` 컴포저블을 통해, 해당 페이지 또는 기능들에 대해서 어떠한 역할을 하고있는지 AI모델들에게 질문과 답변의 형태로 쉽게 학습할 수 있게 도와주게 됩니다.
@@ -401,7 +401,7 @@ useSchemaPage({
 `useSchemaPage()`는 기본적으로 `renderHtml: true`로 설정되어 있어,
 시멘틱 HTML이 자동으로 생성되지만, `visually-hidden` 클래스가 추가되어있기 때문에, 실제로 보이지 않지만 DOM에는 존재하게 되어 AI 모델이 읽을 수 있도록 해줍니다.
 
-## 범용 스키마 사용
+### 범용 스키마 사용
 
 ```vue
 <script setup lang="ts">
@@ -433,7 +433,7 @@ useSchema({
 따옴표 없이 일반 속성처럼 사용할 수 있습니다.
 
 
-# 마무리
+## 마무리
 
 그동안 Nuxt4와 Nuxt UI 에 기여만 하다가, 실제로 모듈을 통해 Nuxt 생태계에 기여를 할 수 있어서 너무나 뿌듯한 경험이었어요!<br />
 아직 막 등록한 모듈이기 때문에 어떠한 피드백을 받지 못하였지만, 당연하게도 넓은 마음가짐으로 모든 피드백을 수용할 준비가 되어있어요!ㅋ<br />
@@ -446,7 +446,7 @@ useSchema({
 
 ---
 
-### 참고 문서
+#### 참고 문서
 
 - [Nuxt AEO GitHub](https://github.com/yeonjulee1005/nuxt-aeo)
 - [Nuxt AEO 문서](https://nuxt-aeo-docs.vercel.app)

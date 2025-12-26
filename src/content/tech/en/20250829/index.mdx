@@ -18,7 +18,7 @@ coverAlt: 'cover Image'
 > and explore the similarities and differences in their APIs.
 
 
-# Before we start,
+## Before we start,
 > "What tool should I use to implement the service?"<br />
 
 Developers often think about what tools to use before implementing a product.<br />
@@ -35,12 +35,12 @@ and I'll also discuss the future of frontend technology.<br />
 (I don't know what's ahead, but I'll try to discuss it!)
 
 
-# Rendering Mode
+## Rendering Mode
 First, I'll explain the most basic rendering mode of the two meta frameworks.<br />
 Although the basic rendering mode of the two meta frameworks is similar, there are clear differences,<br />
 so I'll enumerate the similarities and differences.<br />
 
-## Basic Rendering Mode
+### Basic Rendering Mode
 Nuxt4 supports a `Universal rendering` mode, which is a `SSR-based rendering mode that allows flexible CSR usage`,<br />
 while Next.js has `SSR mode` as its default.<br />
 Under the assumption of basic settings, both frameworks operate as SSR as shown below.
@@ -123,13 +123,13 @@ Nuxt calls this `Hybrid Rendering`.
 ```
 
 
-# APIs with the same name and function
+## APIs with the same name and function
 As you can see, `Nuxt` and `Next` are moving similarly from the basic rendering structure.<br />
 However, beyond that, we'll explore APIs with the same function and even the same name (or nearly similar)!
 The APIs I'll introduce next are purely framework-provided functions, but I'll also explore them to compare the two frameworks more closely!
 
 
-## 1. Suspense
+### 1. Suspense
 In both frameworks, `Suspense` is used to handle the waiting process for asynchronous operations. This allows components to display a `Fallback UI` such as a loading state when fetching data.<br />
 In other words, it enables a form of `Streaming Rendering` where parts of the UI are rendered quickly while waiting for the data to be fully prepared, and the rest is displayed once the data is ready.
 
@@ -176,7 +176,7 @@ export default function Page() {
 }
 ```
 
-## 2. useRouter()
+### 2. useRouter()
 As expected, both frameworks provide page-based route functionality,<br />
 so `useRouter()` has the same function of manipulating route history.<br />
 Like the rendering mode, this API also provides additional features only in `Nuxt4`.
@@ -244,7 +244,7 @@ As you can see, `Nuxt4` supports `standard built-in functions` better than `Next
 This is because you can use it more flexibly in various conditions, making it more convenient and efficient to create an environment.
 
 
-## 3. useState()
+### 3. useState()
 Suprise? `Nuxt4` also provides basic built-in state functions.<br />
 It's the same name as `Next`!
 However, in the Nuxt ecosystem, `pinia` is generally used for state management.<br />
@@ -277,7 +277,7 @@ const [counter, setCounter] = useState(0)
 `Nuxt4` provides SSR-friendly built-in state functions, but `Next` relies on state management libraries in the `react` ecosystem, which is the difference.
 
 
-## 4. Fetch() / useFetch()
+### 4. Fetch() / useFetch()
 The APIs I'll introduce next are similar in function, but slightly different in name.<br />
 First, the data lookup function can be used as follows:
 
@@ -320,7 +320,7 @@ Here too, `Nuxt4` provides richer functionality.<br />
 Therefore, `Next.js` is generally composed of an internal `fetch()` function and an external library.
 
 
-## 5. Image Optimize
+### 5. Image Optimize
 In the frontend, it is essential to perform image optimization.<br />
 Both frameworks provide components that can perform basic image optimization.
 Let's take a look together!
@@ -365,7 +365,7 @@ import Image from 'next/image'
 />
 ```
 
-## 6.useCookie(), cookies
+### 6.useCookie(), cookies
 It's obvious, but the cookie management saved on the browser is also similar to each other.<br />
 Let's take a look together!
 
@@ -407,7 +407,7 @@ import Cookies from 'js-cookie'
 Cookies.set('theme', 'dark', { expires: 7 })
 ```
 
-## 7. SEO / Head
+### 7. SEO / Head
 The metadata management is also provided similarly by both frameworks.
 
 
@@ -490,7 +490,7 @@ See you next time!
 
 ---
 
-### Reference
+#### Reference
 
 - [Nuxt4](https://nuxt.com/)
 - [Next.js](https://nextjs.org/)

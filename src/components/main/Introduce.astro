@@ -7,9 +7,11 @@ import { type Lang } from '../../i18n.ts'
 
 const locale = Astro.currentLocale as Lang;
 ---
-<p class='mb-2'>
+<h1 class='mb-2'>
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.hello}
   <Bold customClass='text-red-400' text='!' /><br />
+</h1>
+<p class='mb-2'>
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.name}
   <Bold customClass='text-red-400' text=',' />
   {MENU_ITEMS[locale as keyof typeof MENU_ITEMS].mainIntro.aheadLiving}

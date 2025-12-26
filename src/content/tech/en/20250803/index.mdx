@@ -20,7 +20,7 @@ coverAlt: 'cover Image'
 > And, I'll introduce how to use `JSX syntax` in the Vue ecosystem (including Nuxt4)!
 
 
-# The Philosophy and Intent of JSX Syntax (feat. React Ecosystem)
+## The Philosophy and Intent of JSX Syntax (feat. React Ecosystem)
 `JSX syntax` is a syntax that extends the HTML syntax to be used in JavaScript.<br />
 The background for the emergence of this syntax is that the template and state management function were separated into different files, making it difficult to maintain.<br />
 
@@ -29,7 +29,7 @@ The advantage of TSX is that it naturally connects logic and UI, allowing effici
 Initially, there were concerns that mixing HTML and JavaScript might be an anti-pattern. However, the ability to handle UI and logic integratively within JavaScript led to React becoming increasingly popular in various regions, including South Korea, from the mid-2010s onwards.<br />
 
 
-# The Philosophy and Intent of SFC Syntax (feat. Vue Ecosystem)
+## The Philosophy and Intent of SFC Syntax (feat. Vue Ecosystem)
 Vue, on the other hand, constructs UI based on the following philosophy: <br />
 `"HTML, JavaScript, and CSS are inherently different concerns, and by clearly separating them, we can improve readability and maintainability."`<br />
 
@@ -41,7 +41,7 @@ Vue's SFC structure provides a `compromise that maintains the principle of separ
 Thanks to its declarative and intuitive template syntax, it has the advantage of allowing developers to quickly and easily explain components to others during collaboration.<br />
 
 
-# Why would you want to use `JSX syntax` in the Vue ecosystem?
+## Why would you want to use `JSX syntax` in the Vue ecosystem?
 In South Korea, when collaborating on frontend projects, you often encounter developers who have only experienced React.<br />
 Finding developers who have been exposed to or are willing to use the Vue ecosystem is now almost like "finding a needle in a haystack."<br />
 
@@ -51,7 +51,7 @@ Personally, I believe that clear separation of concerns makes management easier.
 However, given the reality of the domestic environment where React is widely used, I want to inform you that you can use JSX syntax in Vue.<br />
 This will help you approach the Vue ecosystem more smoothly with familiar syntax.<br />
 
-# How can you use `JSX syntax` in Vue3?
+## How can you use `JSX syntax` in Vue3?
 As mentioned earlier, I would like to introduce how to use JSX syntax to guide many React developers familiar with `.tsx` syntax into the Vue ecosystem (including Nuxt4).
 
 Some of you may already know, but the fact that you can use JSX syntax in Vue lowers the barrier for React developers transitioning to Vue. In Vue, you can also render the virtual DOM using the `h()` function.
@@ -70,7 +70,7 @@ vnode.children // [] area of children
 vnode.key // null
 ```
 
-# React's JSX Syntax vs Vue's JSX Syntax
+## React's JSX Syntax vs Vue's JSX Syntax
 
 Now, let's compare the differences between the two syntaxes.<br />
 The following examples are simple input and button components written in React's and Vue's JSX syntax, respectively.<br />
@@ -228,7 +228,7 @@ export default {
 };
 ```
 
-# In Nuxt4, you can use `.tsx` as is!
+## In Nuxt4, you can use `.tsx` as is!
 Now, let's introduce the Nuxt, which I like!<br />
 In Nuxt4 (or Nuxt3), it is a great advantage that you can use `.tsx` files as is.<br />
 However, you have to bear the confusion(?) of the IDE showing React icons in the project.<br />
@@ -337,7 +337,7 @@ See you next time!<br />
 
 ---
 
-### References
+#### References
 
 - [Nuxt4](https://nuxt.com/)
 - [Vue3 Render Functions & JSX](https://vuejs.org/guide/extras/render-function.html)

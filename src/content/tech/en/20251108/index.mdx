@@ -18,7 +18,7 @@ coverAlt: 'cover Image'
 > and compare server-side and client-side performance!<br />
 > Check [the Actual Codebase](https://github.com/yeonjulee1005/meta-frameworks-compare) and deployment environment([Nuxt4](https://meta-frameworks-compare-nuxt4.vercel.app/), [Next16](https://meta-frameworks-compare-next.vercel.app/)) as well!🤨
 
-# Before We Begin
+## Before We Begin
 
 Modern `web frameworks` (meta frameworks) that are loved worldwide are two frameworks!<br/>
 That is, `Nuxt4` and `Next16`!
@@ -29,13 +29,13 @@ As a Nuxter, I sincerely hope that Nuxt4 will have the upper hand in performance
 Let's start the article now!
 
 
-# Project Setup Process of Nuxt4 and Next16
+## Project Setup Process of Nuxt4 and Next16
 
 Each framework is implemented in a separate folder in a repository!<br />
 To use the same screen and server modules as much as possible, we installed and configured the pages as follows!
 
 
-### Framework Basic Setup
+#### Framework Basic Setup
 
 **Nuxt4**
 - `Hybrid Rendering (SSR + CSR)` : `SSR` followed by `Hydration` process
@@ -45,19 +45,19 @@ To use the same screen and server modules as much as possible, we installed and 
 - `SSR`
 - **UI Framework** : `Shadcn UI`
 
-### Screen, Component, Server Configuration
+#### Screen, Component, Server Configuration
 - **Page** : Home / Counter Page / Server-side Data View Page
 - **Component** : Modal Component
 - **Server** : Simple mock data server
 
-### Commonly Installed Modules
+#### Commonly Installed Modules
 - **typescript**
 - **prettier**
 - **eslint**
 - **@lhci/cli**: Lighthouse CI
 - **autocannon**: Server Benchmark Tool
 
-### UI Framework
+#### UI Framework
 
 **Nuxt4**
 - `@nuxt/ui` (tailwindcss and icon library are built-in)
@@ -123,7 +123,7 @@ next16/
 ```
 
 
-# What Tool Should We Use for Testing?
+## What Tool Should We Use for Testing?
 
 This part was also very difficult to think about...<br />
 Since both frameworks can implement both server-side and client-side functionality, I thought it was necessary to check not only server-side performance but also performance by measuring with `lighthouse`!
@@ -134,7 +134,7 @@ So we decided to use the following tools!
 2. `autocannon`: Measure server-side benchmark in local and build environments
 
 
-# What Environment Should We Measure in?
+## What Environment Should We Measure in?
 
 Next, we thought about this part!<br />
 So we prepared to measure in the following environments!
@@ -148,13 +148,13 @@ This should be enough for comparison, right?😅
 
 ---
 
-# Let's Compare Performance!
+## Let's Compare Performance!
 
 Since we have set the basic configuration and measurement method,
 let's compare performance sequentially as mentioned above!
 
 
-### 1. Measurement of Server Performance in Local Development Environment
+#### 1. Measurement of Server Performance in Local Development Environment
 
 **Main Performance Indicators**
 
@@ -207,7 +207,7 @@ In the local environment test, `Nuxt 4` clearly has the upper hand over `Next.js
 
 ---
 
-### 2. Measurement of Client Performance in Local Development Environment
+#### 2. Measurement of Client Performance in Local Development Environment
 
 **Nuxt 4 - Lighthouse Performance Measurement Result (Total 3 Measurements)**
 
@@ -320,7 +320,7 @@ In the local environment test, `Nuxt 4` clearly has the upper hand over `Next.js
 
 ---
 
-### 3. Measurement of Server Performance in Deployment Environment (Github Actions)
+#### 3. Measurement of Server Performance in Deployment Environment (Github Actions)
 
 **Main Performance Indicators**
 
@@ -386,7 +386,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 
 ---
 
-### 4. Measurement of FE Performance in Deployment Environment (Github Actions)
+#### 4. Measurement of FE Performance in Deployment Environment (Github Actions)
 
 **Nuxt 4 - Lighthouse Performance Measurement Result (3 Measurements)**
 
@@ -483,7 +483,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 - **Analysis**: Initial build/cache warming up issue
 
 ---
-### 5. Analysis of Vercel Deployment Build
+#### 5. Analysis of Vercel Deployment Build
 
 ![Vercel Build Analysis](/tech/images/20251108-14.png)
 ![Vercel Build Analysis CSV](/tech/images/20251108-15.png)
@@ -601,7 +601,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 
 ---
 
-### 7. Client Environment Analysis
+#### 6. Client Environment Analysis
 
 
 **Nuxt 4 - Desktop Environment**
@@ -721,10 +721,10 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 ---
 
 
-# `Nuxt 4` vs `Next.js 16` Final Comprehensive Performance Comparison
+## `Nuxt 4` vs `Next.js 16` Final Comprehensive Performance Comparison
 
 
-### 1. Local Environment - Server Performance Measurement
+#### 1. Local Environment - Server Performance Measurement
 
 **Conclusion**: `Nuxt 4` overwhelming victory ⭐⭐⭐⭐⭐
 
@@ -736,7 +736,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 | **Standard Deviation**     | 6.01ms     | 68.68ms    | Nuxt 4 | **11.4x consistent** |
 | **Error Rate**       | 0          | 0          | Same     | -             |
 
-### 2. Local Environment - Lighthouse Measurement
+#### 2. Local Environment - Lighthouse Measurement
 
 **Conclusion**: `Nuxt 4` victory (LCP & TBT overwhelming) ⭐⭐⭐⭐⭐
 
@@ -749,7 +749,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 | **Speed Index**    | 1.7s    | 0.8s       | Next.js 16 | 2.1x faster      |
 | **CLS**            | 0       | 0          | Same         | -            |
 
-### 3. Deployment Environment - Server Performance Measurement
+#### 3. Deployment Environment - Server Performance Measurement
 
 **Conclusion**: `Next.js 16` overwhelming victory ⭐⭐⭐⭐⭐
 
@@ -761,7 +761,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 | **Standard Deviation**      | 18.66ms     | 26.45ms     | Nuxt 4     | More consistent        |
 | **Total Requests (10 seconds)** | 2,944       | 4,822       | Next.js 16 | **63.8% more** |
 
-### 4. Deployment Environment - Lighthouse Measurement
+#### 4. Deployment Environment - Lighthouse Measurement
 
 **Note**:
 
@@ -781,7 +781,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 | **CLS**            | 0             | 0               | Same         | -            |
 | **Consistency**            | Good (93→99→99) | Variation (71→97→97) | Nuxt 4     | More stable        |
 
-### 5. Vercel Build Analysis
+#### 5. Vercel Build Analysis
 
 **Conclusion**:
 
@@ -799,7 +799,7 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 | **Server Function Size**      | 1.32 MB         | 650-735 KB | Next.js 16 |
 | **Code Splitting**       | 8 chunks           | 15 chunks     | Next.js 16 |
 
-### 6. Client Environment - Actual User Measurement
+#### 6. Client Environment - Actual User Measurement
 
 **Conclusion**:
 
@@ -828,13 +828,13 @@ However, `Nuxt 4` has lower standard deviation, making it more consistent perfor
 
 ---
 
-# Final Performance Comparison Summary
+## Final Performance Comparison Summary
 
 How did you feel?<br />
 I've forgotten when I've done such a thorough comparison...😂<br />
 Now, let's finish with a final performance comparison!
 
-### 1. 📈 Final Performance Summary
+#### 1. 📈 Final Performance Summary
 
 | Category      | Nuxt4 Score     | Nuxt4 Evaluation | Next16 Score    | Next16 Evaluation |
 | --------- | ------------ | -------- | ------------ | --------- |
@@ -845,7 +845,7 @@ Now, let's finish with a final performance comparison!
 | 🔧 Consistency    | 100/100      | S grade       | 75/100       | B grade        |
 | **Overall Average** | **93.8/100** | **A+ grade**  | **79.8/100** | **B+ grade**   |
 
-### 2. Environment-wise Performance Summary
+#### 2. Environment-wise Performance Summary
 
 | Test Environment               | Nuxt 4 | Next.js 16 | Winner     |
 | -------------------- | ------ | ---------- | ---------- |
@@ -858,7 +858,7 @@ Now, let's finish with a final performance comparison!
 | **7. Client (Desktop)**  | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐⭐      | Same         |
 | **8. Client (Mobile)**   | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐⭐      | Almost same      |
 
-### 3. Development Environment
+#### 3. Development Environment
 
 | Area            | Nuxt 4 | Next.js 16 | Winner | Difference       |
 | ------------- | ------ | ---------- | ------ | -------- |
@@ -866,7 +866,7 @@ Now, let's finish with a final performance comparison!
 | Development Experience         | Very fast  | Slow         | Nuxt 4 | -        |
 | Lighthouse Score | 99     | 82         | Nuxt 4 | **+17 points** |
 
-### 4. Production Environment
+#### 4. Production Environment
 
 | Area            | Nuxt 4    | Next.js 16 | Winner     | Difference        |
 | ------------- | --------- | ---------- | ---------- | --------- |
@@ -876,7 +876,7 @@ Now, let's finish with a final performance comparison!
 | Client Bundle Size      | 117 KB    | 690 KB     | Nuxt 4     | **5.9x less**  |
 | Server Function Size         | 1.32 MB   | 650 KB     | Next.js 16 | **2x less**    |
 
-### 5. User Experience
+#### 5. User Experience
 
 | Area      | Nuxt 4 | Next.js 16 | Winner |
 | ------- | ------ | ---------- | ------ |
@@ -888,7 +888,7 @@ Now, let's finish with a final performance comparison!
 ---
 
 
-# Conclusion
+## Conclusion
 
 Both frameworks are clearly superior in different situations!<br />
 
@@ -919,7 +919,7 @@ See you in the next article!
 
 ---
 
-### Reference
+#### Reference
 
 - [Nuxt4](https://nuxt.com/)
 - [Next16](https://nextjs.org/)
