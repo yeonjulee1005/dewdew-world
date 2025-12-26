@@ -20,7 +20,7 @@ const defaultLocale = DEFAULT_LOCALE;
     <meta charset="UTF-8" />
     <title>redirect...</title>
     <ClientRouter fallback="swap" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="canonical" href={Astro.site?.origin + "/en/"} />
     <meta name="generator" content={Astro.generator} />
     {
       getLocalePaths(Astro.url).map((props) => (
