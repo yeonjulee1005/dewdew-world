@@ -82,7 +82,7 @@ export const MENU_ITEMS = {
       aheadLiving: 'living in',
       country: 'Republic of Korea',
       aheadWorking: 'I\'m currently',
-      workingPosition: 'working as a Tech Lead'
+      workingPosition: 'working as a Engineering Manager'
     },
     MAIN_REFERENCE: {
       first: 'If you want to check out my work and progress in development',
@@ -142,7 +142,7 @@ export const MENU_ITEMS = {
       aheadLiving: '제가 살고있는 곳은 대한민국',
       country: '이에요',
       aheadWorking: '현재 ',
-      workingPosition: '에서 Tech Lead를 담당하고 있어요!'
+      workingPosition: '에서 Engineering Manager를 담당하고 있어요!'
     },
     MAIN_REFERENCE: {
       first: '저의 사이드프로젝트 또는 개발 기여 상황을 확인하고 싶으시다면',
