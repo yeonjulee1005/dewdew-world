@@ -70,6 +70,16 @@ const generateYearMonth = () => {
   return parseInt(year + month);
 };
 
+/** minor가 YYMM 형태일 때 다음 달로 증가 (2512 -> 2601) */
+const incrementYearMonth = minor => {
+  const yy = Math.floor(minor / 100);
+  const mm = minor % 100;
+  if (mm >= 12) {
+    return (yy + 1) * 100 + 1; // 다음 해 1월
+  }
+  return yy * 100 + (mm + 1);
+};
+
 const incrementVersion = (current, type) => {
   const parsed = parseHeadVersion(current);
   const currentYearMonth = generateYearMonth();
@@ -89,10 +99,10 @@ const incrementVersion = (current, type) => {
         patch: 1,
       };
     case 'minor':
-      // minor 증가 시: patch 초기화
+      // minor 증가 시: YYMM 기준 다음 달로, patch 초기화 (2512 -> 2601)
       return {
         major: parsed.major,
-        minor: parsed.minor + 1,
+        minor: incrementYearMonth(parsed.minor),
         patch: 1,
       };
     case 'patch':
