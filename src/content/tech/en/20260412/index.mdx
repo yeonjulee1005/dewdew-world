@@ -1,0 +1,231 @@
+---
+title: 'When Your Engineering Team Needs Rules — An EM''s Governance Journey (feat. AI)'
+description: 'One month into my EM role, I started building governance policies. Here''s a mid-journey field report on establishing 5 out of 8 policy categories.'
+isDraft: true
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2026-04-12
+tags: ['engineering manager', 'governance', 'ai', 'claude', 'team culture', 'leadership', 'slo', 'code review', 'release management']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20260412.png'
+coverAlt: 'cover Image'
+---
+
+# When Your Engineering Team Needs Rules — An EM's Governance Journey (feat. AI)
+
+> One month into my EM role, a production release and an incident retro made it clear — we need `governance policies`!<br />
+> Here's a mid-journey report on building 5 out of 8 policy categories with AI
+
+## Why Am I Writing This?
+
+If you're an Engineering Manager, you've probably had this moment:
+
+> "Wait... do we even have rules for this?"
+
+Code reviews are happening, but everyone has different standards. Deployments go out, but "Can we deploy on Friday?" keeps coming up. When incidents hit, the person who knows the most jumps in and fixes it — but the process lives entirely in their head.
+
+I'm an EM at Worxphere Jobplanet Division, leading an engineering org that spans FE, BE, Mobile, QA, Data, and DevOps. I'm just **one month in** to this role, and in that short time, I've gone through a production release cycle and led a service incident retrospective. Those two experiences made one thing painfully clear — **"We need to write this stuff down."**
+
+During the release, questions like "Wait, who's supposed to verify this?" kept popping up. During the incident retro, we kept saying "If this procedure had been documented, we could've responded faster." Most things were running well on autopilot — but the fact that the knowledge lived only in people's heads? That was the problem.
+
+So here I am, in the middle of **building governance policies from scratch**.
+
+This isn't a polished retrospective — it's a **mid-journey field report**. I'm honestly only about halfway done ㅋㅋ But the decisions and reflections so far might be useful for other EMs or engineering leaders wrestling with the same questions.
+
+---
+
+## Governance: Where Do You Even Start?
+
+The hardest part wasn't writing policies. It was figuring out **what to write**.
+
+"Code review rules" is obvious. But what's the full picture of engineering governance? Without a framework, you don't know what you're missing.
+
+So I started with a gap analysis, studying industry practices and organizing them into **8 categories**:
+
+| # | Category | Topics | Status |
+|---|----------|--------|:------:|
+| G1 | Code Management | Branch strategy, commit rules, code review, PR rules | ✅ |
+| G2 | Release Management | Release process, rollback, hotfix, deploy approval | ✅ |
+| G3 | Incident Management | Incident response, postmortem, escalation, on-call | ⚠️ |
+| G4 | Security | Access control, secret management, vulnerability scanning | ❌ |
+| G5 | Quality | Test standards, CI/CD gates, QA processes | ❌ |
+| G6 | Operations | Monitoring, SLO, change management | ✅ |
+| G7 | Architecture | Tech decision process, tech debt management | ⚠️ |
+| G8 | Team Process | Onboarding, documentation standards | ❌ |
+
+Laying it all out like this was eye-opening. So many things we'd been taking for granted — "everyone just knows how we do it" — had never been written down.
+
+---
+
+## Core Principle: Formalize What Already Works
+
+The most important principle I followed:
+
+> **Don't invent new rules. Write down the ones you already follow.**
+
+This matters more than you think. The moment you say "governance" in a team meeting, people tense up. "Is this bureaucracy?" "Will this slow us down?"
+
+But here's what I found — just **documenting existing practices** delivers enormous value:
+
+- New hires 6 months from now can read *why* we do things this way
+- When "my version of the rule" differs from "your version," there's a single source of truth
+- Anyone can run the process at the same quality level
+
+My litmus test for what to document:
+
+> **"Will a new hire 6 months from now ask why we did it this way?"** If yes → document it.
+
+---
+
+## Building Policies with AI — What It's Actually Like
+
+Here's where this journey gets interesting. I've been building these governance policies **in conversation with Claude (AI)**.
+
+I'll be honest — I was skeptical at first. Governance requires deep organizational context, culture, and history. How could an AI help with that?
+
+Turns out, AI's role isn't "writing rules for you." It's **"asking the right questions."**
+
+### The Workshop-Style Collaboration
+
+Here's how it actually works:
+
+```
+[1] AI asks structured questions
+    → "What's your current deploy cadence?" "Do you have rollback criteria?"
+[2] I explain our current state
+    → "Friday deploys are informally banned" "Rollback is case-by-case judgment"
+[3] AI researches industry practices
+    → "Industry standard is 3-tier rollback: immediate / assessed / monitored"
+[4] We adapt together for our context
+    → "We have 2 squads deploying independently, so..."
+[5] Draft complete → I review and adjust
+```
+
+The magic: **the "staring at a blank document" phase disappears.** AI provides the framework and questions; I fill in the organizational context.
+
+Of course, AI doesn't nail it on the first try. Some fun examples:
+
+| Situation | AI Suggested | My Call | Result |
+|-----------|-------------|---------|--------|
+| SLO targets | API availability 99.9% | "We're mid Rails→Spring migration, too tight" | Lowered to 99.5% (conservative start) |
+| ADR/RFC process | Separate proposal + decision templates | "One doc is enough for our team size" | Rewrote to single-document approach |
+| Incident management | Full completed policy | "This needs BE team ownership" | Wrote v0.1 skeleton only + completion checklist |
+
+**The final call is always the human's (the EM's).** AI brings the "wide lens" of industry standards; I bring the "deep lens" of our organization's reality.
+
+---
+
+## What We've Built So Far
+
+Over roughly two days of focused work, we produced 5 governance policies. Key decisions from each:
+
+### G1. Code Review Policy
+**Key decision**: D0-D4 urgency classification system. Hotfixes (D0) need just 1 TL approval for immediate merge. Regular PRs get tiered review timelines.
+
+### G2. Release Management Policy
+**Key decision**: 3-tier rollback criteria + Go/No-Go checklist. Built as a *rules layer* on top of our existing release working plan template. The template = execution tool; governance = the rules about when, who, and how.
+
+Also created a release retrospective template in Notion — KPT format with OKR linkage, so retros don't just end with "let's do better next time."
+
+### G3. Incident Management Policy (Draft)
+**Key decision**: Write only v0.1 and delegate completion. EM sets the skeleton (severity levels, escalation paths, on-call rotation structure); the team fills in the details.
+
+This was a deliberate leadership choice. If the EM writes everything perfectly and says "follow this" — that's not governance, that's a directive ㅋㅋ
+
+### G6. SLO & Monitoring Standards
+**Key decision**: Introduced Error Budget concept with conservative starting targets.
+
+I'll be honest — I didn't know much about SLIs, SLOs, SLAs, and Error Budgets going in ㅋㅋ Working through it with AI, we made key calls like "B2C platform = no formal SLA needed, internal SLOs are sufficient."
+
+The Error Budget policy is my favorite:
+
+| Error Budget Remaining | Status | Action |
+|:----------------------:|:------:|--------|
+| > 50% | 🟢 Green | Deploy freely |
+| 20-50% | 🟡 Warning | Enhanced pre-deploy review |
+| < 20% | 🔴 Freeze | No new features, stability focus |
+| 0% | ⛔ Full Freeze | All deploys halted |
+
+Data-driven deploy decisions instead of gut feelings. That's progress!
+
+### G7. Technical Decision-Making Process
+**Key decision**: Single-document approach, rejecting separate RFC/ADR templates.
+
+Our team was already running "draft on Notion → request comments → decide in meeting." The governance just formalized this flow + added versioning via Notion DB properties (`Status`, `Version`, `Lock tag`).
+
+---
+
+## Mid-Journey Reflections
+
+### 1. Governance ≠ Bureaucracy
+
+I used to associate rules with slowdown. But clear rules actually **eliminate the "is this okay?" wait time**. Teams move faster when boundaries are explicit.
+
+The catch: rules must be lightweight.
+- No hard blocks — encourage habit formation
+- Violations get guidance, not punishment
+- Exceptions are explicitly acknowledged (e.g., verbal decisions during incidents → document within 7 days)
+
+### 2. There Is No Perfect Policy (That's Why Versions Exist)
+
+I initially felt pressure to make each policy perfect. Reality check: **v1.0 is just a starting point.** The team will run it, find friction, and v1.1 will fix it.
+
+Marking documents as `Status: Draft` sends an important message: "This needs your review and input. It's not a decree."
+
+### 3. Delegate What Can Be Delegated
+
+Writing only a v0.1 skeleton for incident management turned out to be the right call. **Set the structure, point the direction, let practitioners fill in the details.** This builds ownership and ensures real-world context gets captured.
+
+### 4. AI Is a "Structuring Partner," Not a "Magic Writer"
+
+If you expect AI to write your policies for you, you'll be disappointed. AI's real value:
+- **Framework** — "Here's what to consider"
+- **Industry research** — "Here's what other companies do"
+- **Structured questions** — prompts that draw out what you already know
+- **Draft acceleration** — blank doc → 80% complete draft, fast
+
+The remaining 20% — the part that comes from knowing your org — is what determines quality. And that 20% is always yours.
+
+---
+
+## What's Left
+
+Still a long way to go ㅋㅋ Current backlog:
+
+| Priority | Item | Status |
+|:--------:|------|:------:|
+| P2 | Developer onboarding checklist | Not started |
+| P3 | Test/CI/CD quality gates | Not started |
+| P3 | Tech debt management | Not started |
+| P3 | Secret management / vulnerability scanning | Not started |
+| P4 | Documentation standards | Not started |
+| P4 | Change management procedures | Not started |
+
+5 done, 6 to go. **Half full or half empty? ㅋㅋ**
+
+And finishing the policies isn't the end. Team review → approval → publish to Notion wiki → operate → revise — the real work is **keeping them alive as living documents**.
+
+---
+
+## Wrapping Up
+
+If you're an EM or engineering leader facing the same challenge, here's my one-line takeaway:
+
+> **"Don't try to create perfect rules. Start by writing down what you already do."**
+
+If you're staring at a blank doc, try asking AI: "I want to create code review rules for my team — what should I consider?" You'll get a framework and questions. And chances are, you already have the answers.
+
+I'll be back with a Part 2 when the other half is done. Until then — I hope your team finds its own good rules too!
+
+See you in the next post!
+
+---
+
+#### References
+
+- [Google SRE Book — Service Level Objectives](https://sre.google/sre-book/service-level-objectives/)
+- [Thoughtworks Technology Radar](https://www.thoughtworks.com/radar)
+- [GitHub Engineering Team Guide — ADR](https://github.com/joelparkerhenderson/architecture-decision-record)
