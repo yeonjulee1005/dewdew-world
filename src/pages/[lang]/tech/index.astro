@@ -5,6 +5,7 @@ import { getCollection, render, type CollectionEntry } from 'astro:content'
 import Layout from '../../../layouts/Layout.astro'
 import Bold from '../../../components/Bold.astro'
 import Card from '../../../components/tech/Card.astro'
+import dewdewWorldImage from '../../../assets/images/dewdew_world.webp'
 
 import { type Lang, LOCALES } from '../../../i18n'
 import { MENU_ITEMS, TECH_TITLE, TECH_DESCRIPTION } from '../../../i18n/consts'
@@ -44,12 +45,12 @@ const techPostsWithReadTime = await Promise.all(
     <div class='flex items-center gap-3 border-b border-neutral-700 pb-3'>
       <Image
         class='cursor-pointer rounded-full border-4 border-yellow-400 bg-neutral-200 duration-200 hover:border-orange-600 hover:opacity-90 hover:transition-opacity'
-        src='/images/dewdew_world.webp'
+        src={dewdewWorldImage}
         alt='Dewdew world'
         width={100}
         height={100}
         quality={80}
-        loading='lazy'
+        loading='eager'
       />
       <div>
         <p class='text-3xl font-bold'>Dewdew</p>
@@ -80,7 +81,7 @@ const techPostsWithReadTime = await Promise.all(
     </div>
     <div class='mt-1 flex flex-wrap'>
       {
-        techPostsWithReadTime.map((tech) => {
+        techPostsWithReadTime.map((tech, index) => {
           const [, slug] = tech.id.split("/");
           return (
             <Card
@@ -94,6 +95,7 @@ const techPostsWithReadTime = await Promise.all(
               avatarAlt={tech.data.avatarAlt}
               cover={tech.data.cover}
               coverAlt={tech.data.coverAlt}
+              priority={index === 0}
             />
           );
         })
