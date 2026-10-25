@@ -46,15 +46,16 @@
   let isConnected = false
 
   function render() {
-    const wrap = document.querySelector('[data-presence]')
-    const countEl = document.querySelector('[data-presence-count]')
-    if (!wrap || !countEl) return
-
+    // Desktop/Mobile 헤더에 각각 인디케이터가 있고 한쪽은 CSS로 숨겨지므로, 전부 갱신해야 함
     const isVisible = document.visibilityState === 'visible'
     const isLive = isVisible && isConnected
 
-    wrap.setAttribute('data-live', String(isLive))
-    countEl.textContent = isLive ? String(count) : '0'
+    document.querySelectorAll('[data-presence]').forEach((wrap) => {
+      wrap.setAttribute('data-live', String(isLive))
+    })
+    document.querySelectorAll('[data-presence-count]').forEach((countEl) => {
+      countEl.textContent = isLive ? String(count) : '0'
+    })
   }
 
   function connect() {
