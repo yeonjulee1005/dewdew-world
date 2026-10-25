@@ -1,5 +1,6 @@
 // Import utilities from `astro:content`
-import { z, defineCollection } from 'astro:content'
+import { defineCollection } from 'astro:content'
+import { z } from 'astro/zod'
 import { glob } from 'astro/loaders'
 
 // Define a schema for each collection you'd like to validate.
@@ -13,8 +14,8 @@ const techCollection = defineCollection({
     language: z.enum(['en', 'ko']), // ['ko', 'en']
     publishedDate: z.date(),
     tags: z.array(z.string()),
-    authorContact: z.string().email(),
-    canonicalURL: z.string().url(),
+    authorContact: z.email(),
+    canonicalURL: z.url(),
     avatar: z.string(),
     avatarAlt: z.string(),
     cover: z.string(),

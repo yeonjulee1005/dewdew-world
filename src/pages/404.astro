@@ -1,12 +1,13 @@
 ---
 import { LOCALES, DEFAULT_LOCALE, type Lang } from "../i18n.ts";
-import { ClientRouter } from 'astro:transitions'
 import { getRelativeLocaleUrl } from 'astro:i18n'
 
 const langs = Object.keys(LOCALES);
 const locale = Astro.currentLocale as Lang;
 
-const baseUrl = import.meta.env.PROD ? Astro.site : '/';
+// 같은 origin으로 보내는 리다이렉트라 절대 URL이 필요 없음 (astro build && astro preview로
+// 로컬에서 production 빌드를 미리볼 때 실제 운영 도메인으로 튕겨나가는 문제 방지).
+const baseUrl = '/';
 const defaultLocale = DEFAULT_LOCALE;
 ---
 
@@ -14,7 +15,6 @@ const defaultLocale = DEFAULT_LOCALE;
   <head>
     <meta charset="UTF-8" />
     <title>404 PAGE NOT FOUND</title>
-    <ClientRouter fallback="swap" />
     <link rel="canonical" href={Astro.site} />
 
     <noscript>

@@ -1,4 +1,10 @@
 ---
+import { LOCALES } from '../i18n'
+
+// 실제 댓글 역사가 쌓여 있는 쪽은 'ko' 스레드이므로, 사이트 기본 로케일(en) 설정과는
+// 무관하게 댓글 term의 기준 로케일은 항상 'ko'로 고정한다.
+const GISCUS_CANONICAL_LOCALE = 'ko'
+
 interface Props {
   giscusCategory: string
   giscusCategoryId: string
@@ -10,9 +16,16 @@ const {
 } = Astro.props
 
 const locale = Astro.currentLocale as string;
+const localeCodes = Object.keys(LOCALES)
+const localePrefixPattern = new RegExp(`^/(${localeCodes.join('|')})(?=/|$)`)
 
-// 현재 페이지 경로에서 .mdx 확장자와 마지막 슬래시 제거
-const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
+// 기존 giscus 디스커션은 'ko/tech/20250714'처럼 언어 접두사를 포함한 pathname(앞 슬래시 없이)을
+// 제목으로 쓰고 있었음. ko/en 버전이 같은 글이면 동일한 스레드를 쓰도록, 실제 보고 있는 언어와
+// 무관하게 항상 기본 로케일(ko) 기준 term으로 고정해 기존 댓글이 쌓인 스레드를 그대로 재사용함.
+const currentPath = `${GISCUS_CANONICAL_LOCALE}${Astro.url.pathname
+  .replace(/\.mdx/g, '')
+  .replace(localePrefixPattern, '')
+  .replace(/\/$/, '')}`
 
 ---
 
@@ -21,7 +34,7 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
   repoid="R_kgDOLF55BQ"
   category={giscusCategory}
   categoryid={giscusCategoryId}
-  mapping="pathname"
+  mapping="specific"
   term={currentPath}
   strict="0"
   reactionsenabled="1"
@@ -37,67 +50,4 @@ const currentPath = Astro.url.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
 
 <script>
   import 'giscus'
-  
-  // Giscus terminate 함수
-  const terminateGiscus = () => {
-    const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
-    if (giscusFrame) {
-      giscusFrame.remove();
-      // console.log('Giscus terminated');
-    }
-    
-    const giscusWidget = document.querySelector('giscus-widget');
-    if (giscusWidget) {
-      giscusWidget.remove();
-      // console.log('Giscus widget removed');
-    }
-  };
-  
-  // Giscus term 업데이트 함수
-  const updateGiscusTerm = () => {
-    const currentPath = window.location.pathname.replace(/\.mdx/g, '').replace(/\/$/, '');
-    const giscusWidget = document.querySelector('giscus-widget');
-    const currentLocale = document.documentElement.lang || 'ko';
-    const routePath = window.location.pathname.split('/').filter(segment => segment !== '').pop() || '';
-
-    if (giscusWidget) {
-      giscusWidget.setAttribute('term', currentPath);
-      if (routePath === 'guestbook') {
-        giscusWidget.setAttribute('categoryid', 'DIC_kwDOLF55Bc4CcmYh');
-        giscusWidget.setAttribute('category', 'Guestbook');
-        // console.log('Giscus term 업데이트:', currentPath);
-      } else {
-        giscusWidget.setAttribute('categoryid', currentLocale === 'ko' ? 'DIC_kwDOLF55Bc4Ctnac' : 'DIC_kwDOLF55Bc4Ctnap');
-        giscusWidget.setAttribute('category', currentLocale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English');
-        // console.log('Giscus term 업데이트:', currentPath);
-      }
-      
-      // iframe이 있다면 src도 업데이트
-      setTimeout(() => {
-        const giscusFrame = document.querySelector('iframe[src*="giscus.app"]') as HTMLIFrameElement;
-        if (giscusFrame) {
-          const currentSrc = giscusFrame.src;
-          const newSrc = currentSrc.replace(/term=[^&]*/, `term=${encodeURIComponent(currentPath)}`);
-          giscusFrame.src = newSrc;
-          // console.log('Giscus iframe src 업데이트:', newSrc);
-        }
-      }, 1000);
-    }
-  };
-  
-  // 페이지 전환 직전에 Giscus terminate
-  document.addEventListener('astro:before-preparation', () => {
-    // console.log('페이지 전환 시작 - Giscus terminate');
-    terminateGiscus();
-  });
-  
-  // 페이지 로드 후 term 업데이트
-  document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(updateGiscusTerm, 2000);
-  });
-  
-  // astro:page-load 이벤트로도 업데이트
-  document.addEventListener('astro:page-load', () => {
-    setTimeout(updateGiscusTerm, 1000);
-  });
 </script>
