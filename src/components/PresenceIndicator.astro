@@ -1,0 +1,117 @@
+---
+// PartyKit으로 실시간 접속자 수를 보여줌 (dewdew.dev의 usePresence와 동일한 서버를 재사용).
+// 룸 ID가 접속 도메인 기준으로 자동 생성되므로 별도 PartyKit 배포 없이 그대로 연결 가능.
+---
+
+<div class='flex items-center gap-1.5' data-presence title='Live visitors'>
+  <span class='relative flex h-2.5 w-2.5' data-presence-dot-wrap>
+    <span
+      class='absolute inline-flex h-full w-full animate-ping rounded-full opacity-60'
+      data-presence-ping
+    ></span>
+    <span class='relative inline-flex h-2.5 w-2.5 rounded-full' data-presence-dot></span>
+  </span>
+  <span class='text-sm text-red-400' data-presence-count>0</span>
+</div>
+
+<style>
+  [data-presence-dot],
+  [data-presence-ping] {
+    background-color: #eab308; /* yellow-500: 기본값(아직 연결 전/탭을 보고 있지 않음) */
+  }
+  [data-presence][data-live='true'] [data-presence-dot],
+  [data-presence][data-live='true'] [data-presence-ping] {
+    background-color: #22c55e; /* green-500: 연결됨 + 탭을 보고 있는 중 */
+  }
+</style>
+
+<script>
+  import PartySocket from 'partysocket'
+
+  const PARTYKIT_HOST = 'dewdew-v5.yeonjulee1005.partykit.dev'
+  const RECONNECT_DELAY = 3000
+  const MAX_RECONNECT_ATTEMPTS = 5
+
+  function getRoomId(): string {
+    return window.location.host.replace(/:/g, '-').replace(/\./g, '-')
+  }
+
+  let socket: PartySocket | null = null
+  let count = 0
+  let isConnected = false
+  let reconnectAttempts = 0
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null
+
+  function render() {
+    const wrap = document.querySelector('[data-presence]')
+    const countEl = document.querySelector('[data-presence-count]')
+    if (!wrap || !countEl) return
+
+    const isVisible = document.visibilityState === 'visible'
+    const isLive = isVisible && isConnected
+
+    wrap.setAttribute('data-live', String(isLive))
+    countEl.textContent = isLive ? String(count) : '0'
+  }
+
+  function clearReconnectTimer() {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer)
+      reconnectTimer = null
+    }
+  }
+
+  function connect() {
+    if (socket?.readyState === WebSocket.OPEN || socket?.readyState === WebSocket.CONNECTING) return
+
+    socket = new PartySocket({ host: PARTYKIT_HOST, room: getRoomId() })
+
+    socket.addEventListener('open', () => {
+      isConnected = true
+      reconnectAttempts = 0
+      socket?.send('getPresence')
+      render()
+    })
+
+    socket.addEventListener('message', (event) => {
+      try {
+        const data = JSON.parse(event.data as string)
+        if (data.type === 'presence') {
+          count = data.count
+          render()
+        }
+      } catch (error) {
+        console.error('Failed to parse presence message:', error)
+      }
+    })
+
+    socket.addEventListener('error', () => {
+      isConnected = false
+      render()
+    })
+
+    socket.addEventListener('close', () => {
+      isConnected = false
+      render()
+      if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+        reconnectAttempts += 1
+        reconnectTimer = setTimeout(connect, RECONNECT_DELAY)
+      }
+    })
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && socket?.readyState !== WebSocket.OPEN) {
+      reconnectAttempts = 0
+      connect()
+    }
+    render()
+  })
+
+  connect()
+
+  window.addEventListener('beforeunload', () => {
+    clearReconnectTimer()
+    socket?.close()
+  })
+</script>

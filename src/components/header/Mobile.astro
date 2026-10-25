@@ -3,6 +3,7 @@ import { getRelativeLocaleUrl } from 'astro:i18n'
 import { Image } from 'astro:assets'
 import Link from '@components/Link.astro'
 import LocaleSelect from '@components/LocaleSelect.astro'
+import PresenceIndicator from '@components/PresenceIndicator.astro'
 
 import { MENU_ITEMS } from '../../i18n/consts.ts'
 import { type Lang } from '../../i18n.ts'
@@ -68,5 +69,6 @@ const locale = Astro.currentLocale as Lang;
     />
     <div class='h-4 border-r border-neutral-700' />
     <LocaleSelect devices='mobile' />
+    <PresenceIndicator />
   </div>
 </div>
