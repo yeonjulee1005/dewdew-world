@@ -8,7 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  @apply bg-neutral-100/70;
+  @apply bg-neutral-100/70 break-keep;
   scroll-behavior: smooth;
   overflow-x: hidden;
   -webkit-touch-callout: none;
