@@ -1,0 +1,99 @@
+---
+// Supabase Realtime Presence로 실시간 접속자 수를 보여줌.
+// 채널 이름이 접속 도메인 기준으로 자동 생성되므로, 다른 사이트와 같은 Supabase 프로젝트를
+// 쓰더라도 카운트는 도메인별로 완전히 분리됨.
+---
+
+<div class='flex items-center gap-1.5' data-presence title='Live visitors'>
+  <span class='relative flex h-2.5 w-2.5' data-presence-dot-wrap>
+    <span
+      class='absolute inline-flex h-full w-full animate-ping rounded-full opacity-60'
+      data-presence-ping
+    ></span>
+    <span class='relative inline-flex h-2.5 w-2.5 rounded-full' data-presence-dot></span>
+  </span>
+  <span class='text-sm text-red-400' data-presence-count>0</span>
+</div>
+
+<style>
+  [data-presence-dot],
+  [data-presence-ping] {
+    background-color: #eab308; /* yellow-500: 기본값(아직 연결 전/탭을 보고 있지 않음) */
+  }
+  [data-presence][data-live='true'] [data-presence-dot],
+  [data-presence][data-live='true'] [data-presence-ping] {
+    background-color: #22c55e; /* green-500: 연결됨 + 탭을 보고 있는 중 */
+  }
+</style>
+
+<script>
+  import { createClient, type RealtimeChannel } from '@supabase/supabase-js'
+
+  // anon/publishable key는 클라이언트 노출용으로 설계된 공개 키라 하드코딩해도 안전함
+  // (실제 접근 제어는 Supabase RLS에서 처리하며, 여기선 Realtime 채널만 사용해 테이블 접근조차 없음)
+  const SUPABASE_URL = 'https://gehjjitqawbdwezxofvi.supabase.co'
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_vTRMNzn6M3aYSgPcsarbzw_yFC_Bm6P'
+
+  function getRoomId(): string {
+    return window.location.host.replace(/:/g, '-').replace(/\./g, '-')
+  }
+
+  const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  const clientId = crypto.randomUUID()
+
+  let channel: RealtimeChannel | null = null
+  let count = 0
+  let isConnected = false
+
+  function render() {
+    const wrap = document.querySelector('[data-presence]')
+    const countEl = document.querySelector('[data-presence-count]')
+    if (!wrap || !countEl) return
+
+    const isVisible = document.visibilityState === 'visible'
+    const isLive = isVisible && isConnected
+
+    wrap.setAttribute('data-live', String(isLive))
+    countEl.textContent = isLive ? String(count) : '0'
+  }
+
+  function connect() {
+    if (channel) return
+
+    channel = supabase.channel(`presence:${getRoomId()}`, {
+      config: { presence: { key: clientId } },
+    })
+
+    channel
+      .on('presence', { event: 'sync' }, () => {
+        count = Object.keys(channel?.presenceState() ?? {}).length
+        render()
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          isConnected = true
+          await channel?.track({ online_at: new Date().toISOString() })
+        } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+          isConnected = false
+        }
+        render()
+      })
+  }
+
+  function disconnect() {
+    channel?.unsubscribe()
+    channel = null
+    isConnected = false
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && !channel) {
+      connect()
+    }
+    render()
+  })
+
+  connect()
+
+  window.addEventListener('beforeunload', disconnect)
+</script>

@@ -1,12 +1,12 @@
 ---
 import Giscus from '@components/Giscus.astro'
-import { type Lang } from '../../i18n'
 
-const locale = Astro.currentLocale as Lang;
+// ko/en 버전이 같은 글이면 댓글을 공유하도록 언어 구분 없이 하나의 카테고리를 사용
+// (기존에 실제 댓글이 쌓여 있던 'Tech Comment Korean' 스레드를 그대로 사용)
 ---
 <section class='giscus mx-auto mt-10 w-full'>
   <Giscus
-    giscusCategory={locale === 'ko' ? 'Tech Comment Korean' : 'Tech Comment English'}
-    giscusCategoryId={locale === 'ko' ? 'DIC_kwDOLF55Bc4Ctnac' : 'DIC_kwDOLF55Bc4Ctnap'}
+    giscusCategory='Tech Comment Korean'
+    giscusCategoryId='DIC_kwDOLF55Bc4Ctnac'
   />
 </section>

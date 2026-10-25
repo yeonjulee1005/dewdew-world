@@ -81,8 +81,9 @@ export const MENU_ITEMS = {
       name: ' I\'m Yeonju (A.K.A. Dewdew)',
       aheadLiving: 'living in',
       country: 'Republic of Korea',
-      aheadWorking: 'I\'m currently',
-      workingPosition: 'working as a Engineering Manager'
+      aheadWorking: 'I\'m currently working as the VP of Engineering at',
+      subsidiaryIntro: 'and also as CTO of its subsidiary,',
+      workingPosition: ''
     },
     MAIN_REFERENCE: {
       first: 'If you want to check out my work and progress in development',
@@ -142,7 +143,8 @@ export const MENU_ITEMS = {
       aheadLiving: '제가 살고있는 곳은 대한민국',
       country: '이에요',
       aheadWorking: '현재 ',
-      workingPosition: '에서 Engineering Manager를 담당하고 있어요!'
+      subsidiaryIntro: '에서 VP of Engineering으로 재직 중이며, 자회사인 ',
+      workingPosition: '에서는 CTO를 겸직하고 있어요'
     },
     MAIN_REFERENCE: {
       first: '저의 사이드프로젝트 또는 개발 기여 상황을 확인하고 싶으시다면',

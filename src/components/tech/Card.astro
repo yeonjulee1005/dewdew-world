@@ -13,6 +13,7 @@ interface Props {
   avatarAlt: string
   cover: string
   coverAlt: string
+  priority?: boolean
 }
 
 const {
@@ -26,6 +27,7 @@ const {
   avatarAlt,
   cover,
   coverAlt,
+  priority = false,
 } = Astro.props
 ---
 <a
@@ -38,7 +40,8 @@ const {
     width={400}
     height={200}
     quality={80}
-    loading='lazy'
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : 'auto'}
     alt={coverAlt}
   />
   <p class='text-xl font-bold leading-6 break-keep'>
