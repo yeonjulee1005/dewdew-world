@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions'
 import { Image } from 'astro:assets'
 import { getCollection } from 'astro:content'
 
@@ -111,7 +110,6 @@ const blogPostingSchema = {
 <html lang={locale}>
   <head>
     <Head title={frontmatter.title} description={frontmatter.description} image={frontmatter.cover} robots={robots} type="article" schema={blogPostingSchema} />
-    <ClientRouter fallback="none" />
   </head>
   <body>
     <Desktop />
@@ -187,8 +185,8 @@ const blogPostingSchema = {
         <Comment lazy />
       </div>
     </main>
+    <Footer />
   </body>
-  <Footer />
 </html>
 
 

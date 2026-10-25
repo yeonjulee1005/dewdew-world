@@ -7,11 +7,13 @@ import {
   type Lang,
 } from "../i18n.ts";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../i18n/consts.ts";
-import { ClientRouter, fade } from 'astro:transitions'
 
 const t = useTranslations(Astro.currentLocale as Lang);
 const langs = Object.keys(LOCALES);
-const baseUrl = import.meta.env.PROD ? Astro.site : "/";
+// 같은 origin으로 보내는 리다이렉트라 절대 URL이 필요 없음.
+// import.meta.env.PROD 기준으로 분기하면 로컬에서 production 빌드를 미리보기할 때도
+// (astro build && astro preview) 실제 운영 도메인(Astro.site)으로 튕겨나가는 문제가 있었음.
+const baseUrl = "/";
 const defaultLocale = DEFAULT_LOCALE;
 ---
 
@@ -19,7 +21,6 @@ const defaultLocale = DEFAULT_LOCALE;
   <head>
     <meta charset="UTF-8" />
     <title>redirect...</title>
-    <ClientRouter fallback="swap" />
     <link rel="canonical" href={Astro.site?.origin + "/en/"} />
     <meta name="generator" content={Astro.generator} />
     {
@@ -75,6 +76,6 @@ const defaultLocale = DEFAULT_LOCALE;
     </script>
   </head>
   <body>
-    <div class="bg-white" transition:animate={fade({ duration: '0.1s' })} / >
+    <div class="bg-white"></div>
   </body>
 </html>

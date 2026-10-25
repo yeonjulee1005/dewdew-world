@@ -28,46 +28,28 @@ const { devices } = Astro.props;
 </label>
 
 <script>
-import { navigate } from 'astro:transitions/client'
+function handleLanguageChange(event: Event) {
+  const target = event.target as HTMLSelectElement;
+  const nextValue = target.value;
+
+  if (nextValue === window.location.pathname) return;
+
+  target.blur();
+  window.location.href = nextValue;
+}
 
 function initializeLocaleSelect() {
-  const mobileLocaleSelect = document.getElementById("mobile-localeSelect") as HTMLSelectElement;
-  const desktopLocaleSelect = document.getElementById("desktop-localeSelect") as HTMLSelectElement;
-  
-  if (!mobileLocaleSelect && !desktopLocaleSelect) {
-    console.log('localeSelect not found, returning');
-    return
-  }
+  const selects = [
+    document.getElementById('mobile-localeSelect'),
+    document.getElementById('desktop-localeSelect'),
+  ] as (HTMLSelectElement | null)[];
 
-  mobileLocaleSelect.addEventListener("change", handleMobileLanguageChange);
-  desktopLocaleSelect.addEventListener("change", handleDesktopLanguageChange);
-}
-
-function handleMobileLanguageChange(event: Event) {
-  const target = event.target as HTMLSelectElement;
-  
-  if (target.value !== window.location.pathname) {
-    navigate(target.value);
+  for (const select of selects) {
+    select?.addEventListener('change', handleLanguageChange);
   }
 }
 
-function handleDesktopLanguageChange(event: Event) {
-  const target = event.target as HTMLSelectElement;
-  
-  if (target.value !== window.location.pathname) {
-    navigate(target.value);
-  }
-}
-
-initializeLocaleSelect();
-
-document.addEventListener('astro:page-load', () => {
-  initializeLocaleSelect();
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-  initializeLocaleSelect();
-});
+document.addEventListener('DOMContentLoaded', initializeLocaleSelect);
 </script>
 
 <style lang="scss" scoped>

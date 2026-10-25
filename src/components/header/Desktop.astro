@@ -4,6 +4,7 @@ import { Image } from 'astro:assets'
 import Link from '@components/Link.astro'
 import LocaleSelect from '@components/LocaleSelect.astro'
 import PresenceIndicator from '@components/PresenceIndicator.astro'
+import dewdewWorldImage from '../../assets/images/dewdew_world.webp'
 
 import { MENU_ITEMS } from '../../i18n/consts.ts'
 import { type Lang } from '../../i18n.ts'
@@ -26,11 +27,11 @@ const locale = Astro.currentLocale as Lang;
     <Image
       slot='link'
       class='cursor-pointer rounded-full border border-neutral-700 duration-200 hover:border-rose-600 hover:opacity-90 hover:transition-opacity'
-      src='/images/dewdew_world.webp'
+      src={dewdewWorldImage}
       width={30}
       height={30}
       quality={80}
-      loading='lazy'
+      loading='eager'
       alt='logo-desktop'
     />
   </Link>
