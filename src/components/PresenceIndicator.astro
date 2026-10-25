@@ -1,6 +1,7 @@
 ---
-// PartyKit으로 실시간 접속자 수를 보여줌 (dewdew.dev의 usePresence와 동일한 서버를 재사용).
-// 룸 ID가 접속 도메인 기준으로 자동 생성되므로 별도 PartyKit 배포 없이 그대로 연결 가능.
+// Supabase Realtime Presence로 실시간 접속자 수를 보여줌.
+// 채널 이름이 접속 도메인 기준으로 자동 생성되므로, 다른 사이트와 같은 Supabase 프로젝트를
+// 쓰더라도 카운트는 도메인별로 완전히 분리됨.
 ---
 
 <div class='flex items-center gap-1.5' data-presence title='Live visitors'>
@@ -26,21 +27,23 @@
 </style>
 
 <script>
-  import PartySocket from 'partysocket'
+  import { createClient, type RealtimeChannel } from '@supabase/supabase-js'
 
-  const PARTYKIT_HOST = 'dewdew-v5.yeonjulee1005.partykit.dev'
-  const RECONNECT_DELAY = 3000
-  const MAX_RECONNECT_ATTEMPTS = 5
+  // anon/publishable key는 클라이언트 노출용으로 설계된 공개 키라 하드코딩해도 안전함
+  // (실제 접근 제어는 Supabase RLS에서 처리하며, 여기선 Realtime 채널만 사용해 테이블 접근조차 없음)
+  const SUPABASE_URL = 'https://gehjjitqawbdwezxofvi.supabase.co'
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_vTRMNzn6M3aYSgPcsarbzw_yFC_Bm6P'
 
   function getRoomId(): string {
     return window.location.host.replace(/:/g, '-').replace(/\./g, '-')
   }
 
-  let socket: PartySocket | null = null
+  const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  const clientId = crypto.randomUUID()
+
+  let channel: RealtimeChannel | null = null
   let count = 0
   let isConnected = false
-  let reconnectAttempts = 0
-  let reconnectTimer: ReturnType<typeof setTimeout> | null = null
 
   function render() {
     const wrap = document.querySelector('[data-presence]')
@@ -54,55 +57,37 @@
     countEl.textContent = isLive ? String(count) : '0'
   }
 
-  function clearReconnectTimer() {
-    if (reconnectTimer) {
-      clearTimeout(reconnectTimer)
-      reconnectTimer = null
-    }
+  function connect() {
+    if (channel) return
+
+    channel = supabase.channel(`presence:${getRoomId()}`, {
+      config: { presence: { key: clientId } },
+    })
+
+    channel
+      .on('presence', { event: 'sync' }, () => {
+        count = Object.keys(channel?.presenceState() ?? {}).length
+        render()
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          isConnected = true
+          await channel?.track({ online_at: new Date().toISOString() })
+        } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+          isConnected = false
+        }
+        render()
+      })
   }
 
-  function connect() {
-    if (socket?.readyState === WebSocket.OPEN || socket?.readyState === WebSocket.CONNECTING) return
-
-    socket = new PartySocket({ host: PARTYKIT_HOST, room: getRoomId() })
-
-    socket.addEventListener('open', () => {
-      isConnected = true
-      reconnectAttempts = 0
-      socket?.send('getPresence')
-      render()
-    })
-
-    socket.addEventListener('message', (event) => {
-      try {
-        const data = JSON.parse(event.data as string)
-        if (data.type === 'presence') {
-          count = data.count
-          render()
-        }
-      } catch (error) {
-        console.error('Failed to parse presence message:', error)
-      }
-    })
-
-    socket.addEventListener('error', () => {
-      isConnected = false
-      render()
-    })
-
-    socket.addEventListener('close', () => {
-      isConnected = false
-      render()
-      if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
-        reconnectAttempts += 1
-        reconnectTimer = setTimeout(connect, RECONNECT_DELAY)
-      }
-    })
+  function disconnect() {
+    channel?.unsubscribe()
+    channel = null
+    isConnected = false
   }
 
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && socket?.readyState !== WebSocket.OPEN) {
-      reconnectAttempts = 0
+    if (document.visibilityState === 'visible' && !channel) {
       connect()
     }
     render()
@@ -110,8 +95,5 @@
 
   connect()
 
-  window.addEventListener('beforeunload', () => {
-    clearReconnectTimer()
-    socket?.close()
-  })
+  window.addEventListener('beforeunload', disconnect)
 </script>
