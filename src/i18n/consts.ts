@@ -74,7 +74,7 @@ export const MENU_ITEMS = {
       uses: 'Uses',
       tech: 'Tech',
       guestbook: 'Guestbook',
-      dewdewDev: 'Dewdew Dev',
+      dewdewDev: 'Ask Dewdew',
     },
     mainIntro: {
       hello: 'Hi there',
@@ -135,7 +135,7 @@ export const MENU_ITEMS = {
       uses: 'Uses',
       tech: 'Tech',
       guestbook: '방명록',
-      dewdewDev: '포트폴리오',
+      dewdewDev: 'Ask Dewdew',
     },
     mainIntro: {
       hello: '안녕하세요',
