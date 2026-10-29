@@ -1,11 +1,11 @@
 {
-  "rewrites": [
-    {
-      "source": "/ads.txt",
-      "destination": "/ads.txt"
-    }
-  ],
   "redirects": [
+    {
+      "source": "/((?!ads\\.txt$|robots\\.txt$).*)",
+      "has": [{ "type": "host", "value": "dewdew.world" }],
+      "destination": "https://www.dewdew.world/$1",
+      "permanent": true
+    },
     {
       "source": "/",
       "destination": "/en/",
