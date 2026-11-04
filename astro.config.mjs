@@ -60,6 +60,8 @@ export default defineConfig({
   integrations: [
     icon(),
     sitemap({
+      // 개인정보 처리방침은 링크 없이 직접 URL로만 접근하므로 sitemap에서 제외
+      filter: (page) => !page.includes('/privacy'),
       i18n: {
         defaultLocale: DEFAULT_LOCALE_SETTING,
         locales: Object.fromEntries(
