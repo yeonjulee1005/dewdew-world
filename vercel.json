@@ -10,6 +10,11 @@
       "source": "/",
       "destination": "/en/",
       "permanent": false
+    },
+    {
+      "source": "/policy",
+      "destination": "/en/privacy",
+      "permanent": false
     }
   ],
   "buildCommand": "bun run build",

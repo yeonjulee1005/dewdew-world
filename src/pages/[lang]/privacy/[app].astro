@@ -1,0 +1,50 @@
+---
+import Layout from '@layouts/Layout.astro'
+import Bold from '@components/Bold.astro'
+import Section from '@components/privacy/Section.astro'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+
+import { LOCALES } from '../../../i18n.ts'
+import {
+  PRIVACY_APPS,
+  PRIVACY_COMMON_SECTIONS,
+  PRIVACY_DESCRIPTION,
+  PRIVACY_LABELS,
+  PRIVACY_TITLE,
+} from '../../../i18n/privacy.ts'
+
+const locale = Astro.currentLocale as 'en' | 'ko'
+const labels = PRIVACY_LABELS[locale]
+const { app } = Astro.props
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).flatMap((lang) =>
+    Object.keys(PRIVACY_APPS).map((key) => ({
+      params: { lang, app: key },
+      props: { app: PRIVACY_APPS[key] },
+    })),
+  )
+---
+<Layout
+  title={`${app.name[locale]} · ${PRIVACY_TITLE[locale]}`}
+  description={`${app.name[locale]} — ${PRIVACY_DESCRIPTION[locale]}`}
+  robots='noindex, nofollow'
+>
+  <div class='relative mt-8 flex w-screen flex-col items-center justify-between gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
+    <div class='w-screen px-4 text-lg py-5 text-neutral-700 lg:w-[600px] lg:px-0'>
+      <h1 class='text-3xl font-bold break-keep'>
+        {app.name[locale]} {PRIVACY_TITLE[locale]}<Bold customClass='text-red-400' text=',' />
+      </h1>
+      <p class='pt-2 text-base text-neutral-500'>
+        {labels.effectiveDate}: {app.effectiveDate} · <a href={getRelativeLocaleUrl(locale, '/privacy')} class='underline'>{labels.allApps}</a>
+      </p>
+
+      <h2 class='text-2xl pt-8'>{labels.commonPolicy}</h2>
+      {PRIVACY_COMMON_SECTIONS.map((section) => <Section section={section} locale={locale} />)}
+
+      <h2 class='text-2xl pt-8 mt-8 border-t border-neutral-700'>{app.name[locale]} {labels.appNotes}</h2>
+      <p class='pt-2 text-base text-neutral-500'>{app.summary[locale]}</p>
+      {app.sections.map((section) => <Section section={section} locale={locale} />)}
+    </div>
+  </div>
+</Layout>
