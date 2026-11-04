@@ -1,0 +1,30 @@
+---
+// 개인정보 처리방침 본문 블록 렌더러. string = 문단, string[] = 목록.
+// 데이터는 src/i18n/privacy.ts에서만 오므로 HTML 이스케이프 후 **굵게**, `코드`, [링크](url)만 변환한다.
+interface Props {
+  blocks: (string | string[])[]
+}
+
+const { blocks } = Astro.props
+
+const escapeHtml = (text: string) =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+const inline = (text: string) =>
+  escapeHtml(text)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(
+      /\[(.+?)\]\((https:\/\/[^\s)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-red-400 underline">$1</a>',
+    )
+---
+{blocks.map((block) =>
+  Array.isArray(block) ? (
+    <ul class='list-disc pl-6 pt-2 space-y-2'>
+      {block.map((item) => <li set:html={inline(item)} />)}
+    </ul>
+  ) : (
+    <p class='pt-2 break-keep' set:html={inline(block)} />
+  ),
+)}

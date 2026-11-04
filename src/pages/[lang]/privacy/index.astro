@@ -1,0 +1,48 @@
+---
+import Layout from '@layouts/Layout.astro'
+import Bold from '@components/Bold.astro'
+import Section from '@components/privacy/Section.astro'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+
+import { LOCALES } from '../../../i18n.ts'
+import {
+  PRIVACY_APPS,
+  PRIVACY_COMMON_SECTIONS,
+  PRIVACY_DESCRIPTION,
+  PRIVACY_EFFECTIVE_DATE,
+  PRIVACY_LABELS,
+  PRIVACY_TITLE,
+} from '../../../i18n/privacy.ts'
+
+const locale = Astro.currentLocale as 'en' | 'ko'
+const labels = PRIVACY_LABELS[locale]
+
+export const getStaticPaths = () =>
+  Object.keys(LOCALES).map((lang) => ({
+    params: { lang },
+  }))
+---
+<Layout title={PRIVACY_TITLE[locale]} description={PRIVACY_DESCRIPTION[locale]} robots='noindex, nofollow'>
+  <div class='relative mt-8 flex w-screen flex-col items-center justify-between gap-2 px-4 py-2 lg:w-[1000px] lg:px-0'>
+    <div class='w-screen px-4 text-lg py-5 text-neutral-700 lg:w-[600px] lg:px-0'>
+      <h1 class='text-3xl font-bold break-keep'>
+        {PRIVACY_TITLE[locale]}<Bold customClass='text-red-400' text=',' />
+      </h1>
+      <p class='pt-2 text-base text-neutral-500'>{labels.effectiveDate}: {PRIVACY_EFFECTIVE_DATE}</p>
+
+      <h2 class='text-2xl pt-8'>{labels.apps}</h2>
+      <p class='pt-2 break-keep'>{labels.appsDescription}</p>
+      <ul class='list-disc pl-6 pt-2 space-y-1'>
+        {Object.entries(PRIVACY_APPS).map(([key, app]) => (
+          <li>
+            <a href={getRelativeLocaleUrl(locale, `/privacy/${key}`)} class='text-red-400 underline'>{app.name[locale]}</a>
+            <span class='text-neutral-500'> — {app.summary[locale]}</span>
+          </li>
+        ))}
+      </ul>
+
+      <h2 class='text-2xl pt-8 mt-8 border-t border-neutral-700'>{labels.commonPolicy}</h2>
+      {PRIVACY_COMMON_SECTIONS.map((section) => <Section section={section} locale={locale} />)}
+    </div>
+  </div>
+</Layout>
