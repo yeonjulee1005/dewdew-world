@@ -1,0 +1,195 @@
+---
+title: 'What I Did Before AI Transformation: Reading How We Work, Deciding What We Share, and Bringing In Engineering Culture'
+description: 'Before AI transformation, four months at a performing arts company: how we work, what we share in common, and bringing in engineering culture.'
+isDraft: false
+author: 'Dewdew'
+language: 'en'
+publishedDate: 2026-11-08
+tags: ['it transformation', 'digital transformation', 'engineering culture', 'architecture', 'domain modeling', 'shared domain', 'unified admin', 'platform engineering', 'governance', 'ai transformation', 'performing arts', 'ohart', 'leadership']
+authorContact: 'yeonju.lee1005@kakao.com'
+canonicalURL: 'https://www.dewdew.world'
+avatar: '/images/dewdew_world.webp'
+avatarAlt: 'dewdew'
+cover: '/tech/cover/20261108.webp'
+coverAlt: 'cover Image'
+---
+
+# What I Did Before AI Transformation: Reading How We Work, Deciding What We Share, and Bringing In Engineering Culture
+
+> The first step of an IT transformation isn't adopting AX. It's understanding `how the existing organization works` and deciding `what everyone has in common`.
+
+## Introduction
+
+I believe every organization has a **different starting point**.
+
+An organization that already has DX (developer experience) needs to think quickly about the next level up (AX, AI transformation). An organization that has never experienced DX needs to start with absorbing and understanding development culture, getting used to it one step at a time.
+This isn't about which one is better or more capable. It's about recognizing that organizations simply start from different places.
+
+The **OHART** I saw was the latter. In offline performing arts, OHART is well known to a certain degree. But to bring DX to the whole company, I judged that it should climb one step at a time, rather than being pushed suddenly into an unfamiliar environment.
+
+It has now been four months since I started laying the groundwork for OHART to become a company-wide IT organization and began taking each service from 0 to 1. In this post, I'd like to talk about three things I thought about and decided along the way:
+
+1. What does the whole company have in common?
+2. Quickly understanding where the organization stands today
+3. Scaling out the company's early services before the engineering team exists
+
+---
+
+## 1. What Does OHART Have in Common?
+
+As I mentioned at the start, OHART is a team that has run offline operations for a long time. Each service has a clear purpose, and each one has to be built accordingly. Before building anything, I first identified the current pain points and needs, then laid out **the terms the domain itself uses** and asked one question about each of them. (Audience, institution manager, creator, performance team, work, session, booking, contract, payment, reward...)
+
+> **"Are two or more services talking about the same thing?"**
+
+That's how I settled on four things as our common interests, the core elements that every service we design and build from now on will share:
+**accounts (users), creator groups (creators), performances, and creator schedules.**
+
+In other words, by connecting the many services we'll build on top of these four common interests, I want users to move freely between OHART's services.
+
+That's why we're building with the following examples in mind, to maximize convenience for users:
+
+- **Let creators be registered without an account**: Not every artist signs up for a service. Often the operations team registers them on their behalf, so we made it possible for a creator to exist without an account. Later, when the operations team invites them to sign up, the actual creator can manage their own performances directly.
+- **Let one person belong to multiple teams**: In this industry, it's perfectly natural to perform with Company A this month and Project Team B the next, so we designed with that in mind.
+- **Show one work across multiple services**: The same performance can be curated for institutions on ArtBoda and sold as audience bookings on STUB.
+- **Use a single user account**: With one login, users can easily access STUB, ArtBoda, and the rest of the OHART ecosystem yet to come.
+
+![Connecting services on top of four common interests](/tech/images/20261108-1.png)
+
+---
+
+## 2. Quickly Understanding the Current Situation
+
+The first thing I did after joining OHART wasn't to build something. It was to **quickly understand where this organization stands right now**. To understand that starting points differ, I first had to know where this one was.
+
+### Silos of Website Builders
+
+When I joined, the services were operating as follows.
+
+| Service | Status at the time |
+| --- | --- |
+| ArtBoda | Running on **Imweb** |
+| ArtSchool | A temporary intro page built with a **website builder** |
+| STUB | Still at the idea stage |
+| Other service intro pages | Website builders |
+
+I'm not saying website builders are bad.
+There's no better tool for putting a service introduction on the web quickly without a development team, and I believe that's a big reason OHART has been able to run its services on top of its offline infrastructure until now.
+
+The fundamental problem was that services could be **managed independently, like silos**. If we designed each service independently, this is what would happen:
+
+- Service A has **audiences**, **performers**, and **works**
+- Service B has **audiences**, **performers**, and **works**
+- ...
+- Every time a service is added, the same things get created again
+
+There's room for **the same data to be managed in multiple places**, and audiences end up having to sign up separately for every service.
+So I concluded that we needed to build around the common interests I mentioned earlier, connecting each service through them.
+
+Without laying this foundation first, hiring a developer for each service would only grow the burden on both operations and development as services multiplied. That was obvious. So I decided to set up an engineering division across the OHART Group and **build a development environment that could tie every service together as one set of relationships.**
+
+But there was one more thing to look at first: **how the people who have run these services every day actually work**.
+
+### An Organization Still New to IT Culture
+
+OHART is **an organization whose core business is providing performances to institutions and companies that need performing arts, and contracting with them**. It has run well for a long time by planning and producing shows, working with artists, and putting performances on stage. But that way of working was very different from how an IT organization works. You could say it pointed about 175 degrees away from it. Here are a few examples of how OHART used to work:
+
+- Work requests came by word of mouth or phone
+- Meetings were called on the spot whenever needed (no agenda or schedule shared in advance)
+- Little understanding of the steps "development" goes through
+
+Nobody was at fault here. It just means the organization ran perfectly well that way until now. But to grow into an organization with IT-based services, we had to introduce several things.
+That started with introducing the workspace tools (Slack, GWS, Notion) and explaining company-wide how to use them naturally, then moved on to efficient meetings and decision-making, and the basic work cycle of an IT organization.
+
+![From As Is to To Be: changing how we work](/tech/images/20261108-2.png)
+
+I had experience taking a **service from zero to one**. This time, though, I had to literally take a **team from zero to one**.
+
+### Two Big Frames, at Two Different Speeds
+
+As mentioned above, I had set two big frames (the system and the way we work), but I decided they needed to move at different speeds (two-speed).
+
+- **Build the basic system design and skeleton fast**: Before building a team, quickly lay a foundation in the core area that can hold up as services multiply
+- **Build development culture and ways of working slowly, step by step**: Gradually pull IT working practices in on top of the way people already work
+
+![Two speeds: system & governance vs. engineering culture & ways of working](/tech/images/20261108-3.png)
+
+---
+
+## 3. Scaling Out the Company's Services Before the Team Exists
+
+Before building the engineering team, there was something to do first. The goal was to build a foundation so that whoever joins can work the same way from day one. And since I was still alone (before team building), I made "**can I handle this myself?**" the criterion for every choice.
+
+### Unifying Everything
+
+- **Start every new service from the same place**: All new services start from the same boilerplate. They inherit not just the code but also CI and the working rules, including how to implement things with agents.
+- **A single tech stack**: Each service could have a better stack of its own, but to reduce the cost of switching between stacks, I thought about how to use a single, unified one.
+- **Manage data in one place**: Each service runs on its own, but the data is managed in one place. New services aren't designed big from the start; we widen them only as much as needed.
+
+### Writing Down the Way We Work First
+
+I wrote down the basic governance, which means **the way we work, as documents first**: branching rules, releases, incident response, quality, security, decision-making, and onboarding. Once people start joining, there's no time to write these documents, so I wrote them while I was still alone.
+
+Here too, the standard was the right amount of tension. Rather than enforcing rules all at once, I started by writing down what we were actually doing, and added only as much as needed. These documents later led to the engineering dashboard guide and the onboarding docs.
+
+And these documents aren't fixed. The key is to keep changing them and fitting them to our organization.
+
+---
+
+## OHART's Own Platform
+
+More than building the development environment, defining the way we work, or implementing each service, I thought this part mattered most: how far should we build the features and platforms we need ourselves?
+
+In an era where AI is spreading fast, I judged that rather than agonizing over this for long, building internally and quickly would cut costs and produce results sooner. What follows is also part of the in-house platform work that came out of this thinking. (None of it is finished; these will keep evolving.)
+
+### OHART's Command Center: The Unified Admin
+
+Once we had made some progress on the common interests, the way we work, and the workspace setup, we also had to decide **where and how to manage** all these services. If every service had its own admin screen, operations would become a silo all over again.
+
+So naturally, we built a **unified admin** that manages the common interests.
+
+- **One screen for every service.** From reviewing creators and works to managing institutions and contracts to sending rewards, I designed it so the operations team can handle everything in one place without hopping between services.
+- **Show only what the role needs.** We split the visible scope by role: company-wide admin, service owner, settlement owner.
+- **Log who managed what (audit log).** We designed the unified admin to record every administrative action taken in it (who viewed or changed what, and when) in an audit log.
+
+Even when a new service joins, we don't build a separate admin screen for it. We just add that service's menu to the unified admin.
+
+Going forward, it will grow beyond a company-wide admin into an internal portal that every OHART employee can use, including HR and business support.
+
+![The command center: the unified admin](/tech/images/20261108-4.png)
+
+### Build the SaaS We Need Ourselves
+
+In the past, building your own work management or data analysis tools was a burden for a small organization, so subscribing to SaaS was the norm. Now that the cost of building has dropped sharply in the AI era, we chose to build only what we need rather than use SaaS that doesn't fit how we work.
+
+#### 1. Engineering Ticket Dashboard
+
+The **engineering ticket dashboard** pulls development tickets from GitHub and non-development requests that come in through Slack onto one screen, so even people without a GitHub account can see what's in progress. Jira is an excellent finished product, but I thought that in an organization unfamiliar with IT culture, Jira could end up being a bottleneck.
+
+So, built on GitHub Projects and a Notion database, we also created an environment where non-developers (the operations team) can easily register and request the work they need from Slack.
+
+In other words, **we put the entrance where people already are.** Requesters keep using Slack as usual, while their requests reach the right owner on the engineering side with ease.
+
+#### 2. OHART Unified Analytics
+
+The **OHART unified analytics system** is what we're building to see the user journey I described earlier. Since a user's account is connected across services, we can see one person's flow across services directly in our own data, without handing it to an outside vendor.
+
+Because we designed it so one account can use many services, following the user experience through that single account shows us **how people use the OHART ecosystem**. We plan to build an analytics layer that shows which service a user first enters through, where they go next, and where they stop, and that lets us understand audiences (institutions and individuals) and artists as a single flow.
+
+Some may wonder whether it would be better to adopt an existing external tool quickly. But this is an era in which we can use as few external resources as possible and implement what we need internally first. So we expect to adopt quickly and get results quickly.
+
+![Build the SaaS we need ourselves: task dashboard and integrated analytics](/tech/images/20261108-5.png)
+
+---
+
+## Wrapping Up
+
+Looking back on these four months, it really came down to the title. Before flashy features, it was a time of asking "what is truly necessary?" and thinking about where to start.
+
+You may be thinking, "Isn't this a rather outdated approach in the age of AI transformation?" But I came to realize that we have to understand that every organization takes in change at its own pace.
+
+> **The CTO's first job is to weave scattered offline services into one, while drawing a technical and cultural blueprint that lets new ways of working seep in naturally.**
+
+That's what I believe.
+
+In the next post, I'd like to continue with OHART's company-wide platform and the team-building process.<br />
+Thank you for reading this long post.
