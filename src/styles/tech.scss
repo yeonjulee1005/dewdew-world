@@ -52,7 +52,11 @@
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    width: 100%;
+    // 내용 폭만큼만 차지하고 좌우 중앙 정렬 (넘치면 가로 스크롤)
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     
     // thead와 tbody를 하나의 테이블로 묶기
     thead, tbody {
@@ -106,6 +110,6 @@
     @apply border-b-2 border-rose-300 my-6 sm:my-10;
   }
   img {
-    @apply rounded-md shadow-md shadow-neutral-400;
+    @apply block mx-auto rounded-md shadow-md shadow-neutral-400;
   }
 }
