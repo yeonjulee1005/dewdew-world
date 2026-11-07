@@ -48,7 +48,7 @@ Astro.response.headers.set('X-Robots-Tag', robots)
 let techCollection = (await getCollection('tech'))
   .filter((tech) => {
     const techLang = tech.id.split('/')[0];
-    return tech.data.isDraft && techLang === locale;
+    return !tech.data.isDraft && techLang === locale;
   })
   .sort((a, b) => 
     new Date(b.data.publishedDate).valueOf() - 

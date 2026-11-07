@@ -9,7 +9,7 @@ import { LOCALES } from '../../../i18n'
 
 export async function getStaticPaths() {
   const techEntries = (await getCollection('tech'))
-    .filter((tech) => tech.data.isDraft);
+    .filter((tech) => !tech.data.isDraft);
   
   return techEntries.map((entry) => {
     const [lang, slug] = entry.id.split('/');

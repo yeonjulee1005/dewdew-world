@@ -9,7 +9,7 @@ const techCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    isDraft: z.boolean(),
+    isDraft: z.boolean(), // true: 초안(비공개), false: 게시
     author: z.string().default('Dewdew'),
     language: z.enum(['en', 'ko']), // ['ko', 'en']
     publishedDate: z.date(),
