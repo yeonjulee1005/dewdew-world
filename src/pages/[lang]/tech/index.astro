@@ -20,7 +20,7 @@ export const getStaticPaths = () =>
 const techPosts = (await getCollection('tech'))
   .filter((tech) => {
     const techLang = tech.id.split('/')[0];
-    return tech.data.isDraft && techLang === locale;
+    return !tech.data.isDraft && techLang === locale;
   })
   .sort((a, b) => 
     new Date(b.data.publishedDate).valueOf() - 

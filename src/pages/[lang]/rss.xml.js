@@ -16,10 +16,10 @@ export async function GET(context) {
     : SITE_DESCRIPTION[locale];
 
   const tech = await getCollection('tech')
-  // 언어별로 필터링 (다른 페이지들과 동일하게 isDraft: true인 게시물만 포함)
+  // 언어별로 필터링 (다른 페이지들과 동일하게 isDraft: false인 게시물만 포함)
   const filteredTech = tech.filter((post) => {
     const postLang = post.id.split('/')[0];
-    return post.data.isDraft && postLang === locale;
+    return !post.data.isDraft && postLang === locale;
   });
   
   const sortedTech = filteredTech.sort((a, b) => 
