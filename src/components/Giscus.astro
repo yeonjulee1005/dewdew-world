@@ -8,11 +8,14 @@ const GISCUS_CANONICAL_LOCALE = 'ko'
 interface Props {
   giscusCategory: string
   giscusCategoryId: string
+  // true면 위젯이 뷰포트 근처에 올 때까지 giscus iframe 생성(=discussions API 호출)을 미룬다.
+  lazy?: boolean
 }
 
 const {
   giscusCategory,
-  giscusCategoryId
+  giscusCategoryId,
+  lazy = false
 } = Astro.props
 
 const locale = Astro.currentLocale as string;
@@ -44,7 +47,7 @@ const currentPath = `${GISCUS_CANONICAL_LOCALE}${Astro.url.pathname
   lang={locale}
   crossorigin="anonymous"
   async
-  loading="eager"
+  loading={lazy ? 'lazy' : 'eager'}
   >
 </giscus-widget>
 
